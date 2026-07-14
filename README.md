@@ -48,9 +48,18 @@ Each demonstrates the dimensional-model + knowledge-graph + vectorized-data patt
 
 | Project | What it shows | code : AI ratio |
 |---|---|---|
-| **Relic Wars** | AI as a key part of the operational substrate — reducing code/compute where governed reasoning does the work better | AI-heavy |
-| **Today Series** | _(writeup in progress)_ | — |
-| **Zabble** | _(writeup in progress)_ | — |
+| **[Relic Wars](./case-studies/relic-wars.md)** | A hand-authored rules engine retired for a fact matrix + prompt + deterministic auditor — AI decides *what should happen*, seeded code computes *what does* | AI-heavy |
+| **[Today Series](./case-studies/today-series.md)** | Reasoning *manufactures* the knowledge product (extraction, taxonomy, dedup, authoring); a conventional app serves and bills for it | AI-substantial |
+| **[Zabble](./case-studies/zabble.md)** | Reasoning fenced to a handful of judgment seams inside a large hand-authored governance envelope — the envelope is the product | Code-heavy, governed seams |
+| **app.bosnet.io** | The governance standard itself — run-time reasoning as the operational core, not a fenced seam. Anchors the LLM-heavy end of the spine. _Proprietary; no public write-up._ | LLM-heavy |
+
+The three linked case studies are the **public, shipped** points on the spine, and **app.bosnet.io**
+anchors its LLM-heavy end: from reasoning **fenced to specific judgment seams** inside a deterministic
+envelope (Zabble), through reasoning as a **knowledge-production substrate** feeding a traditional app
+(Today Series), to reasoning as the adjudication **control plane** (Relic Wars), to run-time reasoning
+as the **operational core** (BOSNet.io — proprietary, shown as the reference point the thesis is
+calibrated against, not a disclosed architecture). The point of the ratio is that it *varies with the
+problem* — and that the boundary is a design decision, not an accident.
 
 _Writeups are added deliberately and reviewed for IP safety before publishing._
 
