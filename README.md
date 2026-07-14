@@ -17,7 +17,7 @@ Code has always been a reasoning layer — it's just reasoning that's been *froz
 Every `if`, every validation rule, every branch is a human's reasoning, pre-committed into
 deterministic control flow.
 
-This work moves some of that reasoning from **write-time to run-time**: letting AI reason inside
+The work described in this repo moves some (or a lot) of that reasoning from **write-time to run-time**: letting AI reason inside
 the logic layer where code used to sit. That's normally reckless, because probabilistic reasoning
 is unbounded and unauditable. **The governance engine is what makes run-time reasoning safe enough
 to be load-bearing** — bounded, evidence-backed, audited, reversible.
