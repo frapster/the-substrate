@@ -47,53 +47,47 @@ The engineering consequence is a recurring shape: **deterministic code computes 
 grades the reasoning; the model decides what *should* happen; a validator commits only what passes.**
 The model is never trusted — it is *checked*. A rejected inference is thrown away, not patched.
 
-## 3. The measurable spine: the code : AI ratio
+## 3. The measurable spine: the AI : code ratio
 
-The thesis would be untestable if it were only a philosophy. Its spine is a metric you can actually
-read off a codebase: the **code : AI ratio** — how much governed run-time reasoning replaces
-hand-authored code in a given system, and, just as importantly, *where that trade is and isn't worth
-it.*
+The thesis would be untestable if it were only a philosophy. Its spine is a metric you can read off a
+codebase: the **AI : code ratio** — how much governed run-time reasoning carries operational behavior
+versus hand-authored code. The **LLM-First** target is **90 : 10** — 90% of operational behavior carried
+by governed reasoning, 10% deterministic code for what a model should *not* do (irreversible actions,
+identity, money, secrets). That is distinct from "LLM-Heavy" (many model calls, still structured
+code-first). The full definition, and the build-time posture behind it — blueprints, a governed
+compiler, and human-in-the-loop orchestration — is in [`ENGINEERING.md`](./ENGINEERING.md).
 
-The ratio is not a score to maximize. It is a **design decision that varies with the problem.** The
-case studies exist to show that the same governance discipline lands at very different ratios
-depending on what the system needs:
+The ratio is not a score to maximize. It is a **design decision that varies with the problem**, and the
+honest way to show it is not to rank systems against each other but to tell each system's **own
+before → after**: what it is today, and what governed conversion does to it.
 
-```
- CODE-HEAVY ───────────────────────────────────────────────────────────▶ LLM-HEAVY
-   Zabble             Today Series         Relic Wars           app.bosnet.io
-   reasoning fenced   reasoning makes      reasoning is the     the governance
-   to a few           the knowledge        adjudication         standard itself —
-   judgment seams     product a normal     control plane;       run-time reasoning
-   inside a large     app serves and       a ~2,350-line rules  as the operational
-   deterministic      bills for            engine was retired   core
-   envelope                                for it               (proprietary)
-```
+- **[Relic Wars](./case-studies/relic-wars.md) — converted (factual).** The one conversion here that has
+  actually shipped. A ~2,350-line hand-authored rules engine was retired for a fact matrix + prompt +
+  deterministic auditor; adjudication went from ~100% code to ~85% governed reasoning. AI decides *what
+  should happen*; seeded code computes *what does*. This is the **proof** — and, because its core is
+  algorithmic simulation, also the honest **contrast case** for how far the pattern travels.
 
-The three case studies below are the *public, shipped* points on this spine.
-**app.bosnet.io** anchors the LLM-heavy end — the governance standard itself, where run-time
-reasoning is the operational core rather than a fenced seam. It is proprietary; there is no public
-write-up, and none is planned. It appears here as the reference point the whole thesis is calibrated
-against, not as a disclosed architecture.
+- **[Today Series](./case-studies/today-series.md) — planned (estimate).** A study-content platform whose
+  "physics" is language and judgment, so it can go the furthest toward LLM-First: most authoring,
+  curation, and retrieval logic becomes blueprint-compiled governed reasoning.
 
-- **[Relic Wars](./case-studies/relic-wars.md) — AI-heavy.** A ~2,350-line hand-authored rules
-  engine was retired in favour of a coordinate-addressed fact matrix, a system prompt, and a
-  deterministic auditor. The model classifies each contest and cites the facts it used; seeded code
-  still computes the arithmetic. AI decides *what should happen*; code computes *what does*.
+- **[Zabble](./case-studies/zabble.md) — planned (estimate).** A live social platform with payments and
+  real-time safety — the case with a hard **ceiling**. Reasoning expands at the judgment seams, but the
+  deterministic safety-and-payments core stays exactly where it is. Where the substrate *stops* is the
+  story.
 
-- **[Today Series](./case-studies/today-series.md) — AI-substantial.** ~390 lines of reasoning glue
-  *manufacture* the knowledge product — extraction, taxonomy, semantic de-duplication, authoring —
-  collapsing four subsystems a traditional build would hand-code. A conventional, deterministic app
-  then serves, reviews, and bills for what the substrate produced.
+- **[Eikon Digital](./case-studies/eikon-digital.md) — planned (estimate).** The most radical: a large
+  conventional web application (~350k lines, ~179 hand-authored routes) rebuilt as a full BOSNet.io
+  tenant — the clearest illustration of AI as the operating model of a whole system.
 
-- **[Zabble](./case-studies/zabble.md) — code-heavy, governed seams.** ~17 reasoning call sites sit
-  inside a ~31,000-line hand-authored governance envelope. The deterministic layer does everything
-  fast, certain, or irreversible; reasoning is admitted only at judgment seams (open-world extraction,
-  abuse moderation). The envelope *is* the product.
+**app.bosnet.io** is the named standard the conversions target — governed reasoning as the operational
+core rather than a fenced seam. It is proprietary; there is no public write-up, and none is planned. It
+appears as the reference point the thesis is calibrated against, not as a disclosed architecture.
 
-Read together, they make the point the single metric is meant to make: **governance is the constant;
-the ratio is the variable.** Where reasoning earns its place, it displaces a great deal of code.
-Where certainty, speed, or irreversibility rule, code rightly stays — and saying so plainly is part
-of the discipline.
+Read as before/after stories, they make the point the metric is meant to make: **governance is the
+constant; the ratio is the variable.** Where reasoning earns its place it displaces a great deal of code;
+where certainty, speed, or irreversibility rule, code rightly stays — and saying so plainly is part of
+the discipline.
 
 ## 4. The standard: BOSNet.io
 

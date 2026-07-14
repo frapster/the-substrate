@@ -7,7 +7,9 @@ from sibling `Local Sites/` projects.
 ## Purpose
 
 - Present the thesis (governed run-time reasoning replacing deterministic code where appropriate)
-  and case studies (Relic Wars, Today Series, Zabble, …) framed on the **code : AI ratio**.
+  and case studies (Relic Wars, Today Series, Zabble, Eikon Digital, …) as per-project **before → after**
+  transformations framed on the **AI : code ratio** (LLM-First target 90:10). Cross-cutting engineering
+  threads (TCO, LLM-code quality/security, 3rd-party-harness governance, drift) live in `ENGINEERING.md`.
 - Profile **BOSNet.io** as the named governance standard — without exposing its source or any client IP.
 
 ## Hard rules

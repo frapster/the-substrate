@@ -29,8 +29,11 @@ That is the difference between "we call an LLM somewhere" and **AI as the operat
 - **Audited** — every decision writes a hash-chained, tamper-evident ledger entry.
 - **Reversible** — high-impact actions are gated, versioned, and recoverable.
 
-The measurable spine across projects is the **code : AI ratio** — how much governed run-time
-reasoning replaces hand-authored code in a given system, and where that trade is (and isn't) worth it.
+The measurable spine across projects is the **AI : code ratio** — how much governed run-time
+reasoning carries operational behavior versus hand-authored code, and where that trade is (and isn't)
+worth it. The **LLM-First** target is **90 : 10**. The full argument — including total cost of
+ownership, the quality/security of LLM-authored code, and what it takes to govern a model inside a
+harness you don't own — is in [`THESIS.md`](./THESIS.md) and [`ENGINEERING.md`](./ENGINEERING.md).
 
 ## The standard: BOSNet.io
 
@@ -43,23 +46,21 @@ It is the named standard these case studies build on.
 
 ## Case studies
 
-Each demonstrates the dimensional-model + knowledge-graph + vectorized-data pattern at a
-**different code : AI ratio**.
+Each is a **before → after** transformation of one system: what it is today, and what governed
+conversion toward the LLM-First **90 : 10** target does to it. Relic Wars is the one conversion that has
+actually shipped (factual); the others are planned, with figures shown as **labeled estimates**.
 
-| Project | What it shows | code : AI ratio |
-|---|---|---|
-| **[Relic Wars](./case-studies/relic-wars.md)** | A hand-authored rules engine retired for a fact matrix + prompt + deterministic auditor — AI decides *what should happen*, seeded code computes *what does* | AI-heavy |
-| **[Today Series](./case-studies/today-series.md)** | Reasoning *manufactures* the knowledge product (extraction, taxonomy, dedup, authoring); a conventional app serves and bills for it | AI-substantial |
-| **[Zabble](./case-studies/zabble.md)** | Reasoning fenced to a handful of judgment seams inside a large hand-authored governance envelope — the envelope is the product | Code-heavy, governed seams |
-| **app.bosnet.io** | The governance standard itself — run-time reasoning as the operational core, not a fenced seam. Anchors the LLM-heavy end of the spine. _Proprietary; no public write-up._ | LLM-heavy |
+| Project | Transformation | AI : code (before → after) | Status |
+|---|---|---|---|
+| **[Relic Wars](./case-studies/relic-wars.md)** | A ~2,350-line rules engine retired for a fact matrix + prompt + deterministic auditor; the proof case (and the algorithmic contrast case) | ~0:100 → **~85:15** (adjudication) | **Converted · factual** |
+| **[Today Series](./case-studies/today-series.md)** | Study-content platform; language-and-judgment work can go furthest toward LLM-First via blueprint-compiled reasoning | ~35:65 → **~85–90:10–15** | Planned · estimate |
+| **[Zabble](./case-studies/zabble.md)** | Live social platform; reasoning expands at judgment seams but payments + real-time safety stay deterministic — the ceiling case | ~8:92 → **~30–40:60–70** | Planned · estimate |
+| **[Eikon Digital](./case-studies/eikon-digital.md)** | ~350k-line web app rebuilt as a full BOSNet.io tenant — the operating model of a whole system, the largest delta | ~12:88 → **~80–85:15–20** | Planned · estimate |
+| **app.bosnet.io** | The governance standard the conversions target — reasoning as the operational core, not a fenced seam | **~90:10** | Proprietary · no write-up |
 
-The three linked case studies are the **public, shipped** points on the spine, and **app.bosnet.io**
-anchors its LLM-heavy end: from reasoning **fenced to specific judgment seams** inside a deterministic
-envelope (Zabble), through reasoning as a **knowledge-production substrate** feeding a traditional app
-(Today Series), to reasoning as the adjudication **control plane** (Relic Wars), to run-time reasoning
-as the **operational core** (BOSNet.io — proprietary, shown as the reference point the thesis is
-calibrated against, not a disclosed architecture). The point of the ratio is that it *varies with the
-problem* — and that the boundary is a design decision, not an accident.
+The cross-cutting engineering threads these studies share — **total cost of ownership**, the
+**quality and security of LLM-authored code**, **cooperative governance inside a third-party harness**,
+and the **drift** the model fights against — are treated in [`ENGINEERING.md`](./ENGINEERING.md).
 
 _Writeups are added deliberately and reviewed for IP safety before publishing._
 

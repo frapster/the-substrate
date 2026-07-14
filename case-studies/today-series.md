@@ -1,104 +1,93 @@
 # Case Study — Today Series
 
-**code : AI ratio — AI-substantial (governed knowledge-production substrate).** A thin reasoning
-layer *manufactures* the knowledge product — extraction, taxonomy, de-duplication, authoring — which
-a conventional, deterministic app then serves, reviews, and bills for.
+**Status: Planned conversion — the "after" is a projected target, not shipped. Figures are labeled
+estimates.**
+**AI : code — before ~35 : 65 → after (projected) ~85–90 : 10–15.**
 
-> The interesting seam here isn't the chatbot. It's that four subsystems a traditional build would
-> hand-code — a parser/ETL, a classifier, an entity-resolution engine, and a content generator — are
-> collapsed into prompts and schemas, then fenced by grounding rules, moderation, and human review.
+Today Series is the case that can go **furthest** toward LLM-First. Unlike Relic Wars — which keeps a
+large deterministic core for its physics — a study-content platform's "physics" is *language and
+judgment*, exactly what governed reasoning does well. That makes it a candidate to approach the 90 : 10
+target: closer to a governed tenant than to a hand-coded app, driven by a **blueprint compiler** rather
+than enumerated routes.
+
+> Target thesis: most of what the app *does* — decide what content to produce, how to structure a lesson,
+> what to retrieve, what to publish — becomes governed reasoning compiled from declarative blueprints,
+> with hand-authored code reduced to the irreducible plumbing.
 
 ---
 
-## What it is
+## Before — current state (grounded)
 
-Today Series is an AI-assisted study-content platform: a public library of long-form articles and
-structured lesson plans, a retrieval-grounded study chatbot, subscription commerce, consent-gated
-analytics, and generated voice/avatar media.
+Today Series already uses reasoning as a **knowledge-production substrate**: a thin AI layer (~390 lines
+of glue) manufactures the knowledge product — extraction, taxonomy, semantic de-duplication, authoring.
+But the *serving layer* is conventional hand-authored code.
 
-- **Stack:** Next.js (App Router) + React, TypeScript, Tailwind.
-- **Backend:** Supabase (Postgres, Auth, Storage, pgvector).
-- **Reasoning:** the Vercel AI SDK over a small model registry — a long-form authoring model, a fast
-  chat/classification model, and a strict-JSON fallback — plus an embedding model for retrieval.
+- **Scale:** ~9,900 lines of TypeScript, 19 pages, 11 API routes, 16 migrations, 20 tables. The
+  smallest and leanest of the four.
+- **Ratio (today):** ~35% reasoning / ~65% code — high in ingestion, ordinary in delivery.
+- **Substrate already present:** a four-facet knowledge base (`prose · facts · qa · taxonomy`), a
+  cross-ref graph populated by an LLM judge, and pgvector + full-text hybrid retrieval.
+- **Standout risk:** a **thin test surface** — 3 test files, ~162 lines. For a platform this is the
+  maintenance liability the conversion must address, not inherit.
 
-## The substrate move
+## The conversion move (roadmap)
 
-Run-time reasoning replaces four subsystems that a traditional content pipeline would build by hand:
+Apply the **proven pattern from Relic Wars** — envelope compiler + blueprints + auditor — to the
+*operational* layer, not just ingestion. **This is a plan; none of it has shipped.**
 
-1. **Document → structured data.** Instead of parsers and regex ETL, LLM extractors turn raw source
-   manuscripts into typed structures — prose, facts, Q&A, and taxonomy. The **code defines the target
-   schema; the model performs** the sectioning, fact/date/person extraction, and Q&A generation.
-2. **Entity resolution by judgment, not rules.** Facts and Q&As are clustered by vector similarity;
-   for the ambiguous middle band, an **LLM judge decides "duplicate" vs. "nuance variant"** and writes
-   a one-sentence rationale. Brittle heuristic matching is replaced by semantic adjudication.
-3. **Authoring.** Article bodies and lesson plans are generated from retrieved context, and the
-   publication metadata itself — title, excerpt, SEO fields, tags — is produced by a second structured
-   generation call against a schema rather than hand-computed.
-4. **Moderation** is delegated to a moderation model rather than keyword lists.
+1. **Blueprint the content types.** Replace hand-coded page/lesson logic with declarative blueprints
+   (what a lesson is, what a study article requires, what a valid publication looks like).
+2. **Compile, don't branch.** A governed compiler turns a blueprint + retrieved evidence into a run-time
+   plan — curation, sequencing, and metadata become compiled reasoning, not enumerated code.
+3. **Auditor over authoring.** Extend grounding/citation checks into a deterministic auditor that rejects
+   any artifact citing unretrieved sources or missing provenance — the Relic Wars commit-gate, applied
+   to content.
+4. **Raise the test floor as blueprints land.** Blueprint conformance + auditor checks become the
+   regression net the current codebase lacks.
+5. **Keep the transactional shell.** Auth, billing, and RLS stay deterministic.
 
-The whole AI core is roughly **390 lines** across six files. That thin layer stands in for what would
-otherwise be a content-generation engine, a taxonomy classifier, an extraction pipeline, and a dedup
-engine.
+## After — projected target (ESTIMATE)
 
-## Dimensional model
+- **Projected ratio:** ~85–90% reasoning / ~10–15% code _(estimate)_ — approaching the LLM-First 90 : 10
+  target because so little of a content platform is irreducibly deterministic.
+- **Projected displacement:** ~50–70% of the current hand-authored app/serving logic replaced by the
+  compiler + blueprints _(estimate)_.
+- **What stays code:** billing, auth, RLS, the publish gate, and the human review stamp.
 
-State is Postgres — relational plus JSONB plus vector. The knowledge base is one row type keyed by
-**four facets** (`json_type ∈ prose | facts | qa | taxonomy`), each carrying its content JSON, a
-provenance/metadata blob, an ordering key, and its own embedding. Source documents flow through an
-explicit state machine (pending → processing → completed / failed) with content-hash de-duplication.
-The four facets *are* the dimensions: every source is decomposed along them and each facet is
-independently embedded and retrievable.
+## Total cost of ownership
 
-## Knowledge graph
+For a content platform, lifetime cost is dominated by *enhancement* — new content types, new lesson
+formats, retrieval tuning — the expensive slice of the
+[60/60 rule](https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html). Today those
+changes mean editing routes and services and (ideally) tests that barely exist. After conversion they
+mean editing a **blueprint**, with the compiler and auditor carrying the rest. The estimated ~50–70%
+reduction in maintained operational code is the point — and it lands on exactly the code that changes
+most and is currently least tested.
 
-A lightweight semantic graph sits over the knowledge base. A cross-reference table stores typed edges
-between KB rows — `duplicate`, `nuance_variant`, `contradicts`, `extends` — each annotated with an
-LLM-written note explaining the relationship. The edges are **discovered by the reasoning pass**, not
-hand-curated: it is an emergent semantic graph, populated as the nuance judge works through the corpus.
+## Code quality & security
 
-## Vectorized data
+The category standard for a RAG publishing platform is the
+**[OWASP Top 10 for LLM Applications 2025](https://genai.owasp.org/llm-top-10/)** — prompt injection
+(including *indirect* injection via poisoned source documents), vector/embedding isolation, and
+misinformation — plus, for anything that publishes, content-provenance via
+**[C2PA / Content Credentials](https://c2pa.org/)**. Grounding is not security: neither RAG nor
+fine-tuning removes prompt injection, so the conversion's auditor and citation-provenance checks are
+load-bearing controls, not nice-to-haves.
 
-Retrieval is central. pgvector stores a 1536-dimension embedding per KB facet, indexed with HNSW
-cosine. Search is **hybrid** — vector similarity fused with Postgres full-text ranking via reciprocal
-rank fusion — behind a security-definer function so application code never touches the RLS-locked KB
-tables directly. Both the chatbot and the authoring path retrieve through the same wrapper, which
-returns numbered, citable context blocks.
+On the build side, Today Series already runs the governance discipline that makes LLM-authored code
+safe: a full remediation cycle closed the security findings **F-01 through F-08** in a tracked batch,
+and generation is gated by grounding/refusal prompts and input/output moderation. The conversion extends
+that same gate-and-remediate loop from ingestion to the whole operational surface (see
+[`ENGINEERING.md`](../ENGINEERING.md) §3).
 
-## Governance
+## The honest boundary
 
-The reasoning is wrapped in a deliberate guardrail layer:
-
-- **Grounding + refusal prompts** that require citations, forbid fabricating source material, and
-  keep the assistant from overstepping into authoritative counsel.
-- **Input and output moderation** — user input is gated before it reaches the model, and generated
-  drafts are moderated before they can be published.
-- **Layered rate limiting and a site-wide circuit breaker** in front of the reasoning endpoints.
-- **Row-level security everywhere**, role checks, and security-definer functions with pinned search
-  paths.
-- **Human-in-the-loop publishing.** Content moves draft → review → published, and the reviewer is
-  stamped on publish. Reasoning *produces artifacts*; people and deterministic code decide what goes
-  live. The project also carries a documented security-hardening pass, evidence that the governance
-  layer is maintained rather than assumed.
-- **Graceful degradation:** every external integration sits behind a capability check and no-ops
-  cleanly when unconfigured.
-
-## The ratio, measured
-
-- **Displaced:** ~4 subsystems (extraction, classification/taxonomy, dedup/entity-resolution,
-  authoring) collapsed into ~390 lines of prompts and schemas. The two most expensive pipeline stages
-  — parse-and-embed, and LLM-judged de-duplication — are essentially *pure reasoning*.
-- **Retained in code:** the serving and commerce layer — routing, RLS, subscription sync, webhooks,
-  rate limiting, consent, media reconciliation. Conventional, deterministic engineering.
-- **Position on the spine:** the ratio is *high in the knowledge-manufacturing pipeline* and
-  *ordinary in the delivery layer*. Run-time reasoning is not the live control plane for user
-  transactions; it is the **governed substrate that produces the knowledge product**, which a
-  traditional app then serves.
-
-**Where it paid off:** turning unstructured manuscripts into a queryable, cross-referenced knowledge
-base without building four bespoke engines. **Where code rightly stayed:** anything touching money,
-identity, or what a user is allowed to see.
+**Where it should go LLM-First:** content decisions, lesson structure, curation, retrieval planning —
+judgment work with reversible outputs and a human gate. **Where code must stay:** money, identity, and
+access control. The estimate is a *range*, and it is theoretical until the conversion is built and
+measured against these targets.
 
 ---
 
 > IP-safety reviewed before publishing. No secrets, project identifiers, or third-party copyrighted
-> text. Scoped to Today Series only — no BOSNet.io / BOSGov internals, no shared-infrastructure detail.
+> text. "After" figures are projected estimates, clearly labeled. No BOSNet.io / BOSGov internals.

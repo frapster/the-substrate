@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Today Series — Before / After · the-substrate</title>
+<title>Eikon Digital — Before / After · the-substrate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0d1417;--surface:#121b1e;--surface-2:#162226;--border:rgba(255,255,255,0.09);--grid:rgba(255,255,255,0.035);
-  --text:#e6eff0;--text-dim:#8a9b9d;--text-faint:#5b6d70;
-  --accent:#22a699;--accent-dim:rgba(34,166,153,0.15);--accent-line:rgba(34,166,153,0.42);
-  --seg-code:#39485a;--code:#c98a3a;--code-dim:rgba(201,138,58,0.13);
+  --bg:#0f1319;--surface:#161b23;--surface-2:#1b212b;--border:rgba(255,255,255,0.09);--grid:rgba(255,255,255,0.035);
+  --text:#ece7ea;--text-dim:#9c8f95;--text-faint:#6b5f66;
+  --accent:#cf647e;--accent-dim:rgba(207,100,126,0.15);--accent-line:rgba(207,100,126,0.42);
+  --seg-code:#454049;--code:#6ba0c9;--code-dim:rgba(107,160,201,0.13);
   --good:#3fb27f;--bad:#d6604d;--warn:#d9a441;
   --font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;--font-mono:'IBM Plex Mono',ui-monospace,monospace;
 }
 @media (prefers-color-scheme:light){:root{
-  --bg:#eef2f0;--surface:#ffffff;--surface-2:#f3f8f6;--border:rgba(15,30,30,0.12);--grid:rgba(15,30,30,0.04);
-  --text:#15211f;--text-dim:#516260;--text-faint:#83918f;
-  --accent:#0f7d72;--accent-dim:rgba(15,125,114,0.1);--accent-line:rgba(15,125,114,0.35);
-  --seg-code:#c4cedb;--code:#a2670f;--code-dim:rgba(162,103,15,0.08);
+  --bg:#f4eef0;--surface:#fffbfc;--surface-2:#faf1f4;--border:rgba(40,20,28,0.12);--grid:rgba(40,20,28,0.04);
+  --text:#231118;--text-dim:#6a5560;--text-faint:#998691;
+  --accent:#a5254a;--accent-dim:rgba(165,37,74,0.09);--accent-line:rgba(165,37,74,0.35);
+  --seg-code:#d6ccd2;--code:#2f6ea0;--code-dim:rgba(47,110,160,0.08);
 }}
 *{box-sizing:border-box;margin:0;padding:0;min-width:0}
 html{scroll-behavior:smooth}
@@ -52,14 +52,14 @@ section{padding:50px 0;border-bottom:1px solid var(--border)}
 .ba-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .ba-note{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);letter-spacing:.1em;text-transform:uppercase}
 .ba-grid{margin-top:22px;display:grid;gap:11px}
-.ba-line{display:grid;grid-template-columns:70px 1fr;gap:14px;align-items:center}
+.ba-line{display:grid;grid-template-columns:80px 1fr;gap:14px;align-items:center}
 .ba-when{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--text-dim)}
 .ba-when.now{color:var(--accent)}
 .bar{display:flex;height:32px;border-radius:7px;overflow:hidden;border:1px solid var(--border);background:var(--surface-2)}
 .seg{display:flex;align-items:center;padding:0 11px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden}
 .seg.reason{background:var(--accent);color:var(--bg)}
 .seg.code{background:var(--seg-code);color:var(--text)}
-.ba-arrow{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);padding-left:84px;margin:2px 0}
+.ba-arrow{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);padding-left:94px;margin:2px 0}
 .ba-delta{margin-top:18px;font-size:15px;color:var(--text-dim);display:flex;align-items:center;flex-wrap:wrap;gap:6px}
 .ba-delta b{color:var(--accent);font-family:var(--font-mono)}
 .tag-est{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px;color:var(--warn);background:rgba(217,164,65,.13);border:1px solid rgba(217,164,65,.35)}
@@ -68,12 +68,11 @@ section{padding:50px 0;border-bottom:1px solid var(--border)}
 .legend .r{background:var(--accent)}.legend .c{background:var(--seg-code)}
 .invariant{margin-top:28px;padding:20px 24px;border-left:3px solid var(--accent);background:var(--accent-dim);border-radius:0 10px 10px 0;font-size:17px;line-height:1.5}
 .invariant b{color:var(--accent)}
-/* roadmap */
 .roadmap{display:grid;gap:12px;margin-top:30px}
 .step{display:grid;grid-template-columns:42px 1fr;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;align-items:start}
 .step .n{font-family:var(--font-mono);font-weight:600;font-size:14px;color:var(--accent);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid var(--accent-line);border-radius:9px;background:var(--accent-dim)}
-.step.freeze{border-color:rgba(201,138,58,.3)}
-.step.freeze .n{color:var(--code);border-color:rgba(201,138,58,.4);background:var(--code-dim)}
+.step.freeze{border-color:rgba(107,160,201,.3)}
+.step.freeze .n{color:var(--code);border-color:rgba(107,160,201,.4);background:var(--code-dim)}
 .step h3{font-size:15.5px;font-weight:600;margin-bottom:4px}
 .step p{font-size:14px;color:var(--text-dim)}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px;margin-top:30px}
@@ -94,7 +93,6 @@ section{padding:50px 0;border-bottom:1px solid var(--border)}
 .gov-list{list-style:none;display:grid;gap:9px}
 .gov-list li{position:relative;padding-left:20px;font-size:14px;color:var(--text-dim)}
 .gov-list li::before{content:'';position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--good)}
-.gov-list li.risk::before{background:var(--warn)}
 .gov-list code{font-family:var(--font-mono);font-size:12px;color:var(--code);background:var(--code-dim);padding:1px 5px;border-radius:4px}
 .callout{margin-top:30px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:24px 26px}
 .callout .section-label{margin-bottom:14px}
@@ -113,82 +111,81 @@ footer a{color:var(--accent);text-decoration:none}
 </style>
 </head>
 <body>
-<div class="wrap"><a href="../today-series.md" class="backlink mono">← read the full write-up</a></div>
+<div class="wrap"><a href="../eikon-digital.md" class="backlink mono">← read the full write-up</a></div>
 
 <header><div class="wrap">
-  <div class="eyebrow"><span class="dot"></span>the-substrate · case study 02 · before → after</div>
-  <h1>Today Series</h1>
+  <div class="eyebrow"><span class="dot"></span>the-substrate · case study 04 · before → after</div>
+  <h1>Eikon Digital</h1>
   <div class="badges">
     <span class="status plan"><span class="d"></span>Planned · estimate</span>
-    <span class="ratio-badge">AI : code — ~35:65 → ~85–90:10–15 (est.)</span>
+    <span class="ratio-badge">AI : code — ~12:88 → ~80–85:15–20 (est.)</span>
   </div>
-  <p class="lead">The case that can go <strong>furthest</strong> toward LLM-First. A content platform's "physics" is <strong>language and judgment</strong> — so most authoring, curation, and retrieval logic can become blueprint-compiled governed reasoning.</p>
+  <p class="lead">The most <strong>radical</strong> conversion — a large conventional web application rebuilt as a <strong>full BOSNet.io tenant</strong>. Not one subsystem, but the operating model of a whole system. The largest delta of the four.</p>
   <div class="stack">
-    <span class="chip">Next.js · React</span><span class="chip">Supabase · pgvector</span><span class="chip">~9.9k LOC · 19 pages</span><span class="chip">hybrid retrieval (RRF)</span><span class="chip">human-in-the-loop publish</span>
+    <span class="chip">Next.js · Supabase</span><span class="chip">~350k LOC</span><span class="chip">178 pages · 179 API routes</span><span class="chip">132 tables · 354 RLS</span><span class="chip">71 integrations</span>
   </div>
 </div></header>
 
 <section><div class="wrap">
   <span class="section-label"><span class="sq"></span>the conversion — before → after</span>
   <div class="ba">
-    <div class="ba-head"><span class="section-label"><span class="sq"></span>whole platform</span><span class="ba-note">AI : code</span></div>
+    <div class="ba-head"><span class="section-label"><span class="sq"></span>whole application</span><span class="ba-note">AI : code</span></div>
     <div class="ba-grid">
-      <div class="ba-line"><span class="ba-when">BEFORE</span><div class="bar"><span class="seg reason" style="width:35%">35% reasoning</span><span class="seg code" style="width:65%">65% code (serving layer)</span></div></div>
-      <div class="ba-arrow">↓ blueprint-compile the operational layer, not just ingestion</div>
-      <div class="ba-line"><span class="ba-when now">AFTER (est.)</span><div class="bar"><span class="seg reason" style="width:87%">~85–90% governed reasoning</span><span class="seg code" style="width:13%">~10–15%</span></div></div>
+      <div class="ba-line"><span class="ba-when">BEFORE</span><div class="bar"><span class="seg reason" style="width:12%"></span><span class="seg code" style="width:88%">88% code — ~179 hand-authored routes</span></div></div>
+      <div class="ba-arrow">↓ blueprint-compile the operating model onto a governed tenant</div>
+      <div class="ba-line"><span class="ba-when now">AFTER (est.)</span><div class="bar"><span class="seg reason" style="width:82%">~80–85% governed reasoning</span><span class="seg code" style="width:18%">~15–20%</span></div></div>
     </div>
     <div class="legend"><span><i class="r"></i>governed reasoning</span><span><i class="c"></i>deterministic code</span></div>
-    <div class="ba-delta"><b>~50–70%</b> of hand-authored operational logic displaced <span class="tag-est">projected · not shipped</span></div>
+    <div class="ba-delta"><b>~55–75%</b> of hand-authored operational logic displaced <span class="tag-est">projected · largest delta of the four</span></div>
   </div>
-  <div class="invariant">Reasoning becomes the operational default; hand-authored code shrinks to the irreducible plumbing — <b>approaching the LLM-First 90 : 10 target</b> because so little of a content platform is irreducibly deterministic.</div>
+  <div class="invariant">Relic Wars converted one subsystem; Eikon converts the <b>operating model of a whole application</b>. It is the clearest illustration of AI as the operational substrate — and, precisely because it is that ambitious, the most clearly labeled estimate.</div>
 </div></section>
 
 <section><div class="wrap">
   <span class="section-label"><span class="sq"></span>the conversion roadmap</span>
-  <h2 class="sec-title">Apply the proven pattern to the operational layer</h2>
-  <p class="sec-intro">The same envelope compiler + blueprints + auditor Relic Wars already ships — pointed at authoring and serving, not just ingestion. <strong>This is a plan; none of it has shipped.</strong></p>
+  <h2 class="sec-title">From ~179 routes to a governed tenant</h2>
+  <p class="sec-intro">Replace hand-authored operational code with blueprint-compiled reasoning under end-to-end governance. <strong>This is a plan; the governed tiers do not exist yet.</strong></p>
   <div class="roadmap">
-    <div class="step"><div class="n">1</div><div><h3>Blueprint the content types</h3><p>Declarative blueprints for what a lesson is, what a study article requires, what a valid publication looks like — replacing hand-coded page/lesson logic.</p></div></div>
-    <div class="step"><div class="n">2</div><div><h3>Compile, don't branch</h3><p>A governed compiler turns a blueprint + retrieved evidence into a run-time plan. Curation, sequencing, and metadata become compiled reasoning.</p></div></div>
-    <div class="step"><div class="n">3</div><div><h3>Auditor over authoring</h3><p>Reject any artifact citing unretrieved sources or missing provenance — the Relic Wars commit-gate, applied to content.</p></div></div>
-    <div class="step"><div class="n">4</div><div><h3>Raise the test floor</h3><p>Blueprint conformance + auditor checks become the regression net the current codebase (3 test files) lacks.</p></div></div>
-    <div class="step freeze"><div class="n">5</div><div><h3>Keep the transactional shell</h3><p>Auth, billing, RLS, and the publish gate stay deterministic code.</p></div></div>
+    <div class="step"><div class="n">1</div><div><h3>Blueprint the back-office</h3><p>Express CRM objects, campaign flows, and content types as declarative blueprints instead of bespoke routes and services — the bulk of ~179 route handlers.</p></div></div>
+    <div class="step"><div class="n">2</div><div><h3>Compile to run-time plans</h3><p>A governed compiler turns a blueprint + evidence into an executable plan — the Relic Wars envelope pattern, generalized to business operations.</p></div></div>
+    <div class="step"><div class="n">3</div><div><h3>NLUI-first surface</h3><p>Promote the natural-language assistant from a feature to the primary control surface, with deterministic policy before and after every action.</p></div></div>
+    <div class="step"><div class="n">4</div><div><h3>Mature the governance tiers</h3><p>Raise the existing foundation to envelope-governed / proof-carrying — every high-impact action bounded, evidence-backed, audited, reversible.</p></div></div>
+    <div class="step freeze"><div class="n">5</div><div><h3>Keep the deterministic shell</h3><p>Authentication, billing, secrets, and access control stay code.</p></div></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
   <span class="section-label"><span class="sq"></span>total cost of ownership</span>
-  <h2 class="sec-title">Change a blueprint, not a fleet of routes and services</h2>
-  <p class="sec-intro">Lifetime cost is dominated by <em>enhancement</em> — new content types, formats, retrieval tuning — the expensive slice of the <a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">60/60 rule</a>, landing on code that today is barely tested.</p>
+  <h2 class="sec-title">The flagship TCO argument</h2>
+  <p class="sec-intro">~350k hand-authored lines is the smaller part of what this system costs to <em>own</em> over its life (<a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">60/60 rule</a>). Moving the operational surface to blueprints changes what must be maintained for a decade.</p>
   <div class="tiles">
-    <div class="tile hero"><div class="big mono">~50–70%↓</div><div class="cap">Maintained operational code, projected (est.).</div></div>
-    <div class="tile"><div class="big mono">blueprint</div><div class="cap">The unit of change — not a route, a service, and a test each time.</div></div>
-    <div class="tile"><div class="big mono">3→net</div><div class="cap">From 3 test files today to blueprint-conformance + auditor as the regression net.</div></div>
+    <div class="tile hero"><div class="big mono">~55–75%↓</div><div class="cap">Hand-authored operational logic, projected (est.).</div></div>
+    <div class="tile"><div class="big mono">~350k</div><div class="cap">Lines today — more than the other three systems combined.</div></div>
+    <div class="tile"><div class="big mono">10×</div><div class="cap">The wager: a governed tenant is ~an order of magnitude cheaper to <em>own</em> than ~350k lines of operational code (est.).</div></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
   <span class="section-label"><span class="sq"></span>code quality &amp; security</span>
-  <h2 class="sec-title">Grounding is not security</h2>
-  <p class="sec-intro">Neither RAG nor fine-tuning removes prompt injection — so the conversion's auditor and provenance checks are load-bearing controls, not nice-to-haves.</p>
+  <h2 class="sec-title">Highest surface area — heaviest gate stack</h2>
+  <p class="sec-intro">A multi-tenant SaaS with an agentic assistant — the exact stack AI coding assistants target, and where their published weaknesses do the most damage.</p>
   <div class="sec-grid">
     <div class="panel">
       <h3><span class="mk"></span>Category standard</h3>
       <div class="std-chips">
-        <a href="https://genai.owasp.org/llm-top-10/">OWASP LLM Top 10 2025</a>
-        <span>indirect prompt injection</span>
-        <span>vector isolation</span>
-        <a href="https://c2pa.org/">C2PA provenance</a>
+        <a href="https://owasp.org/Top10/2025/">OWASP Top 10:2025</a>
+        <a href="https://genai.owasp.org/llm-top-10/">LLM06 Excessive Agency</a>
+        <span>multi-tenant RLS</span>
       </div>
-      <p class="note">The LLM-code baseline &amp; gate stack — see <a href="../../ENGINEERING.md">ENGINEERING.md §3</a>.</p>
+      <p class="note">TCO, quality/security, harness governance &amp; drift — <a href="../../ENGINEERING.md">ENGINEERING.md §3–§5</a>.</p>
     </div>
     <div class="panel">
       <h3><span class="mk"></span>Governance in place</h3>
       <ul class="gov-list">
-        <li>Security findings <code>F-01…F-08</code> closed in a tracked remediation batch</li>
-        <li>Grounding / refusal prompts + input &amp; output moderation</li>
-        <li>Hybrid retrieval behind a security-definer function</li>
-        <li class="risk">Thin test surface today — a risk the conversion is built to fix, not inherit</li>
+        <li>Six chained pre-commit guards — <code>no-stubs-gate</code>, <code>endpoint-lock</code>, <code>content-truth-check</code>, more</li>
+        <li>Security series closing IDOR / authorization holes; committed-secret cleanup</li>
+        <li>Largest test surface of the four (~22k test lines)</li>
+        <li>Target: governance <em>native</em> — a compiler that emits governed behavior by construction</li>
       </ul>
     </div>
   </div>
@@ -198,14 +195,14 @@ footer a{color:var(--accent);text-decoration:none}
   <div class="callout">
     <span class="section-label"><span class="sq"></span>the honest boundary</span>
     <div class="row">
-      <div class="paid"><h4><span class="mk"></span>Where it should go LLM-First</h4><p>Content decisions, lesson structure, curation, retrieval planning — judgment with reversible outputs and a human gate.</p></div>
-      <div class="kept"><h4><span class="mk"></span>Where code must stay</h4><p>Money, identity, access control. The estimate is a range, theoretical until built and measured.</p></div>
+      <div class="paid"><h4><span class="mk"></span>Where it should convert</h4><p>The operational logic — CRM, campaigns, content, assistant — judgment and orchestration over a governed knowledge base.</p></div>
+      <div class="kept"><h4><span class="mk"></span>Where code must stay</h4><p>Auth, billing, secrets, access control. Entirely theoretical until the governed tiers are built and the system runs on them.</p></div>
     </div>
   </div>
 </div></section>
 
 <footer><div class="wrap">
-  <div class="ip">IP-safety reviewed before publishing. No secrets, project identifiers, or third-party copyrighted text. "After" figures are projected estimates, clearly labeled. No BOSNet.io / BOSGov internals.</div>
+  <div class="ip">IP-safety reviewed before publishing. No secrets, key names, project identifiers, or client names. The governance kernel and BOSNet.io / BOSGov internals are described at concept level only. "After" figures are projected estimates, clearly labeled.</div>
   Author: <strong>Robert J. Floyd</strong> — founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
   <span class="mono" style="font-size:12px">the-substrate · AI as the governed operational substrate</span>
 </div></footer>
