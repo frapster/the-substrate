@@ -90,4 +90,4 @@ measured against these targets.
 ---
 
 > IP-safety reviewed before publishing. No secrets, project identifiers, or third-party copyrighted
-> text. "After" figures are projected estimates, clearly labeled. No BOSNet.io / BOSGov internals.
+> text. "After" figures are projected estimates, clearly labeled. No BOSNet.io internals.

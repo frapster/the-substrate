@@ -2,6 +2,8 @@
 
 **Author: Robert J. Floyd** — founder/CEO, Eikon Digital Solutions · [robfloyd.me](https://robfloyd.me)
 
+**Visual:** [visual explainer](./visuals/thesis.html) · **Related:** [Engineering](./ENGINEERING.md) · [BOSS Standard](./BOSS-STANDARD.md) · [Governing People](./GOVERNING-PEOPLE.md) · [README](./README.md)
+
 > The logic layer of code is the traditional way of capturing and executing the reasoning process —
 > highly constrained and deterministic. My approach unleashes *reasoning* as part of the logic layer
 > in the codebase, using a **governance engine** that makes it safe to let AI do things we've
@@ -130,7 +132,7 @@ The governance infrastructure that makes run-time reasoning safe enough to be lo
 **BOSNet.io** — a matrix-first, evidence-and-audit-backed model that runs deterministic policy before
 and after every model call. It is the named standard these case studies build on.
 
-BOSNet.io, BOSGov, and the Bounded Open Safety Standard (BOSS) are proprietary and are **not** licensed
+BOSNet.io and the Bounded Open Safety Standard (BOSS) are proprietary and are **not** licensed
 through this repository. This showcase presents the *thesis* and *public-safe architecture patterns* —
 never the proprietary source, never client IP. See [`LICENSE.md`](./LICENSE.md).
 

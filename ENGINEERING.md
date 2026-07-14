@@ -2,6 +2,8 @@
 
 **Author: Robert J. Floyd** — founder/CEO, Eikon Digital Solutions · [robfloyd.me](https://robfloyd.me)
 
+**Visual:** [visual explainer](./visuals/engineering.html) · **Related:** [Thesis](./THESIS.md) · [BOSS Standard](./BOSS-STANDARD.md) · [Governing People](./GOVERNING-PEOPLE.md) · [README](./README.md)
+
 This companion to [`THESIS.md`](./THESIS.md) covers the parts of "AI as the governed operational
 substrate" that are about *engineering economics and discipline*, not just architecture: what it costs
 to build and maintain, what it means that the code is LLM-authored, and what it takes to govern an LLM
@@ -327,5 +329,5 @@ Primary, citable anchors used above:
 
 *Codebase metrics (LOC, routes, migrations, tables, RLS policies, test surface) were measured directly
 from the author's own repositories. Figures for not-yet-built conversions are labeled estimates
-throughout. No proprietary BOSNet.io / BOSGov internals, secrets, project identifiers, or client names
+throughout. No proprietary BOSNet.io or BOSS internals, secrets, project identifiers, or client names
 appear in this document.*

@@ -3,6 +3,8 @@
 **A governance standard for agentic AI, organized around a published *governance directory*.**
 
 **Author: Robert J. Floyd** — founder/CEO, Eikon Digital Solutions · [robfloyd.me](https://robfloyd.me)
+
+**Visual:** [visual explainer](./visuals/boss-standard.html) · **Related:** [Thesis](./THESIS.md) · [Engineering](./ENGINEERING.md) · [README](./README.md)
 **Status:** Public overview. The machine-checkable specification, conformance rule set, and reference
 kernel are **patent-pending and reserved** — see [Reserved material](#reserved-material) and
 [`LICENSE.md`](./LICENSE.md).
@@ -110,11 +112,11 @@ and are **not** disclosed or licensed by this overview:
   modules and their normative rules);
 - the **conformance rule set** and test vectors;
 - the **governance kernel / compiler** and its dimensional model, schema, and coordinate scheme; and
-- the **reference implementation** (BOSNet.io / BOSGov).
+- the **reference implementation** (BOSNet.io).
 
 This document publishes BOSS's *principles, guarantees, governance-directory structure, and conformance
 intent* — enough to evaluate the standard and adopt its shape — without disclosing the reserved spec or
-kernel. BOSNet.io, BOSGov, and BOSS are proprietary; see [`LICENSE.md`](./LICENSE.md). Nothing here
+kernel. BOSNet.io and BOSS are proprietary; see [`LICENSE.md`](./LICENSE.md). Nothing here
 grants a license to them.
 
 ---

@@ -97,4 +97,4 @@ figures are theoretical until built and measured.
 
 > IP-safety reviewed before publishing. No secrets or project identifiers, no verbatim safety prompts or
 > thresholds, no third-party-sourced datasets. "After" figures are projected estimates, clearly labeled.
-> No BOSNet.io / BOSGov internals.
+> No BOSNet.io internals.

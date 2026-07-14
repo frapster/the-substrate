@@ -4,13 +4,12 @@ Copyright © 2026 Robert J. Floyd / Eikon Digital Solutions, LLC. All rights res
 
 ## Proprietary components
 
-**BOSNet.io**, **BOSGov** (the BOSGov MCP governance protocol), and the **Bounded Open Safety
-Standard (BOSS)** are proprietary, pre-existing intellectual property of Robert J. Floyd / Eikon
+**BOSNet.io** and the **Bounded Open Safety Standard (BOSS)** are proprietary, pre-existing intellectual property of Robert J. Floyd / Eikon
 Digital Solutions, LLC. They are **not** licensed by, and no rights to them are granted through,
 this repository.
 
 Nothing in this repository grants any license to use, reproduce, or create derivative works of
-BOSNet.io, BOSGov, or BOSS, whether by an employer, client, or any other party, outside the terms
+BOSNet.io or BOSS, whether by an employer, client, or any other party, outside the terms
 of a separate, written agreement executed by Robert J. Floyd.
 
 ## This repository's content

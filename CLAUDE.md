@@ -18,7 +18,7 @@ from sibling `Local Sites/` projects.
   doubt, leave it out. Only Rob's own thesis, public-safe architecture, and de-identified capability
   signal belong here.
 - **Public repo.** Assume everything here is world-readable and permanent.
-- **Proprietary reservations stand.** BOSNet.io / BOSGov / BOSS are proprietary (see `LICENSE.md`);
+- **Proprietary reservations stand.** BOSNet.io and BOSS are proprietary (see `LICENSE.md`);
   never imply an open-source grant of them.
 - **Evidence-backed claims.** Prefer verifiable, demonstrated statements over marketing.
 

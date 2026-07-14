@@ -102,5 +102,5 @@ theoretical until the governed tiers are built and the system actually runs on t
 ---
 
 > IP-safety reviewed before publishing. No secrets, key names, project identifiers, or client names. The
-> governance kernel and BOSNet.io / BOSGov internals are described at concept level only. "After" figures
+> governance kernel and BOSNet.io internals are described at concept level only. "After" figures
 > are projected estimates, clearly labeled.

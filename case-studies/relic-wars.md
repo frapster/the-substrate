@@ -88,4 +88,4 @@ which is exactly why it is the honest anchor for the estimates that follow in th
 ---
 
 > IP-safety reviewed before publishing. Describes Relic Wars' own governance pattern only — no
-> proprietary BOSNet.io / BOSGov source, no secrets, no client IP.
+> proprietary BOSNet.io source, no secrets, no client IP.

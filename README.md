@@ -51,7 +51,7 @@ harness you don't own — is in [`THESIS.md`](./THESIS.md) and [`ENGINEERING.md`
 evidence-and-audit-backed model with deterministic policy before and after every model call.
 It is the named standard these case studies build on.
 
-> BOSNet.io, BOSGov, and the Bounded Open Safety Standard (BOSS) are proprietary. See
+> BOSNet.io and the Bounded Open Safety Standard (BOSS) are proprietary. See
 > [`LICENSE.md`](./LICENSE.md).
 
 **BOSS** — the Bounded Open Safety Standard — is presented publicly at the level a technical evaluator
@@ -81,15 +81,18 @@ _Writeups are added deliberately and reviewed for IP safety before publishing._
 
 ## Also in this repo
 
-| Document | What it is |
-|---|---|
-| [`THESIS.md`](./THESIS.md) | The core argument — the claim, what "governed" means, the AI:code ratio. |
-| [`ENGINEERING.md`](./ENGINEERING.md) | The engineering economics — TCO, LLM-code quality/security, 3rd-party-harness governance, drift. |
-| [`BOSS-STANDARD.md`](./BOSS-STANDARD.md) | The Bounded Open Safety Standard — principles + the governance directory (spec reserved). |
-| [Architecture decisions](./case-studies/visuals/architecture-decisions.html) | Cross-project architectural judgment — KBs, vector-embedding choices, model optimization, the WordPress lineage. |
-| [Résumé](./resume/robert-floyd.html) | Robert J. Floyd — experience, skills, signature work. |
+Every root document has a **visual explainer** companion in [`visuals/`](./visuals/):
 
-The case-study **visual explainers** live in [`case-studies/visuals/`](./case-studies/visuals/).
+| Document | Visual explainer |
+|---|---|
+| [`THESIS.md`](./THESIS.md) — the core argument | [`visuals/thesis.html`](./visuals/thesis.html) |
+| [`ENGINEERING.md`](./ENGINEERING.md) — TCO, LLM-code quality/security, harness governance, drift | [`visuals/engineering.html`](./visuals/engineering.html) |
+| [`BOSS-STANDARD.md`](./BOSS-STANDARD.md) — the Bounded Open Safety Standard + governance directory | [`visuals/boss-standard.html`](./visuals/boss-standard.html) |
+| [`GOVERNING-PEOPLE.md`](./GOVERNING-PEOPLE.md) — governing AI begins with governing people | [`visuals/governing-people.html`](./visuals/governing-people.html) |
+| _Architecture decisions_ — cross-project architectural judgment (visual-only) | [`visuals/architecture-decisions.html`](./visuals/architecture-decisions.html) |
+| [Résumé](./resume/robert-floyd.html) — experience, skills, signature work | — |
+
+The four **case-study** before/after explainers live in [`case-studies/visuals/`](./case-studies/visuals/).
 
 ## What this repo is (and isn't)
 
