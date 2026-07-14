@@ -5,7 +5,7 @@
 > The logic layer of code is the traditional way of capturing and executing the reasoning
 > process — highly constrained and deterministic. My approach unleashes *reasoning* as part of
 > the logic layer in the codebase, using a **governance engine** that makes it safe to let AI do
-> things we've traditionally relied on code to do. **This is AI as the operational substrate.**
+> things we've traditionally only trusted code to do - until today. **This is AI as the operational substrate.**
 >
 > — Robert J. Floyd
 
