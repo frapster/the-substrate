@@ -1,0 +1,29 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# build / next
+/.next/
+/out/
+/build
+
+# env & secrets — never commit
+.env*
+*.pem
+.mcp.json
+
+# local claude/mcp state
+.claude/.first-interaction-done
+.claude/failed-commands.log
+.claude/session-log.txt
+
+# os / misc
+.DS_Store
+Thumbs.db
+npm-debug.log*
+
+# local working area (not for publication)
+/downloads/
+/private/
+/_scratch/
