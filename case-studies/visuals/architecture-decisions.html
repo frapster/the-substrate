@@ -157,6 +157,9 @@ footer a{color:var(--accent);text-decoration:none}
         <span class="stamp">Patent pending</span>
         <p><b>What is public:</b> the <em>shape</em> and its guarantees. Run-time reasoning sits inside a governance envelope that is bounded, evidence-backed, audited, and reversible. The audit backbone is an <b>append-only, hash-chained ledger</b> with recomputable verification and update/delete-blocking — facts are <b>versioned, never silently overwritten</b>. Accessibility and cost are treated as governance constraints, not afterthoughts.</p>
         <p><b>What is reserved:</b> the governance kernel and compiler, the dimensional model and its coordinate scheme, and the machine-checkable specification. Those are patent-pending and described only conceptually here. See <a href="../../BOSS-STANDARD.md">BOSS-STANDARD.md</a> and <a href="../../THESIS.md">THESIS.md</a>.</p>
+        <p><b>The deeper claim:</b> an LLM's operational substrate is <b>governance + knowledge — not
+        code</b>. Governance bounds what the model may <em>do</em>; the dimensional knowledge model
+        determines what it correctly <em>knows</em>. Code is what you write when you lack the other two.</p>
         <div class="props">
           <span class="prop">bounded</span><span class="prop">evidence-backed</span><span class="prop">audited</span><span class="prop">reversible</span>
         </div>
@@ -225,6 +228,7 @@ footer a{color:var(--accent);text-decoration:none}
         </table>
       </div>
       <div class="insight"><div class="it">the decision, in one line</div><p><b>Granularity is a retrieval decision, not a default.</b> Atomic facts for point questions, Q&amp;A for conversation, prose for context, taxonomy for routing — and <b>no embeddings at all</b> when the fact set is closed and determinism is the product.</p></div>
+      <div class="insight"><div class="it">and for <em>governed</em> knowledge</div><p>Naive vector similarity returns what is <em>near</em>, not what is <em>governed and true</em> — retrieval doesn't remove hallucination (<a href="https://arxiv.org/abs/2401.00396">RAGTruth</a>), degrades mid-context even on a correct hit (<a href="https://arxiv.org/abs/2307.03172">Lost in the Middle</a>), and turns every retrieved document into an injection surface (<a href="https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/">OWASP LLM08:2025</a>). So the rule is <b>right index per query class</b>: hybrid RAG is fine for open factoid lookup, but anything a decision must be <b>accountable</b> for wants <b>governed, structured knowledge</b> — the direction <a href="https://arxiv.org/abs/2404.16130">GraphRAG</a> validates. Full, sourced treatment in <a href="../../ENGINEERING.md">ENGINEERING.md §5</a>.</p></div>
     </section>
 
     <!-- 04 -->

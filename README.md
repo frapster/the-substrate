@@ -29,6 +29,11 @@ That is the difference between "we call an LLM somewhere" and **AI as the operat
 - **Audited** — every decision writes a hash-chained, tamper-evident ledger entry.
 - **Reversible** — high-impact actions are gated, versioned, and recoverable.
 
+But governance is only half of it. The operational substrate of an LLM is **governance *plus* knowledge
+— not code**: what the model may *do*, and what it correctly *knows*. A governed model fed the wrong or
+missing context still fails — which is why retrieval-by-similarity (RAG) is not the substrate for
+governed knowledge (see [`ENGINEERING.md`](./ENGINEERING.md)).
+
 The measurable spine across projects is the **AI : code ratio** — how much governed run-time
 reasoning carries operational behavior versus hand-authored code, and where that trade is (and isn't)
 worth it. The **LLM-First** target is **90 : 10**. The full argument — including total cost of

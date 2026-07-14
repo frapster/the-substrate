@@ -78,9 +78,14 @@ on ungoverned LLM code is not flattering:
   log-injection classes among the worst ([Veracode 2025](https://www.veracode.com/blog/genai-code-security-report/)).
 - **Speed is often an illusion.** In a randomized trial, experienced open-source developers were **~19%
   slower** with AI tools while *believing* they were ~20% faster ([METR RCT,
-  2025](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/)); Google's DORA 2024
-  report associated AI adoption with a **−7.2%** hit to delivery stability, attributed to larger batch
-  sizes ([DORA 2024](https://dora.dev/research/2024/dora-report/)).
+  2025](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/)) — a narrow result
+  about AI-assisted *coding* rather than architecture, but a pointed one. And Google's **DORA** program
+  associated AI adoption with a delivery-stability hit in 2024; in fairness, the *throughput* half of
+  that finding **reversed in the 2025 report** (AI now correlates positively with throughput) while the
+  **instability persisted** — DORA's own synthesis is that AI is an *amplifier* of a team's existing
+  quality ([DORA 2024](https://dora.dev/research/2024/dora-report/), [DORA
+  2025](https://dora.dev/dora-report-2025/)). That "amplifier" framing is the argument for governance,
+  not against it: AI magnifies whatever discipline — or absence of it — is already there.
 
 Against a defect baseline of **15–50 defects per KLOC** for typical development ([McConnell](https://stevemcconnell.com/articles/gauging-software-readiness-with-defect-tracking/)),
 this says one thing clearly: **LLM output is a draft, not a deliverable, until something enforces
@@ -166,11 +171,29 @@ the *data it consumes* is wrong, stale, or missing — fed without the context a
 Prompts and hooks govern *what the model may do*; they do nothing about *what the model knows when it does
 it*. The remedy is not more retrieval — it is feeding the model the right context from a
 **governance-carrying dimensional matrix**: knowledge that is itself bounded, evidence-backed, and
-versioned, so the context is correct *by construction* rather than by lucky recall. This is why **RAG is
-not the answer here** — similarity search returns what is *near*, not what is *governed and true*:
-probabilistic retrieval over an open pile, exactly the property a governed decision cannot rest on.
-(Retrieval has real uses — see the [architecture decisions](./case-studies/visuals/architecture-decisions.html) —
-but not as the substrate for governed knowledge.)
+versioned, so the context is correct *by construction* rather than by lucky recall.
+
+Say this precisely, because it is easy to overstate. The problem is not *retrieval* — it is **naive
+vector-similarity retrieval over an open corpus with no provenance.** Similarity returns what is *near*,
+not what is *governed and true*, and the failure modes are documented: retrieved context does not
+eliminate hallucination ([RAGTruth, ACL 2024](https://arxiv.org/abs/2401.00396)); retrieval has a whole
+taxonomy of ways to surface the wrong or missing passage ([Seven Failure Points](https://arxiv.org/abs/2401.05856));
+models degrade on facts buried mid-context *even when the right passage was retrieved* ([Lost in the
+Middle, TACL 2024](https://arxiv.org/abs/2307.03172); [context length hurts despite perfect retrieval,
+2025](https://arxiv.org/abs/2510.05381)); and every retrieved third-party document is an injection
+surface ([indirect prompt injection](https://arxiv.org/abs/2302.12173); [OWASP
+LLM08:2025](https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/)).
+
+The fix is a better *index*, not the absence of retrieval: structured, provenance-carrying knowledge
+that supports auditable multi-hop traversal rather than black-box nearest-neighbor — the direction
+Microsoft's [GraphRAG](https://arxiv.org/abs/2404.16130) validates for global and relational questions.
+Two honest caveats keep this from being dogma: structured knowledge is *itself* a form of retrieval
+under the field's taxonomy ([GraphRAG survey](https://arxiv.org/abs/2501.00309)), and it is not free —
+it can *lose* to plain vector search on fine-grained factoid lookups and costs more to build and serve
+([RAG vs. GraphRAG](https://arxiv.org/abs/2502.11371)), and graphs degrade under incomplete coverage
+([What Breaks KG-RAG](https://arxiv.org/abs/2508.08344)). So the rule is *right index per query class*:
+similarity search is fine for open factoid lookup; governed, structured knowledge is the substrate for
+anything a decision must be **accountable** for.
 
 This points at the real definition. **The operational substrate of an LLM is governance *plus* knowledge —
 not code.** Code is what you write when you lack the other two. Governance bounds what the model may do;
@@ -184,6 +207,47 @@ tooling to enforce that separation is itself part of the substrate. That local h
 drift, keeps itself out of the product, and closes findings — is where a year of this work actually
 lives. Its internals are proprietary; its *shape* is described here, and it is the real reason the
 case-study conversions are credible rather than aspirational.
+
+## 6. Objections we take seriously
+
+A thesis is only as strong as the objections it survives. These are the sharpest ones, stated fairly:
+
+**"Compounding error dooms run-time reasoning."** If each step is less than perfectly reliable, chaining
+steps decays fast — 99% per step is ~37% over 100 steps — and models *self-condition* on their own
+earlier mistakes, so more reasoning hops means multiplicatively more failure ([agent-evaluation
+survey](https://arxiv.org/abs/2507.21504); [where agents fail](https://arxiv.org/abs/2509.25370)). A
+90:10 target looks like it *maximizes* those terms. **Our answer:** breaking that multiplication is the
+envelope's entire job. A deterministic auditor re-derives ground truth and **discards** any step that
+fails — per-step correctness is *enforced by code*, not left to the model to decay; agency is
+**concentrated** (Relic Wars governs ~8 decisions per snap, not 100); and a rejected inference is thrown
+away, never fed back to compound. Governance converts an exponentially decaying chain into gated,
+independently verified steps. Where a step *cannot* be capped or checked, it belongs in code — which is
+exactly why the ratio is a design decision, not a mandate to maximize AI.
+
+**"'Governance + knowledge, not code' is a false trichotomy."** Governance rules and knowledge models are
+themselves authored, versioned, executed artifacts — that is [policy-as-code](https://www.pulumi.com/what-is/what-is-policy-as-code/) —
+and structured retrieval is still retrieval ([GraphRAG is a *variant* of
+RAG](https://arxiv.org/abs/2501.00309)). So the dichotomy may be rhetorical. **Our answer:** we don't
+claim code disappears. We claim two specific shifts: the *locus of authored truth* moves from imperative
+business logic to **declarative, evidence-backed, governed artifacts**, and *decision execution* moves
+from write-time to **run-time reasoning inside the envelope**. That is a real difference in *what you
+maintain* and *when decisions are made* — even though blueprints and policies are authored. Declarative
+config plus a policy engine plus a non-vector index is *part* of it; the run-time governed reasoning and
+the evidence/audit spine are the rest. We'd rather say that precisely than oversell a slogan.
+
+**"Structure doesn't always pay."** A systematic evaluation finds graph/structured knowledge can *lose*
+to plain vector RAG on fine-grained factoid queries and costs more to build and serve ([RAG vs.
+GraphRAG](https://arxiv.org/abs/2502.11371)); knowledge graphs degrade under incomplete coverage ([What
+Breaks KG-RAG](https://arxiv.org/abs/2508.08344)). **Our answer:** agreed — that is the *right-index-per-
+query-class* rule from §5. Governed structure is for what must be **accountable** (relational, multi-hop,
+auditable, regulated); similarity search is fine for open factoid lookup. Paying graph cost for a factoid
+lookup would be the mistake.
+
+**On the 90:10 number.** It is a **design aspiration, not an empirical finding.** No study shows a
+specific optimal AI:code ratio, and the reliability literature above argues the safe default is
+"deterministic where correctness is load-bearing, reasoning where flexibility is." We present 90:10 as
+the target BOSNet.io reaches for and each project approaches *honestly* — Zabble stays near 30–40,
+Relic Wars' whole game stays low — a measured north star, not a claim of proven optimum.
 
 ---
 
@@ -202,6 +266,20 @@ Primary, citable anchors used above:
 - Payments compliance — [PCI DSS 4.0](https://www.pcisecuritystandards.org/document_library/)
 - Content provenance — [C2PA / Content Credentials](https://c2pa.org/)
 - Server-authoritative game architecture — [Gambetta, Client-Server Game Architecture](https://www.gabrielgambetta.com/client-server-game-architecture.html)
+- Delivery outcomes, updated — [DORA 2025 State of DevOps](https://dora.dev/dora-report-2025/) (2024 throughput hit reversed; instability persists; AI as "amplifier")
+
+*Knowledge & retrieval:* [RAGTruth (ACL 2024)](https://arxiv.org/abs/2401.00396) ·
+[Seven Failure Points of RAG](https://arxiv.org/abs/2401.05856) ·
+[Lost in the Middle (TACL 2024)](https://arxiv.org/abs/2307.03172) ·
+[Context length hurts despite perfect retrieval (2025)](https://arxiv.org/abs/2510.05381) ·
+[GraphRAG](https://arxiv.org/abs/2404.16130) · [GraphRAG survey](https://arxiv.org/abs/2501.00309) ·
+[RAG vs. GraphRAG](https://arxiv.org/abs/2502.11371) · [What Breaks KG-RAG](https://arxiv.org/abs/2508.08344) ·
+[Indirect prompt injection](https://arxiv.org/abs/2302.12173) ·
+[OWASP LLM08:2025 Vector & Embedding Weaknesses](https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/)
+
+*Reliability & counter-evidence:* [Agent-evaluation survey](https://arxiv.org/abs/2507.21504) ·
+[Where LLM agents fail](https://arxiv.org/abs/2509.25370) ·
+[Policy-as-code](https://www.pulumi.com/what-is/what-is-policy-as-code/)
 
 *Codebase metrics (LOC, routes, migrations, tables, RLS policies, test surface) were measured directly
 from the author's own repositories. Figures for not-yet-built conversions are labeled estimates

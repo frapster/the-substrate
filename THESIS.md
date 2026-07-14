@@ -47,6 +47,14 @@ The engineering consequence is a recurring shape: **deterministic code computes 
 grades the reasoning; the model decides what *should* happen; a validator commits only what passes.**
 The model is never trusted — it is *checked*. A rejected inference is thrown away, not patched.
 
+But governance is only half of the substrate. A model that is perfectly governed yet fed the wrong,
+stale, or missing context still fails — not on what it may *do*, but on what it *knows*. So the
+operational substrate of an LLM is **governance *plus* knowledge — not code**: governance bounds what
+the model may do; a governance-carrying knowledge model determines what it correctly knows; together
+they are what code used to be. Code is what you write when you lack the other two. This is also why
+retrieval-by-similarity (RAG) is not the substrate for governed knowledge — a point developed with
+sources in [`ENGINEERING.md`](./ENGINEERING.md) §5.
+
 ## 3. The measurable spine: the AI : code ratio
 
 The thesis would be untestable if it were only a philosophy. Its spine is a metric you can read off a
