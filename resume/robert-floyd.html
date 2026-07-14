@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robert J. Floyd — Résumé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f2ec;--paper:#fffdf9;--ink:#17232f;--ink-dim:#4a5a68;--ink-faint:#8a95a0;
+  --line:rgba(23,35,47,0.12);--line-soft:rgba(23,35,47,0.07);
+  --navy:#1e3a5f;--gold:#b6892f;--gold-soft:rgba(182,137,47,0.12);
+  --font-head:'Fraunces',Georgia,serif;--font-body:'IBM Plex Sans',system-ui,sans-serif;--font-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0f151b;--paper:#141c25;--ink:#e7edf3;--ink-dim:#9fb0be;--ink-faint:#63727f;
+  --line:rgba(255,255,255,0.12);--line-soft:rgba(255,255,255,0.06);
+  --navy:#7ea8d8;--gold:#d9b25a;--gold-soft:rgba(217,178,90,0.13);
+}}
+*{box-sizing:border-box;margin:0;padding:0;min-width:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);line-height:1.55;-webkit-font-smoothing:antialiased;padding:40px 20px}
+.sheet{max-width:960px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;box-shadow:0 24px 60px -30px rgba(23,35,47,0.35);overflow:hidden}
+.mono{font-family:var(--font-mono)}
+/* header */
+.masthead{padding:44px 48px 34px;border-bottom:3px solid var(--navy);position:relative}
+.masthead::after{content:"";position:absolute;left:48px;right:48px;bottom:-3px;height:3px;background:var(--gold);width:120px}
+.name{font-family:var(--font-head);font-size:clamp(34px,5.5vw,52px);font-weight:600;letter-spacing:-.015em;line-height:1;color:var(--navy)}
+.title{font-family:var(--font-mono);font-size:13px;letter-spacing:.04em;color:var(--gold);margin-top:14px;font-weight:600;text-transform:uppercase}
+.tagline{font-size:16px;color:var(--ink-dim);margin-top:12px;max-width:60ch}
+.contact{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:20px;font-family:var(--font-mono);font-size:12px;color:var(--ink-dim)}
+.contact a{color:var(--ink-dim);text-decoration:none;border-bottom:1px solid var(--line)}
+.contact a:hover{color:var(--gold);border-color:var(--gold)}
+.contact .k{color:var(--ink-faint)}
+.avail{display:inline-block;margin-top:18px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.03em;color:var(--gold);background:var(--gold-soft);border:1px solid rgba(182,137,47,0.3);padding:6px 12px;border-radius:5px}
+/* body grid */
+.grid{display:grid;grid-template-columns:1fr 320px;gap:0}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.main{padding:34px 48px 46px;border-right:1px solid var(--line-soft)}
+.side{padding:34px 36px 46px;background:linear-gradient(180deg,var(--gold-soft),transparent 40%)}
+@media(max-width:800px){.main{border-right:none;border-bottom:1px solid var(--line-soft);padding-bottom:34px}}
+h2.sec{font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:10px;margin-bottom:20px}
+h2.sec::after{content:"";flex:1;height:1px;background:var(--line)}
+.side h2.sec{margin-top:0}
+.summary{font-size:16px;color:var(--ink-dim);line-height:1.6}
+.summary strong{color:var(--ink);font-weight:600}
+/* experience */
+.xp{position:relative;padding-left:22px;padding-bottom:26px;border-left:2px solid var(--line)}
+.xp:last-child{padding-bottom:0}
+.xp::before{content:"";position:absolute;left:-6px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--paper)}
+.xp .role{font-family:var(--font-head);font-size:19px;font-weight:600;color:var(--ink);line-height:1.2}
+.xp .org{font-size:14.5px;color:var(--navy);font-weight:600;margin-top:2px}
+.xp .meta{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-faint);margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 12px}
+.xp ul{list-style:none;margin-top:11px;display:grid;gap:7px}
+.xp li{position:relative;padding-left:16px;font-size:14px;color:var(--ink-dim);line-height:1.5}
+.xp li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:1px;background:var(--gold);opacity:.7}
+.early{margin-top:26px;padding:18px 20px;background:var(--gold-soft);border:1px solid var(--line-soft);border-radius:8px}
+.early h3{font-family:var(--font-head);font-size:16px;font-weight:600;margin-bottom:6px}
+.early p{font-size:13.5px;color:var(--ink-dim)}
+/* sidebar blocks */
+.block{margin-bottom:30px}
+.block:last-child{margin-bottom:0}
+.skillgroup{margin-bottom:15px}
+.skillgroup .lbl{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--ink);text-transform:uppercase;margin-bottom:7px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--font-mono);font-size:11px;color:var(--ink-dim);background:var(--paper);border:1px solid var(--line);padding:4px 9px;border-radius:20px}
+.sig{display:grid;gap:12px}
+.sig .item{border-left:2px solid var(--gold);padding-left:12px}
+.sig .item .n{font-family:var(--font-head);font-size:15px;font-weight:600;color:var(--ink)}
+.sig .item .d{font-size:12.5px;color:var(--ink-dim);margin-top:1px;line-height:1.4}
+.edu .item{margin-bottom:12px}
+.edu .item .school{font-family:var(--font-head);font-size:15px;font-weight:600;color:var(--ink)}
+.edu .item .deg{font-size:12.5px;color:var(--ink-dim)}
+.edu .note{font-family:var(--font-mono);font-size:11px;color:var(--gold);margin-top:8px;background:var(--gold-soft);border:1px solid rgba(182,137,47,0.25);padding:7px 10px;border-radius:6px;line-height:1.4}
+.foot{padding:20px 48px;border-top:1px solid var(--line-soft);font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.foot a{color:var(--gold);text-decoration:none}
+@media print{
+  body{background:#fff;padding:0}
+  .sheet{box-shadow:none;border:none;max-width:none;border-radius:0}
+  .side{background:none}
+  .masthead{padding-top:24px}
+  a{color:inherit!important;border:none!important}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:no-preference){.masthead>*,.xp,.block{animation:fadeUp .5s both}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="masthead">
+    <div class="name">Robert J. Floyd</div>
+    <div class="title">Founder &amp; CEO, Eikon Digital Solutions · Creator of BOSNet / BOSGov / BOSS</div>
+    <p class="tagline">Enterprise systems builder and platform architect — 25+ years across design, UX, digital transformation, and now AI-governance infrastructure for regulated industries.</p>
+    <div class="contact">
+      <span><span class="k">Kansas City, MO</span></span>
+      <a href="mailto:rob@robfloyd.me">rob@robfloyd.me</a>
+      <span>816.835.5550</span>
+      <a href="https://robfloyd.me">robfloyd.me</a>
+      <a href="https://www.linkedin.com/in/robertjfloyd">linkedin.com/in/robertjfloyd</a>
+      <a href="https://github.com/frapster">github.com/frapster</a>
+    </div>
+    <span class="avail">Open to contract / fractional first · remote full-time that allows travel</span>
+  </header>
+
+  <div class="grid">
+    <main class="main">
+      <section class="block">
+        <h2 class="sec">Summary</h2>
+        <p class="summary">Enterprise systems builder with <strong>25+ years</strong> implementing complex workflows across financial services, healthcare, insurance, and government. Founded Eikon Digital Solutions to build <strong>BOSNet</strong> — governance infrastructure that makes AI automation possible in regulated industries — and created the <strong>BOSGov</strong> MCP governance protocol and the <strong>Bounded Open Safety Standard (BOSS)</strong>. Proven track record delivering platform architecture, multi-tenant systems, and digital transformation at scale, from startups to billion-dollar enterprises. <strong>100% self-taught</strong> technologist.</p>
+      </section>
+
+      <section class="block">
+        <h2 class="sec">Experience</h2>
+
+        <div class="xp">
+          <div class="role">Founder &amp; CEO — BOSNet</div>
+          <div class="org">Eikon Digital Solutions, LLC</div>
+          <div class="meta"><span>Kansas City, MO</span><span>2019 – Present</span></div>
+          <ul>
+            <li>Founded and lead an AI-governance consultancy building BOSNet — universal governance infrastructure enabling AI automation in regulated industries.</li>
+            <li>Designed and built the <strong>BOSGov</strong> MCP (Model Context Protocol) server — governance-first orchestration for multi-agent AI workflows with constitutional compliance and full audit trails.</li>
+            <li>Authored the <strong>Bounded Open Safety Standard (BOSS)</strong> — governance primitives for bounded, evidence-backed, auditable AI decision-making.</li>
+            <li>Architected natural-language → governed-execution workflow orchestration, vector-embedded knowledge bases, and automated pipelines for enterprise clients across financial services, healthcare, and insurance.</li>
+          </ul>
+        </div>
+
+        <div class="xp">
+          <div class="role">Senior Director, Sales &amp; Marketing Operations · Platform Engineer</div>
+          <div class="org">AmeriLife Benefits (WorkSite Benefits Company)</div>
+          <div class="meta"><span>Overland Park, KS &amp; Hammond, LA</span><span>2021 – 2025</span></div>
+          <ul>
+            <li>Built and managed a multi-tenant enrollment-communications platform serving <strong>1,000+ employer groups and 110,000+ employees</strong> across schools, municipalities, healthcare, and retail.</li>
+            <li>Architected CRM orchestration, automated eligibility data feeds, participant-level consolidated billing, and HIPAA-compliant communications; deployed Twilio SMS automation and a Digital Asset Management system.</li>
+            <li>Built an AI-powered benefits decision-tree tool (WordPress + JetEngine / JetFormBuilder / AJAX); led strategic marketing and creative across five affiliated brands and two locations.</li>
+          </ul>
+        </div>
+
+        <div class="xp">
+          <div class="role">Marketing Manager</div>
+          <div class="org">CFD Investments, Inc.</div>
+          <div class="meta"><span>Kokomo, IN</span><span>2020 – 2021</span></div>
+          <ul>
+            <li>Executed digital-first marketing for financial professionals through pandemic-driven operational shifts; managed conference communications and cross-channel collateral.</li>
+          </ul>
+        </div>
+
+        <div class="xp">
+          <div class="role">Director of Technology &amp; Platform Manager</div>
+          <div class="org">Teach Preschool, LLC</div>
+          <div class="meta"><span>Noblesville, IN</span><span>2017 – 2019</span></div>
+          <ul>
+            <li>Built the complete digital platform for an early-childhood-education startup (<strong>1.5M Facebook followers, 1M+ monthly pageviews</strong>).</li>
+            <li>Architected a multi-tier subscription platform — LMS, CRM, Stripe payments, event registration, and marketing automation — scaling the founder to national keynote speaker.</li>
+          </ul>
+        </div>
+
+        <div class="xp">
+          <div class="role">Director of Digital Marketing</div>
+          <div class="org">CNO Financial Group — Bankers Life &amp; Washington National Insurance</div>
+          <div class="meta"><span>Carmel, IN</span><span>2013 – 2017</span></div>
+          <ul>
+            <li>Led enterprise digital transformation across customer- and agent-facing platforms for a multi-billion-dollar insurance and financial-services organization.</li>
+            <li>Delivered the BankersLife.com full redesign on time and on budget; launched award-winning customer and agent portals; led the national Hearsay Social rollout for agent enablement.</li>
+            <li>Managed a five-person UX / social / analytics / design team under state insurance regulation, NAIC standards, and policyholder-data governance.</li>
+          </ul>
+        </div>
+
+        <div class="xp">
+          <div class="role">Web Experience Architect</div>
+          <div class="org">National Government Services (CMS Contractor)</div>
+          <div class="meta"><span>Medicare / Medicaid</span><span>2008 – 2012</span></div>
+          <ul>
+            <li>Led enterprise web-platform migration and Section 508 accessibility remediation of <strong>20,000+ documents</strong> for a federal healthcare contractor.</li>
+          </ul>
+        </div>
+
+        <div class="early">
+          <h3>Earlier career — design &amp; creative leadership · 1989–2008</h3>
+          <p>Two decades in print design, early web, and creative direction: Senior Designer &amp; Creative Lead at <strong>PricewaterhouseCoopers</strong> (design lead on a $7M+ Entergy client win) and <strong>BSI Consulting</strong> (managed a 9-person creative team), plus enterprise UX at <strong>Fusion Alliance</strong> for Fortune 500 clients including ExactTarget (now Salesforce Marketing Cloud), and corporate design for Interactive Intelligence, Australian Gold, Brady Games, and Air Routing International.</p>
+        </div>
+      </section>
+    </main>
+
+    <aside class="side">
+      <section class="block">
+        <h2 class="sec">Skills</h2>
+        <div class="skillgroup"><div class="lbl">AI &amp; Governance</div><div class="tags">
+          <span class="tag">BOSNet architecture</span><span class="tag">BOSGov MCP</span><span class="tag">BOSS framework</span><span class="tag">Multi-agent orchestration</span><span class="tag">Vector embeddings</span><span class="tag">Model Context Protocol</span><span class="tag">Claude API</span>
+        </div></div>
+        <div class="skillgroup"><div class="lbl">Development</div><div class="tags">
+          <span class="tag">JavaScript / Node.js</span><span class="tag">Python</span><span class="tag">React</span><span class="tag">HTML / CSS</span><span class="tag">Supabase</span><span class="tag">WordPress</span><span class="tag">WooCommerce</span><span class="tag">JetEngine / Crocoblock</span><span class="tag">Claude Code CLI</span>
+        </div></div>
+        <div class="skillgroup"><div class="lbl">Platforms &amp; Cloud</div><div class="tags">
+          <span class="tag">Vercel</span><span class="tag">Cloudflare</span><span class="tag">Stripe</span><span class="tag">Twilio</span><span class="tag">ActiveCampaign</span><span class="tag">Salesforce Marketing Cloud</span>
+        </div></div>
+        <div class="skillgroup"><div class="lbl">Design &amp; Creative</div><div class="tags">
+          <span class="tag">UX / UI</span><span class="tag">Figma</span><span class="tag">Photoshop</span><span class="tag">Illustrator</span><span class="tag">InDesign</span><span class="tag">Premiere Pro</span>
+        </div></div>
+        <div class="skillgroup"><div class="lbl">Domain</div><div class="tags">
+          <span class="tag">HIPAA</span><span class="tag">Insurance regulation</span><span class="tag">Financial services</span><span class="tag">Government contracting</span><span class="tag">Section 508 / WCAG</span>
+        </div></div>
+      </section>
+
+      <section class="block">
+        <h2 class="sec">Signature work</h2>
+        <div class="sig">
+          <div class="item"><div class="n">BOSNet.io</div><div class="d">Governance-first AI operating system for regulated industries.</div></div>
+          <div class="item"><div class="n">BOSGov</div><div class="d">Production MCP governance server that governs his own dev pipeline.</div></div>
+          <div class="item"><div class="n">BOSS</div><div class="d">The Bounded Open Safety Standard — machine-checkable governance spec.</div></div>
+          <div class="item"><div class="n">the-substrate</div><div class="d">Public case studies (Relic Wars, Today Series, Zabble, Eikon Digital) on the AI:code ratio.</div></div>
+        </div>
+      </section>
+
+      <section class="block edu">
+        <h2 class="sec">Education</h2>
+        <div class="item"><div class="school">Southwest Baptist University</div><div class="deg">Commercial Design</div></div>
+        <div class="item"><div class="school">Wabash College</div><div class="deg">Art History</div></div>
+        <p class="note">Technologist by practice, not pedigree — the engineering depth above is entirely self-taught.</p>
+      </section>
+    </aside>
+  </div>
+
+  <div class="foot">
+    <span>Robert J. Floyd · Founder/CEO, Eikon Digital Solutions</span>
+    <span><a href="https://robfloyd.me">robfloyd.me</a> · the-substrate</span>
+  </div>
+</div>
+</body>
+</html>

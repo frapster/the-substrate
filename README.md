@@ -44,6 +44,11 @@ It is the named standard these case studies build on.
 > BOSNet.io, BOSGov, and the Bounded Open Safety Standard (BOSS) are proprietary. See
 > [`LICENSE.md`](./LICENSE.md).
 
+**BOSS** — the Bounded Open Safety Standard — is presented publicly at the level a technical evaluator
+needs (principles, the four guarantees, and the *governance directory* a governed system publishes) in
+[`BOSS-STANDARD.md`](./BOSS-STANDARD.md). The machine-checkable specification and kernel are
+patent-pending and reserved.
+
 ## Case studies
 
 Each is a **before → after** transformation of one system: what it is today, and what governed
@@ -63,6 +68,18 @@ The cross-cutting engineering threads these studies share — **total cost of ow
 and the **drift** the model fights against — are treated in [`ENGINEERING.md`](./ENGINEERING.md).
 
 _Writeups are added deliberately and reviewed for IP safety before publishing._
+
+## Also in this repo
+
+| Document | What it is |
+|---|---|
+| [`THESIS.md`](./THESIS.md) | The core argument — the claim, what "governed" means, the AI:code ratio. |
+| [`ENGINEERING.md`](./ENGINEERING.md) | The engineering economics — TCO, LLM-code quality/security, 3rd-party-harness governance, drift. |
+| [`BOSS-STANDARD.md`](./BOSS-STANDARD.md) | The Bounded Open Safety Standard — principles + the governance directory (spec reserved). |
+| [Architecture decisions](./case-studies/visuals/architecture-decisions.html) | Cross-project architectural judgment — KBs, vector-embedding choices, model optimization, the WordPress lineage. |
+| [Résumé](./resume/robert-floyd.html) | Robert J. Floyd — experience, skills, signature work. |
+
+The case-study **visual explainers** live in [`case-studies/visuals/`](./case-studies/visuals/).
 
 ## What this repo is (and isn't)
 

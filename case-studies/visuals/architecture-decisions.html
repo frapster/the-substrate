@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architecture Decisions — Robert J. Floyd · the-substrate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1014;--surface:#121a20;--surface-2:#16212a;--border:rgba(255,255,255,0.09);--grid:rgba(255,255,255,0.035);
+  --text:#e5edf1;--text-dim:#8a9aa4;--text-faint:#5a6b74;
+  --accent:#2bb3c8;--accent-dim:rgba(43,179,200,0.14);--accent-line:rgba(43,179,200,0.4);
+  --gold:#d6a54a;--gold-dim:rgba(214,165,74,0.13);
+  --good:#3fb27f;--bad:#d6604d;--warn:#d9a441;--purpleless:#6ba0c9;
+  --font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;--font-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:light){:root{
+  --bg:#eef2f3;--surface:#ffffff;--surface-2:#f2f7f8;--border:rgba(15,28,34,0.12);--grid:rgba(15,28,34,0.04);
+  --text:#12202a;--text-dim:#4f616b;--text-faint:#7f8f98;
+  --accent:#0e7c8f;--accent-dim:rgba(14,124,143,0.1);--accent-line:rgba(14,124,143,0.35);
+  --gold:#9a6f16;--gold-dim:rgba(154,111,22,0.09);
+}}
+*{box-sizing:border-box;margin:0;padding:0;min-width:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:34px 34px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.mono{font-family:var(--font-mono)}
+code{font-family:var(--font-mono);font-size:.88em;color:var(--gold);background:var(--gold-dim);padding:1px 5px;border-radius:4px}
+.backlink{font-family:var(--font-mono);font-size:12.5px;color:var(--text-dim);text-decoration:none;display:inline-flex;gap:8px;align-items:center;margin-bottom:32px}
+.backlink:hover{color:var(--accent)}
+header{padding:60px 0 36px;border-bottom:1px solid var(--border)}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-dim)}
+h1{font-size:clamp(34px,5.2vw,54px);font-weight:700;letter-spacing:-.02em;line-height:1.03}
+.lead{font-size:clamp(17px,2.2vw,21px);color:var(--text-dim);max-width:74ch;margin-top:20px;line-height:1.5}
+.lead strong{color:var(--text);font-weight:600}
+.projchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.pchip{font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);border:1px solid var(--border);background:var(--surface);padding:5px 11px;border-radius:20px}
+.pchip b{color:var(--accent);font-weight:600}
+/* layout with sticky TOC */
+.shell{display:grid;grid-template-columns:210px 1fr;gap:40px;padding-top:34px}
+@media(max-width:860px){.shell{grid-template-columns:1fr;gap:0}}
+.toc{position:sticky;top:24px;align-self:start;height:max-content}
+@media(max-width:860px){.toc{position:sticky;top:0;z-index:20;background:var(--bg);margin:0 -24px;padding:12px 24px;border-bottom:1px solid var(--border);overflow-x:auto}}
+.toc ol{list-style:none;display:grid;gap:3px}
+@media(max-width:860px){.toc ol{grid-auto-flow:column;gap:8px}}
+.toc a{display:block;font-family:var(--font-mono);font-size:12px;color:var(--text-dim);text-decoration:none;padding:7px 11px;border-radius:7px;border-left:2px solid transparent;white-space:nowrap}
+.toc a:hover{color:var(--text);background:var(--surface)}
+.toc a.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-dim)}
+@media(max-width:860px){.toc a{border-left:none;border-bottom:2px solid transparent}.toc a.active{border-left:none;border-bottom-color:var(--accent)}}
+.toc .num{color:var(--text-faint);margin-right:7px}
+.content{min-width:0}
+section{padding:16px 0 46px;border-bottom:1px solid var(--border);scroll-margin-top:28px}
+section:last-child{border-bottom:none}
+.slabel{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600;display:flex;align-items:center;gap:9px}
+.slabel .n{font-family:var(--font-mono);color:var(--text-faint)}
+h2{font-size:clamp(22px,3vw,30px);font-weight:600;letter-spacing:-.01em;margin:12px 0 12px}
+.intro{color:var(--text-dim);max-width:74ch;font-size:16px}
+.intro strong{color:var(--text)}
+/* patent-pending panel */
+.pp{margin-top:24px;border:1px solid var(--accent-line);border-radius:14px;padding:24px;background:linear-gradient(160deg,var(--accent-dim),transparent 62%);position:relative}
+.pp .stamp{position:absolute;top:-10px;right:20px;font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:var(--bg);border:1px solid var(--gold);padding:4px 10px;border-radius:5px}
+.pp p{color:var(--text-dim);font-size:15px}.pp p+p{margin-top:12px}
+.pp b{color:var(--text)}
+.props{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.prop{font-family:var(--font-mono);font-size:12px;color:var(--accent);border:1px solid var(--accent-line);background:var(--accent-dim);padding:5px 11px;border-radius:6px}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--accent-line);transform:translateY(-2px)}
+.card .cn{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.card h3{font-size:16.5px;margin:7px 0 8px;font-weight:600}
+.card p{font-size:13.5px;color:var(--text-dim);line-height:1.5}
+/* table */
+.tablewrap{margin-top:24px;overflow-x:auto;border:1px solid var(--border);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+thead th{position:sticky;top:0;background:var(--surface-2);text-align:left;font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-dim);font-weight:600;padding:12px 14px;border-bottom:1px solid var(--border)}
+tbody td{padding:13px 14px;border-bottom:1px solid var(--border);color:var(--text-dim);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--surface)}
+tbody td:first-child{color:var(--text);font-weight:600}
+td .why{color:var(--text);font-size:12.5px}
+.badge-none{font-family:var(--font-mono);font-size:11px;color:var(--warn);border:1px solid rgba(217,164,65,.4);background:rgba(217,164,65,.12);padding:2px 8px;border-radius:5px}
+/* facet strip */
+.facets{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:22px}
+.facet{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:16px}
+.facet .ft{font-family:var(--font-mono);font-size:12px;color:var(--accent);font-weight:600}
+.facet p{font-size:13px;color:var(--text-dim);margin-top:6px;line-height:1.45}
+/* insight callout */
+.insight{margin-top:22px;border-left:3px solid var(--gold);background:var(--gold-dim);border-radius:0 10px 10px 0;padding:20px 24px}
+.insight .it{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:8px}
+.insight p{font-size:15px;color:var(--text-dim);line-height:1.55}
+.insight b{color:var(--text)}
+/* timeline (wordpress) */
+.tl{display:grid;gap:0;margin-top:24px}
+.tl-row{display:grid;grid-template-columns:120px 1fr;gap:18px;padding:16px 0;border-top:1px solid var(--border)}
+.tl-row:first-child{border-top:none}
+@media(max-width:560px){.tl-row{grid-template-columns:1fr;gap:6px}}
+.tl-era{font-family:var(--font-mono);font-size:12px;color:var(--accent);font-weight:600}
+.tl-row h4{font-size:15.5px;font-weight:600;margin-bottom:5px}
+.tl-row p{font-size:13.5px;color:var(--text-dim)}
+.tl-row .stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.tl-row .s{font-family:var(--font-mono);font-size:10.5px;color:var(--text-dim);border:1px solid var(--border);background:var(--surface);padding:3px 8px;border-radius:14px}
+/* maturity grid */
+.mat{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:24px}
+.mrow{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:17px}
+.mrow h4{font-size:14.5px;font-weight:600;margin-bottom:5px;display:flex;align-items:center;gap:8px}
+.mrow h4 .mk{width:8px;height:8px;border-radius:2px;background:var(--accent);flex:none}
+.mrow p{font-size:13px;color:var(--text-dim);line-height:1.45}
+.mrow .proj{font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);margin-top:8px}
+footer{padding:40px 0 68px;color:var(--text-faint);font-size:13.5px}
+footer .ip{font-family:var(--font-mono);font-size:12px;border:1px solid var(--border);border-radius:8px;padding:14px 18px;color:var(--text-dim);margin-bottom:22px;background:var(--surface)}
+footer a{color:var(--accent);text-decoration:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:no-preference){header>*,section>*{animation:fadeUp .5s both}.card,.mrow,.facet{animation:fadeUp .5s both}}
+</style>
+</head>
+<body>
+<div class="wrap"><a href="../../README.md" class="backlink mono">← the-substrate</a>
+
+<header>
+  <div class="eyebrow"><span class="dot"></span>architectural judgment across four decades</div>
+  <h1>Architecture Decisions</h1>
+  <p class="lead">A tour of the <strong>choices</strong> — and the reasons behind them — across the projects: what was used, what was deliberately <em>not</em>, and why. From the WordPress plugin era through to governed run-time reasoning, the through-line is <strong>matching the mechanism to the job</strong>.</p>
+  <div class="projchips">
+    <span class="pchip"><b>Relic Wars</b> · game engine</span>
+    <span class="pchip"><b>Today Series</b> · RAG platform</span>
+    <span class="pchip"><b>Zabble</b> · social platform</span>
+    <span class="pchip"><b>Eikon Digital</b> · agency SaaS</span>
+    <span class="pchip"><b>job-hunt engine</b> · governed twin</span>
+    <span class="pchip">WordPress era</span>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc" aria-label="Contents">
+    <ol>
+      <li><a href="#gov"><span class="num">01</span>Dimensional governance</a></li>
+      <li><a href="#kb"><span class="num">02</span>Knowledge bases</a></li>
+      <li><a href="#vec"><span class="num">03</span>Vector embeddings</a></li>
+      <li><a href="#model"><span class="num">04</span>Model optimization</a></li>
+      <li><a href="#wp"><span class="num">05</span>WordPress lineage</a></li>
+      <li><a href="#maturity"><span class="num">06</span>Maturity signals</a></li>
+    </ol>
+  </nav>
+
+  <div class="content">
+    <!-- 01 -->
+    <section id="gov">
+      <span class="slabel"><span class="n">01</span> dimensional governance strategy</span>
+      <h2>Reasoning compiled from a governed model — not hand-wired</h2>
+      <p class="intro">The strategy, stated at the level appropriate for a public document: operational behavior and surfaces are <strong>compiled from a governed dimensional model</strong>, every output <strong>evidence-backed and audited</strong>, with human-in-the-loop approval on high-impact actions. Content and decisions change only through governed events — never ad-hoc edits — so a change to one modeled facet propagates surgically to everything that references it.</p>
+      <div class="pp">
+        <span class="stamp">Patent pending</span>
+        <p><b>What is public:</b> the <em>shape</em> and its guarantees. Run-time reasoning sits inside a governance envelope that is bounded, evidence-backed, audited, and reversible. The audit backbone is an <b>append-only, hash-chained ledger</b> with recomputable verification and update/delete-blocking — facts are <b>versioned, never silently overwritten</b>. Accessibility and cost are treated as governance constraints, not afterthoughts.</p>
+        <p><b>What is reserved:</b> the governance kernel and compiler, the dimensional model and its coordinate scheme, and the machine-checkable specification. Those are patent-pending and described only conceptually here. See <a href="../../BOSS-STANDARD.md">BOSS-STANDARD.md</a> and <a href="../../THESIS.md">THESIS.md</a>.</p>
+        <div class="props">
+          <span class="prop">bounded</span><span class="prop">evidence-backed</span><span class="prop">audited</span><span class="prop">reversible</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section id="kb">
+      <span class="slabel"><span class="n">02</span> knowledge bases</span>
+      <h2>The KB structure follows the retrieval job</h2>
+      <p class="intro">Every project's knowledge base is shaped by what it will be <em>asked</em>. None is a flat pile of chunks.</p>
+      <div class="cards">
+        <div class="card"><div class="cn">Today Series</div><h3>Four-facet KB + relationship graph</h3><p>The same source is stored at four granularities — prose, atomic facts, Q&amp;A pairs, taxonomy — plus a typed cross-reference graph (<code>duplicate · nuance_variant · contradicts · extends</code>) with an LLM-written note. Stores knowledge at multiple resolutions <em>and</em> the relationships between claims.</p></div>
+        <div class="card"><div class="cn">job-hunt engine</div><h3>Layered, provenance-linked</h3><p>Physical document chunks → hashed evidence → promoted atomic facts → a typed knowledge graph of skills/orgs/roles. A "dimensional twin" of a career, every fact evidence-backed and coordinate-addressed. <span class="mono" style="font-size:11px;color:var(--text-faint)">(concept only)</span></p></div>
+        <div class="card"><div class="cn">Eikon Digital</div><h3>Per-query-rendered knowledge</h3><p>KB entries are not standalone pages — they're a knowledge <em>dimension</em> rendered into responses per query, so knowledge and presentation stay separate and governed.</p></div>
+        <div class="card"><div class="cn">Zabble</div><h3>Entities on an event spine</h3><p>No separate KB: entities are the addressing scheme on an append-only event stream, and read models are rebuilt (CQRS-lite) from that stream rather than maintained by hand.</p></div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section id="vec">
+      <span class="slabel"><span class="n">03</span> vector embeddings</span>
+      <h2>Chunks vs. atomic facts vs. Q&amp;A — a deliberate "don't just chunk" stance</h2>
+      <p class="intro">The most-copied RAG recipe is "split into chunks, embed, retrieve." The choice here is to <strong>embed at the granularity that matches the question's shape</strong> — and, where the fact set is closed, to use no vectors at all.</p>
+
+      <div class="facets">
+        <div class="facet"><div class="ft">prose (chunked)</div><p>~800-token paragraphs, 15% overlap, only 2–4 per article. Preserves context for open-ended queries — without over-fragmenting.</p></div>
+        <div class="facet"><div class="ft">atomic facts</div><p>One claim per row. Answers precise point questions cleanly, where a big chunk would bury the answer in noise.</p></div>
+        <div class="facet"><div class="ft">Q&amp;A pairs</div><p>Matches conversational queries directly — the retrieval shape closest to how a chatbot is actually asked.</p></div>
+        <div class="facet"><div class="ft">taxonomy</div><p>Topics/themes/keywords — powers near-duplicate detection and topical routing, not just answer retrieval.</p></div>
+      </div>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Project</th><th>What is embedded</th><th>Model / index</th><th>Retrieval</th><th>Why this choice</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Today Series</td>
+              <td>Four facets: prose, atomic facts, Q&amp;A, taxonomy</td>
+              <td><code>ada-002</code>, <code>vector(1536)</code>, HNSW <code>m=16, ef=200</code></td>
+              <td>Hybrid: pgvector + full-text via Reciprocal Rank Fusion (<code>rrf_k=50</code>). No external reranker — RRF <em>is</em> the rerank.</td>
+              <td class="why">Match retrieval shape to query shape; fuse semantic + keyword so exact terms aren't lost.</td>
+            </tr>
+            <tr>
+              <td>job-hunt engine</td>
+              <td>Document chunks + evidence facts (two layers)</td>
+              <td><code>text-embedding-3-small</code>, HNSW cosine</td>
+              <td>Embed the job description → top-K evidence by cosine → grounded LLM fit over retrieved facts only.</td>
+              <td class="why">Provenance-linked retrieval: every match traces back to a source span. Vectors serve grounding, not free generation.</td>
+            </tr>
+            <tr>
+              <td>Zabble</td>
+              <td>Interest / group vectors (discovery only)</td>
+              <td>pgvector, private groups excluded from the set</td>
+              <td>"For you" semantic matching — a recommendation feature, not a RAG spine.</td>
+              <td class="why">Embeddings earn their place only for discovery; the rest of the app is deterministic.</td>
+            </tr>
+            <tr>
+              <td>Relic Wars</td>
+              <td><span class="badge-none">none — by design</span></td>
+              <td>Closed, hash-addressed fact set (compiled envelope)</td>
+              <td>The model may cite only in-envelope facts; a validator re-derives ground truth.</td>
+              <td class="why">The legal fact set is finite and seeded. Adding vectors would inject <b>nondeterminism</b> into a system whose value is reproducibility and PvP fairness.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="insight"><div class="it">the decision, in one line</div><p><b>Granularity is a retrieval decision, not a default.</b> Atomic facts for point questions, Q&amp;A for conversation, prose for context, taxonomy for routing — and <b>no embeddings at all</b> when the fact set is closed and determinism is the product.</p></div>
+    </section>
+
+    <!-- 04 -->
+    <section id="model">
+      <span class="slabel"><span class="n">04</span> model optimization</span>
+      <h2>Cheapest viable tier by default — escalate on deterministic signals</h2>
+      <p class="intro">One swappable task→model catalog per system; the cheapest model that can do the job runs first; escalation is triggered by <strong>facts the code can verify</strong>, never by the model's own confidence.</p>
+      <div class="cards">
+        <div class="card"><div class="cn">Relic Wars</div><h3>nano → mini cascade, empirically derived</h3><p>A 200-contest bakeoff across four models with real cost measurement. <code>gpt-5-nano</code> primary (~$0.20/1k contests), auto-escalate to <code>gpt-5-mini</code> on referee rejection. Blended governed cost ≈ <b>$0.25/1k</b> — about half of running mini for everything.</p></div>
+        <div class="card"><div class="cn">Today Series</div><h3>small-for-extraction, large-for-authoring</h3><p><code>gpt-4o-mini</code> at temp 0.2 for fact/Q&amp;A/taxonomy extraction and the nuance judge; Claude for authoring and the chatbot; OpenAI for embeddings and moderation. Concurrency tuned per stage.</p></div>
+        <div class="card"><div class="cn">Zabble</div><h3>gateway router + spend governance</h3><p>A <code>TASK_MODEL</code> catalog of <code>provider/model</code> strings behind an AI gateway — one-line re-tuning, no call-site edits. Per-group budgets, a spend ledger, and hard caps gate every AI action.</p></div>
+      </div>
+      <div class="insight"><div class="it">the sharp insight</div><p>In the bakeoff, the cheap model invented an entity ID <b>~10% of the time — confidently, and unflagged</b>. So the escalation gate is <b>deterministic</b> (schema validity, entity-ID membership, citation legality), never the model's <code>needs_review</code> self-report. And the metric is <b>cost per <em>successful</em> op</b>, not sticker price: nano burns 4–5× more reasoning tokens than mini and only wins because its per-token price is ~8× lower — "a smaller price gap could flip the ordering."</p></div>
+    </section>
+
+    <!-- 05 -->
+    <section id="wp">
+      <span class="slabel"><span class="n">05</span> wordpress lineage</span>
+      <h2>Data-driven since the plugin era — and the deliberate exit from it</h2>
+      <p class="intro">The schema-driven, query-driven instinct visible in the Supabase work started in WordPress. The move to Next.js/Supabase was a <strong>reasoned architectural rejection</strong>, not a trend-chase.</p>
+      <div class="tl">
+        <div class="tl-row">
+          <div class="tl-era">The stack</div>
+          <div>
+            <h4>Data-driven WordPress, not page-builder soup</h4>
+            <p>A JetEngine/Crocoblock architecture — custom post types, relationships, query builders, and faceted filtering (JetSmartFilters) — on a lightweight Elementor base with a <em>custom Tailwind child theme</em>. Pairing WordPress with Tailwind well before the React era.</p>
+            <div class="stack"><span class="s">Elementor Pro</span><span class="s">JetEngine · Crocoblock</span><span class="s">JetSmartFilters</span><span class="s">WooCommerce</span><span class="s">Tailwind child theme</span><span class="s">BunnyCDN</span></div>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-era">Beyond pages</div>
+          <div>
+            <h4>Custom plugins — DAM, CRM capture, API manager</h4>
+            <p>Not just building pages: custom WordPress plugins for digital asset management, CRM contact capture, a global API manager, access control, and scanning — infrastructure work inside the CMS.</p>
+            <div class="stack"><span class="s">custom DAM</span><span class="s">CRM capture</span><span class="s">API manager</span><span class="s">access control</span></div>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-era">The exit</div>
+          <div>
+            <h4>The "anti-WordPress" move — compile once, serve at the edge</h4>
+            <p>The migration to Next.js/Supabase is framed explicitly as rejecting the CMS "query the DB and render a template on <em>every</em> request" model in favor of <b>compile-once → static/ISR at the edge, dynamic only where structurally necessary</b> (chat, auth, forms). A clean four-tier compilation model, with WCAG accessibility treated as a governance constraint.</p>
+            <div class="stack"><span class="s">Next.js · RSC</span><span class="s">Supabase</span><span class="s">static / ISR</span><span class="s">edge</span></div>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-era">The bridge</div>
+          <div>
+            <h4>Integrate, don't rip-and-replace</h4>
+            <p>Rather than abandon WordPress outright, a bridge re-casts the WP admin as a thin render-tree client talking to a Next.js/Supabase backend through a same-origin REST proxy — with per-user auth provisioning and an HMAC token handoff (no third-party cookies).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section id="maturity">
+      <span class="slabel"><span class="n">06</span> maturity signals</span>
+      <h2>Patterns that show up when the stakes are real</h2>
+      <p class="intro">The choices that separate a demo from a system you can operate.</p>
+      <div class="mat">
+        <div class="mrow"><h4><span class="mk"></span>Event sourcing in Postgres</h4><p>An append-only <code>domain_events</code> spine with a single write path, trigger fan-out to queues, and CQRS-lite read models — "the Kafka replacement, inside Postgres." Enforced against UPDATE/DELETE <em>and</em> TRUNCATE.</p><div class="proj">Zabble</div></div>
+        <div class="mrow"><h4><span class="mk"></span>Server-authoritative, seeded resolve</h4><p>A seeded PRNG (<em>never</em> <code>Math.random()</code> in engine code), a pure resolve function server-side, outcomes emitted as a draw-only script. Reproducible and fair.</p><div class="proj">Relic Wars</div></div>
+        <div class="mrow"><h4><span class="mk"></span>RLS everywhere, deny-by-default</h4><p>Row-level security on every table, engine access via service-role only, app reads through wrapper views. Security is the default state, not a step.</p><div class="proj">Today Series · job-hunt · Zabble</div></div>
+        <div class="mrow"><h4><span class="mk"></span>Security-definer RPCs as the authz surface</h4><p>Gated <code>SECURITY DEFINER</code> functions with pinned <code>search_path</code> instead of relaxing RLS — refunds, hybrid search, privileged reads all go through a controlled door.</p><div class="proj">Zabble · Today Series</div></div>
+        <div class="mrow"><h4><span class="mk"></span>Governance that can't be forgotten</h4><p>A DDL trigger auto-enables RLS on every new table; new users auto-provision profile rows. The safe thing happens by default.</p><div class="proj">Relic Wars</div></div>
+        <div class="mrow"><h4><span class="mk"></span>Edge-only credential isolation</h4><p>Tenant/processor secrets resolved only inside edge functions (Supabase Vault), never in a route handler; presence-only status functions that never return the value.</p><div class="proj">Zabble · job-hunt</div></div>
+        <div class="mrow"><h4><span class="mk"></span>Graceful degradation as posture</h4><p>Every integration returns a clean 503/no-op when its key is absent — "nothing crashes; everything lights up when keys are added."</p><div class="proj">Today Series</div></div>
+        <div class="mrow"><h4><span class="mk"></span>Append-only, hash-chained audit</h4><p>A SHA-256 hash-chained ledger with recomputable verification and update/delete-blocking; facts versioned via supersede, never overwritten.</p><div class="proj">job-hunt engine</div></div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="ip">IP-safety reviewed before publishing. Describes public-safe architectural patterns and rationale only — no proprietary BOSNet.io / BOSGov / BOSS kernel or compiler internals, no schema DDL, no secrets, project identifiers, or client names. Dimensional governance is described at concept level; the kernel and specification are patent-pending and reserved.</div>
+      Author: <strong>Robert J. Floyd</strong> — founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+      <span class="mono" style="font-size:12px">the-substrate · AI as the governed operational substrate</span>
+    </footer>
+  </div>
+</div>
+</div>
+
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  var obs=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){links.forEach(function(l){l.classList.remove('active');});
+        var a=map[e.target.id];if(a)a.classList.add('active');}
+    });
+  },{rootMargin:'-20% 0px -70% 0px',threshold:0});
+  [].slice.call(document.querySelectorAll('section[id]')).forEach(function(s){obs.observe(s);});
+})();
+</script>
+</body>
+</html>
