@@ -249,6 +249,42 @@ specific optimal AI:code ratio, and the reliability literature above argues the 
 the target BOSNet.io reaches for and each project approaches *honestly* — Zabble stays near 30–40,
 Relic Wars' whole game stays low — a measured north star, not a claim of proven optimum.
 
+## 7. Governance that frees, not fences
+
+A claim runs through this work that sounds soft but is testable, and it is where the thesis starts:
+**governing AI begins with governing people — and safe, governed tools *free* people to work rather than
+constrain them.** It earns the same evidence-and-objection treatment as everything else.
+
+**The support.** The strongest evidence comes from the DevOps research program itself: heavyweight,
+external change-approval boards do *not* lower failure rates and *do* slow delivery, while lightweight
+peer-review guardrails correlate with better throughput *and* stability — "responding to problems by
+adding more process" makes things worse ([DORA, streamlining change
+approval](https://dora.dev/capabilities/streamlining-change-approval/)). Platform engineering's "golden
+paths" are the same idea made concrete: opinionated-but-*optional* defaults that cut cognitive load and
+setup time so people spend their creativity on higher-value work ([Spotify Golden
+Paths](https://engineering.atspotify.com/2020/08/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem)).
+The motivation research explains *why*: autonomy is not the absence of structure but *ownership of one's
+action*, so good constraints can raise felt autonomy rather than lower it ([Self-Determination Theory,
+Ryan & Deci](https://selfdeterminationtheory.org/SDT/documents/2000_RyanDeci_SDT.pdf)), and a climate
+that feels *safe* is the top predictor of team performance ([Edmondson, psychological
+safety](https://journals.sagepub.com/doi/10.2307/2666999)). The AI-governance standards agree on where
+governance *starts*: NIST's AI RMF makes **GOVERN** a culture-and-people function that enables the others
+([NIST AI RMF](https://airc.nist.gov/airmf-resources/airmf/5-sec-core/)), and ISO/IEC 42001 implements
+AI governance as a *human* management system ([ISO 42001](https://www.iso.org/standard/42001)).
+
+**The honest challenge.** This is true only under conditions, and the same research names them. The 2024
+DevOps report found that platform engineering, run badly, can *cost* throughput and stability — a
+transition-phase "platform paradox" ([DORA 2024](https://dora.dev/research/2024/dora-report/)). Golden
+paths free people only while they stay *optional*; the moment they are mandated they become railroads
+that breed resentment and shadow IT. And "governance" branded as surveillance erodes trust and *reduces*
+the productivity it claims to protect ([HBR, 2024](https://hbr.org/2024/02/surveilling-employees-erodes-trust-and-puts-managers-in-a-bind)).
+The sharpest form of the objection is a motte-and-bailey: "good guardrails help" is nearly tautological,
+and much of the supporting evidence is self-reported by the teams who built the platform. So the claim
+must carry its conditions: **governed tools free people when the framework is *paved, not fenced*** —
+product-managed, optional where it can be, safe-by-default, and built to remove friction rather than to
+watch the worker. That is the bar this work holds itself to. It is not automatic, and saying so is part
+of the discipline.
+
 ---
 
 ## References
@@ -280,6 +316,14 @@ Primary, citable anchors used above:
 *Reliability & counter-evidence:* [Agent-evaluation survey](https://arxiv.org/abs/2507.21504) ·
 [Where LLM agents fail](https://arxiv.org/abs/2509.25370) ·
 [Policy-as-code](https://www.pulumi.com/what-is/what-is-policy-as-code/)
+
+*People & process governance:* [DORA — streamlining change approval](https://dora.dev/capabilities/streamlining-change-approval/) ·
+[Spotify Golden Paths](https://engineering.atspotify.com/2020/08/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem) ·
+[Self-Determination Theory (Ryan & Deci)](https://selfdeterminationtheory.org/SDT/documents/2000_RyanDeci_SDT.pdf) ·
+[Edmondson, psychological safety](https://journals.sagepub.com/doi/10.2307/2666999) ·
+[NIST AI RMF (GOVERN)](https://airc.nist.gov/airmf-resources/airmf/5-sec-core/) ·
+[ISO/IEC 42001](https://www.iso.org/standard/42001) ·
+[HBR — surveillance erodes trust](https://hbr.org/2024/02/surveilling-employees-erodes-trust-and-puts-managers-in-a-bind)
 
 *Codebase metrics (LOC, routes, migrations, tables, RLS policies, test surface) were measured directly
 from the author's own repositories. Figures for not-yet-built conversions are labeled estimates

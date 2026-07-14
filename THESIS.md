@@ -55,7 +55,34 @@ they are what code used to be. Code is what you write when you lack the other tw
 retrieval-by-similarity (RAG) is not the substrate for governed knowledge — a point developed with
 sources in [`ENGINEERING.md`](./ENGINEERING.md) §5.
 
-## 3. The measurable spine: the AI : code ratio
+## 3. Governing AI begins with governing people
+
+The deepest layer of this thesis is not technical. **You get good work out of an AI the same way you get
+good work out of a person** — with clear intent, defined context, and governance instead of blind trust.
+To get the best work out of people, you have to be clear in your instructions with well-defined context;
+the same is true of AI. Prompting is not governance any more than parenting is blind trust.
+
+And here is the turn that matters: **good governance frees the worker — it does not cage them.** The
+purpose of the rails is not to restrict the operator but to let them *delegate safely* — to hand real
+work to a governed tool and get their attention back. The notification at the end isn't the work; it's
+the receipt, with a little clean-up. Constraint, done right, is the price of automating the first large
+chunk of the job, and what you buy with it is **engineered autonomy**: the tool can act independently
+*precisely because* the framework makes independent action safe. The rails are what make high autonomy
+safe enough to grant.
+
+This is why the velocity-versus-quality tradeoff is a false choice. Governance is not a brake; it removes
+the downstream review bottleneck that actually slows people down. That is not just an assertion — it is
+what the DevOps research keeps finding: lightweight guardrails beat heavyweight approval gates on *both*
+speed and stability, and the standards bodies define AI governance as a people-and-process function
+before it is a model control. The evidence, and the honest limits of the claim, are in
+[`ENGINEERING.md`](./ENGINEERING.md).
+
+The arc is personal. It runs from *"AI does things for me,"* to *"I need to control what AI does,"* to
+*"I need AI to control what AI does"* — the builder becoming **the architect of the builder's
+constraints.** Governance first, capability second — because the point was never to replace the person.
+These are collaborators, not gods; leverage, not replacement. **You remain the conductor.**
+
+## 4. The measurable spine: the AI : code ratio
 
 The thesis would be untestable if it were only a philosophy. Its spine is a metric you can read off a
 codebase: the **AI : code ratio** — how much governed run-time reasoning carries operational behavior
@@ -97,7 +124,7 @@ constant; the ratio is the variable.** Where reasoning earns its place it displa
 where certainty, speed, or irreversibility rule, code rightly stays — and saying so plainly is part of
 the discipline.
 
-## 4. The standard: BOSNet.io
+## 5. The standard: BOSNet.io
 
 The governance infrastructure that makes run-time reasoning safe enough to be load-bearing is
 **BOSNet.io** — a matrix-first, evidence-and-audit-backed model that runs deterministic policy before
@@ -107,7 +134,7 @@ BOSNet.io, BOSGov, and the Bounded Open Safety Standard (BOSS) are proprietary a
 through this repository. This showcase presents the *thesis* and *public-safe architecture patterns* —
 never the proprietary source, never client IP. See [`LICENSE.md`](./LICENSE.md).
 
-## 5. What this repo is (and isn't)
+## 6. What this repo is (and isn't)
 
 - **Is:** a public thesis + case-study showcase for technical evaluators — the argument, the patterns,
   and the measured ratios, framed around governed run-time reasoning.

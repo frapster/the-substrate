@@ -34,6 +34,11 @@ But governance is only half of it. The operational substrate of an LLM is **gove
 missing context still fails — which is why retrieval-by-similarity (RAG) is not the substrate for
 governed knowledge (see [`ENGINEERING.md`](./ENGINEERING.md)).
 
+And it begins with people. Governing AI starts by governing intent and context — with **safe, governed
+tools that free the operator rather than constrain them** ("the builder becomes the architect of the
+builder's constraints"). The argument is in [`THESIS.md`](./THESIS.md); the evidence, and its honest
+limits, in [`ENGINEERING.md`](./ENGINEERING.md).
+
 The measurable spine across projects is the **AI : code ratio** — how much governed run-time
 reasoning carries operational behavior versus hand-authored code, and where that trade is (and isn't)
 worth it. The **LLM-First** target is **90 : 10**. The full argument — including total cost of
