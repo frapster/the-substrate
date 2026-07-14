@@ -119,6 +119,14 @@ session because the substrate underneath is not yours:
 3. **A pre-implementation architecture-fit check** and **a post-implementation drift audit**, with a
    **self-heal** loop bounded by a hard iteration cap before it fails loudly.
 
+But be honest about the ceiling of this approach: **a governance overlay is only as good as two things
+staying true** — that the harness beneath it *hasn't changed* (a third-party runtime you don't control
+can shift under you between sessions, silently invalidating an assumption your governance rested on), and
+that you *didn't forget to invoke it* (a rule not loaded into context, a hook not registered, a check
+not called is simply not enforced — **omission is ungoverned**). **Managing drift dies here first** —
+not in the code, but at the seams of the overlay itself: the un-invoked hook, the silently-changed
+harness. Governance-by-invocation is fragile precisely because it depends on remembering, every time.
+
 The reason this matters beyond craft is **compliance and regulation.** The moment governed reasoning
 touches regulated data or decisions, "the AI did it and we can't say why" is not an acceptable answer.
 The properties in [`THESIS.md`](./THESIS.md) — bounded, evidence-backed, audited, reversible — are
@@ -130,11 +138,11 @@ still #1), the [OWASP Top 10 for LLM Applications 2025](https://genai.owasp.org/
 injection, excessive agency, vector isolation), and [PCI DSS 4.0](https://www.pcisecuritystandards.org/document_library/)
 for anything near payments.
 
-## 5. Drift, and the harness-injection problem
+## 5. Drift — code, harness, and knowledge
 
-Two failure modes recur, both rooted in the same cause: **the model was trained overwhelmingly on
-traditional, code-first software,** so its instincts pull toward code-first even when the target is a
-governed substrate.
+Drift takes three forms here. The first two share a cause — **the model was trained overwhelmingly on
+traditional, code-first software**, so its instincts pull toward code-first even when the target is a
+governed substrate. The third has nothing to do with code at all, and it is the deepest.
 
 **Code-first drift.** Left alone, the model expresses product meaning as TypeScript, enums, config maps,
 route folders, and static rosters — the very anti-pattern LLM-First exists to avoid. The counter is a
@@ -152,6 +160,23 @@ name this exactly ("harness is not authority"; "local scripts are evidence sourc
 a "tool-posture test" that stops you from creating an app tool that mirrors a task). The cleanest
 public-safe evidence that it happens is a database migration whose name is, literally, a *purge of
 harness drift that had reached the schema* — caught and reversed.
+
+**Knowledge drift — the deepest one.** Drift is not always about code. A model fails just as surely when
+the *data it consumes* is wrong, stale, or missing — fed without the context a decision actually requires.
+Prompts and hooks govern *what the model may do*; they do nothing about *what the model knows when it does
+it*. The remedy is not more retrieval — it is feeding the model the right context from a
+**governance-carrying dimensional matrix**: knowledge that is itself bounded, evidence-backed, and
+versioned, so the context is correct *by construction* rather than by lucky recall. This is why **RAG is
+not the answer here** — similarity search returns what is *near*, not what is *governed and true*:
+probabilistic retrieval over an open pile, exactly the property a governed decision cannot rest on.
+(Retrieval has real uses — see the [architecture decisions](./case-studies/visuals/architecture-decisions.html) —
+but not as the substrate for governed knowledge.)
+
+This points at the real definition. **The operational substrate of an LLM is governance *plus* knowledge —
+not code.** Code is what you write when you lack the other two. Governance bounds what the model may do;
+the dimensional knowledge model determines what it correctly *knows*; together they *are* the substrate.
+Drift is the erosion of either half — a rule left un-invoked, a harness that shifted beneath you, or
+context fed wrong — and managing it means holding **both** halves continuously, not just guarding the code.
 
 The lesson is not "the model is bad." It is that **governing an LLM-first build is an active,
 adversarial-in-your-own-favor discipline**: the harness and the product must be kept separate, and the
