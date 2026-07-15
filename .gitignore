@@ -18,6 +18,10 @@
 .claude/failed-commands.log
 .claude/session-log.txt
 
+# python
+__pycache__/
+*.pyc
+
 # os / misc
 .DS_Store
 Thumbs.db
@@ -27,3 +31,7 @@ npm-debug.log*
 /downloads/
 /private/
 /_scratch/
+# /docs/ is the private working area (assessment, local caches) — ignore its contents,
+# but publish the Architecture Decision Records.
+/docs/*
+!/docs/adr/

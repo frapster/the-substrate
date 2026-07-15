@@ -9,6 +9,37 @@
 >
 > — Robert J. Floyd
 
+This repo is the public thesis showcase for that idea — and it ships a **small, runnable
+proof** of its most concrete claim: a tamper-evident audit ledger you can watch catch a
+forged decision, in under a minute, with no dependencies.
+
+---
+
+## Quickstart (30 seconds)
+
+The thesis says every governed decision writes a *hash-chained, tamper-evident ledger
+entry*. Here it is as running code — Python 3 standard library only, nothing to install:
+
+```bash
+git clone https://github.com/frapster/the-substrate && cd the-substrate
+python demo/ledger_demo.py
+```
+
+You'll watch decisions get committed to an append-only chain, verify as intact, and then —
+after an attacker silently edits one *past* decision — watch `verify()` pinpoint the exact
+broken row:
+
+```
+  ✗ CHAIN BROKEN at row 2
+    row 2 recomputed hash 86d17a4f… != stored 813c6b22… (body was altered)
+```
+
+That's the whole point: silent edits to history are impossible. See [`demo/`](./demo/) for
+the code, the tests (including the tamper cases), and a reproducible benchmark
+(~74,000 rows/sec verify, 200/200 tampers caught). What it proves — and deliberately does
+**not** — is spelled out in [`demo/README.md`](./demo/README.md) and the
+[Limitations](#limitations--what-this-does-and-does-not-do) section below.
+
 ---
 
 ## The idea, precisely
@@ -93,6 +124,48 @@ Every root document has a **visual explainer** companion in [`visuals/`](./visua
 | [Résumé](./resume/robert-floyd.html) — experience, skills, signature work | — |
 
 The four **case-study** before/after explainers live in [`case-studies/visuals/`](./case-studies/visuals/).
+
+The engineering record — runnable proof, decisions, and changes:
+
+| Artifact | What it is |
+|---|---|
+| [`demo/`](./demo/) | Runnable, zero-dependency tamper-evident ledger + tests + benchmark |
+| [`docs/adr/`](./docs/adr/) | Architecture Decision Records — why hash-chaining, deny-by-default, private engine, and what was rejected |
+| [`CHANGELOG.md`](./CHANGELOG.md) | What has shipped, and the near-term roadmap |
+
+## Limitations — what this does and does NOT do
+
+Stating limits plainly is part of the point; a governance thesis that hid its own boundaries
+would be self-refuting.
+
+- **The runnable demo is a primitive, not the engine.** [`demo/`](./demo/) proves one
+  property — that an append-only, SHA-256 hash-chained ledger is *tamper-evident* — with code
+  a stranger can run. It is a generic cryptographic building block. It is **not** BOSNet.io,
+  not a full governance runtime; it does not enforce policy, retrieve evidence, or bound a
+  model's authority. Those live in the proprietary reference implementation
+  ([`BOSS-STANDARD.md`](./BOSS-STANDARD.md)).
+- **Tamper-*evidence* is not tamper-*prevention*.** The chain *detects* alteration by
+  recomputation; it does not stop someone with storage access from altering bytes. Append-only
+  storage and off-site anchoring are the operational complements — out of scope for the demo.
+- **Most case-study numbers are labeled estimates.** Only **Relic Wars** is a shipped,
+  measured conversion. Today Series, Zabble, and Eikon Digital "after" figures are projections,
+  marked as such. The **90:10** LLM-First target is a design aspiration, not an empirical
+  finding (see [`ENGINEERING.md`](./ENGINEERING.md) §6, "Objections we take seriously").
+- **BOSS is published as an overview.** The machine-checkable specification, conformance rule
+  set, and kernel are patent-pending and reserved — this repo evaluates the *shape* of the
+  standard, not its normative internals.
+
+## Why not Microsoft's Agent Governance Toolkit / DeepEval?
+
+Because they solve adjacent problems, and the honest posture is **interoperate, don't
+reinvent**. Eval frameworks (DeepEval) measure *model output quality*; agent-governance
+toolkits (Microsoft's, covering the OWASP Agentic Top 10) harden *what an agent is allowed to
+do*. Both are complementary to — not competing with — the contribution here, which is a
+**published governance directory plus a tamper-evident decision ledger**: a verifiable,
+outside-readable record of *how* a system is governed and an audit trail that a regulator or
+auditor can check without source access ([`BOSS-STANDARD.md`](./BOSS-STANDARD.md) §3). A
+governed system can run DeepEval at its output-safety gate and register its evals as evidence
+sources in its directory. The gap this fills is *auditable governance*, not evaluation.
 
 ## What this repo is (and isn't)
 
