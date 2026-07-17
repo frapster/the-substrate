@@ -1,5 +1,7 @@
 # demo: the AI:code ratio, made countable
 
+> **Try it in your browser** (no install): [interactive ai-code-ratio demo](../interactive/ai-code-ratio.html). The interactive version mirrors this Python; it is the convenience, and the code here is the proof.
+
 A small, **zero-dependency** proof of the measurable spine `the-substrate` claims in prose:
 the **AI : code ratio**: how much operational behavior is carried by governed, run-time
 facts versus hand-authored, write-time code (see [`../../README.md`](../../README.md) and

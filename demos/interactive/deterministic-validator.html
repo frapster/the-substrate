@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive: deterministic validator · the-substrate</title>
+<meta name="description" content="Play with a deterministic validator in your browser: propose an action, cite a hallucinated source, get an LLM judge to approve it anyway, and watch the deterministic gate discard it regardless. A convenience; the real proof is the Python you can run and change.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/substrate.css">
+<link rel="stylesheet" href="playground.css">
+</head>
+<body>
+
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="index.html"><span class="tick"></span>the&#8209;substrate · demos</a>
+  <div class="topnav">
+    <a href="index.html">All demos</a>
+    <a href="../../README.md">README</a>
+    <a href="../../BOSS-STANDARD.md">BOSS</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<a href="index.html" class="backlink mono">&larr; all interactive demos</a>
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>guarantee · fail-closed</div>
+  <h1>Deterministic<br>validator commits</h1>
+  <p class="lede">A model proposes an action. Deterministic code grades it against real, checkable rules. Only a PASS commits. A rejection is discarded, not patched, and an approving judge cannot force it through. Try to launder a hallucination below.</p>
+</header>
+
+<section><div class="wrap">
+  <span class="slabel"><span class="sq"></span>the claim</span>
+  <h2>The model is never trusted, it is checked</h2>
+  <p class="intro"><code>validate()</code> is plain, hand-written code: is the cited source in the known set, is the amount within policy, are required fields present. No model call sits inside the check. A proposal that fails is discarded exactly as submitted, never rewritten into one that passes, and an <code>llm_judge()</code> can feed evidence into the review but has no path to the commit log, only <code>validate()</code> does. Build a proposal, optionally let the judge weigh in, then submit.</p>
+
+  <div class="pg">
+    <div class="pg-head"><span class="t">propose an action</span><span class="mono small muted">deterministic gate, computed in your browser</span></div>
+    <div class="pg-body">
+      <div class="pg-row">
+        <div class="field"><label for="intent">intent</label><input type="text" id="intent" value="grant_refund" size="18"></div>
+        <div class="field"><label for="sourceId">cited source</label>
+          <select id="sourceId">
+            <option value="src_101">src_101</option>
+            <option value="src_102">src_102</option>
+            <option value="src_103">src_103</option>
+            <option value="src_104">src_104</option>
+            <option value="src_999">src_999 (does not exist)</option>
+          </select></div>
+        <div class="field"><label for="amount">amount_usd</label><input type="number" id="amount" value="40" step="1"></div>
+      </div>
+
+      <div class="pg-row">
+        <div class="field"><label for="judgeToggle">&nbsp;</label>
+          <label class="mono small"><input type="checkbox" id="judgeToggle"> have the LLM judge approve it first</label></div>
+        <button class="btn sm ghost" id="loadValid">Load a valid proposal</button>
+        <button class="btn sm ghost" id="loadHallucination">Load a hallucinated source</button>
+        <button class="btn sm" id="submitBtn">Validate &amp; submit <span class="arw">&rarr;</span></button>
+      </div>
+
+      <div id="verdict" class="verdict"></div>
+      <div id="out" class="out"></div>
+      <p class="hint">The judge toggle runs a mocked second model that only eyeballs the amount and never checks the source, it will happily approve a hallucinated citation. Its approval is logged for context but <code>submit()</code> never reads it: only <code>validate()</code> decides what commits.</p>
+
+      <div class="pg-row" style="margin-top:22px; align-items: flex-start; gap: 24px; flex-wrap: wrap;">
+        <div style="flex: 1 1 320px; min-width: 280px;">
+          <div class="mono small muted" style="text-transform:uppercase; letter-spacing:.1em;">commit log</div>
+          <div id="commitTable"></div>
+        </div>
+        <div style="flex: 1 1 320px; min-width: 280px;">
+          <div class="mono small muted" style="text-transform:uppercase; letter-spacing:.1em;">rejected log</div>
+          <div id="rejectTable"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="panel warn">
+    <div class="h">Don't take this at face value</div>
+    <div class="b">
+      <p>This page is a <strong>JavaScript reimplementation</strong> of <code>demos/deterministic-validator/validator.py</code>. It uses the same checks and the same reasons, but a demo you cannot inspect proves nothing. The real proof is the code you run yourself:</p>
+      <pre>git clone https://github.com/frapster/the-substrate &amp;&amp; cd the-substrate
+python demos/deterministic-validator/validator_demo.py   <span class="muted"># watch a hallucinated proposal get discarded</span>
+python demos/deterministic-validator/test_validator.py   <span class="muted"># the negative tests are the point</span></pre>
+      <p style="margin-top:12px">Read the source: <a href="../deterministic-validator/validator.py">validator.py</a> · <a href="../deterministic-validator/README.md">README</a> · <a href="../../docs/adr/ADR-0003-deterministic-validator-commits.md">ADR-0003</a></p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="h">Prove it yourself · extend the tests</div>
+    <div class="b">
+      <p>The tests in <code>demos/deterministic-validator/test_validator.py</code> assert that <code>validate()</code> <em>fails for the right reason</em>, and that an approving judge cannot force a bad proposal through. Add your own attack and confirm the gate catches it. Drop this into the <code>RejectionIsClean</code> class and re-run:</p>
+      <pre>def test_my_own_attack_is_still_discarded(self):
+    validator = Validator()
+    bad = propose(intent="grant_refund", source_id="src_999", amount_usd=40)
+    judgment = llm_judge(bad)              # the judge is fooled
+    self.assertTrue(judgment.approved)
+    result = validator.submit(bad, judgment)
+    self.assertFalse(result.ok)            # the deterministic gate is not fooled
+    self.assertNotIn(bad, validator.commit_log)
+    committed_ids = [p.source_id for p in validator.commit_log]
+    self.assertNotIn("src_999", committed_ids)   # never laundered in</pre>
+      <p style="margin-top:12px">Run <code>python demos/deterministic-validator/test_validator.py</code>. If you can find a way to make an approving judge commit a bad proposal, or a way for a rejected proposal to land in <code>commit_log</code> in any form other than byte-identical to what was proposed, you have broken the claim. That is the point: it is falsifiable, and you hold the falsifier.</p>
+    </div>
+  </div>
+</div></section>
+
+</div>
+
+<footer class="page"><div class="wrap">
+  <div class="ip">This interactive page is a clean-room illustration, not the BOSNet.io engine. It demonstrates one gate primitive (deterministic commit admissibility) with code you can read and rerun. The machine-checkable spec and kernel are patent-pending and reserved; BOSNet.io and BOSS are proprietary. See the license.</div>
+  <div class="byline">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate · <a href="index.html">interactive demos</a> · <a href="../../README.md">README</a></span></div>
+</div></footer>
+
+<script src="deterministic-validator.js"></script>
+</body>
+</html>

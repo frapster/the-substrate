@@ -1,5 +1,7 @@
 # demo: a runnable, tamper-evident audit ledger
 
+> **Try it in your browser** (no install): [interactive audit-ledger demo](../interactive/audit-ledger.html). The interactive version mirrors this Python; it is the convenience, and the code here is the proof.
+
 A small, **zero-dependency** proof of one claim `the-substrate` makes in prose: that a
 governance engine records every decision to a *hash-chained, tamper-evident ledger*
 (see [`../../README.md`](../../README.md), [`../../BOSS-STANDARD.md`](../../BOSS-STANDARD.md), and

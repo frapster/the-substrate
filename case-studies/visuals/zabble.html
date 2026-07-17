@@ -4,185 +4,97 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zabble: Before / After · the-substrate</title>
+<meta name="description" content="Zabble case study: a live platform with payments, real-time messaging, and trust-and-safety, governed at the judgment seams while the safety core stays frozen. AI:code ~8:92 → ~30-40:60-70, planned estimate.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0c111b;--surface:#111826;--surface-2:#151d2e;--border:rgba(255,255,255,0.09);--grid:rgba(255,255,255,0.035);
-  --text:#e4eaf3;--text-dim:#8794a8;--text-faint:#5a6478;
-  --accent:#4f83d6;--accent-dim:rgba(79,131,214,0.15);--accent-line:rgba(79,131,214,0.42);
-  --seg-code:#3a4658;--code:#c98a3a;--code-dim:rgba(201,138,58,0.13);
-  --good:#3fb27f;--bad:#d6604d;--warn:#d9a441;
-  --font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;--font-mono:'IBM Plex Mono',ui-monospace,monospace;
-}
-@media (prefers-color-scheme:light){:root{
-  --bg:#eef1f6;--surface:#ffffff;--surface-2:#f2f5fb;--border:rgba(18,26,42,0.12);--grid:rgba(18,26,42,0.04);
-  --text:#141c2b;--text-dim:#525f75;--text-faint:#838ea1;
-  --accent:#2c5aa8;--accent-dim:rgba(44,90,168,0.1);--accent-line:rgba(44,90,168,0.35);
-  --seg-code:#c4cedb;--code:#a2670f;--code-dim:rgba(162,103,15,0.08);
-}}
-*{box-sizing:border-box;margin:0;padding:0;min-width:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:34px 34px}
-.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
-.mono{font-family:var(--font-mono)}
-.backlink{font-family:var(--font-mono);font-size:12.5px;color:var(--text-dim);text-decoration:none;display:inline-flex;gap:8px;align-items:center;margin-bottom:36px}
-.backlink:hover{color:var(--accent)}
-header{padding:64px 0 40px;border-bottom:1px solid var(--border)}
-.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:10px;margin-bottom:20px}
-.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-dim)}
-h1{font-size:clamp(38px,6vw,60px);font-weight:700;letter-spacing:-.02em;line-height:1.02}
-.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;align-items:center}
-.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:6px}
-.status .d{width:7px;height:7px;border-radius:50%;background:currentColor}
-.status.plan{color:var(--warn);background:rgba(217,164,65,.12);border:1px solid rgba(217,164,65,.35)}
-.ratio-badge{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--accent);border:1px solid var(--accent-line);background:var(--accent-dim);padding:6px 12px;border-radius:6px}
-.lead{font-size:clamp(18px,2.4vw,22px);color:var(--text-dim);max-width:70ch;margin-top:22px;line-height:1.5}
-.lead strong{color:var(--text);font-weight:600}
-.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
-.chip{font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);border:1px solid var(--border);background:var(--surface);padding:5px 11px;border-radius:20px}
-section{padding:50px 0;border-bottom:1px solid var(--border)}
-.section-label{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);font-weight:500;display:flex;align-items:center;gap:9px}
-.section-label .sq{width:8px;height:8px;background:var(--accent);border-radius:2px}
-.sec-title{font-size:clamp(23px,3.2vw,30px);font-weight:600;letter-spacing:-.01em;margin:14px 0 10px}
-.sec-intro{color:var(--text-dim);max-width:68ch;font-size:16px}
-.ba{margin-top:30px;padding:26px;background:var(--surface);border:1px solid var(--border);border-radius:14px}
-.ba-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.ba-note{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);letter-spacing:.1em;text-transform:uppercase}
-.ba-grid{margin-top:22px;display:grid;gap:11px}
-.ba-line{display:grid;grid-template-columns:80px 1fr;gap:14px;align-items:center}
-.ba-when{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--text-dim)}
-.ba-when.now{color:var(--accent)}
-.bar{display:flex;height:32px;border-radius:7px;overflow:hidden;border:1px solid var(--border);background:var(--surface-2)}
-.seg{display:flex;align-items:center;padding:0 11px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden}
-.seg.reason{background:var(--accent);color:var(--bg)}
-.seg.code{background:var(--seg-code);color:var(--text)}
-.ba-arrow{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);padding-left:94px;margin:2px 0}
-.ba-delta{margin-top:18px;font-size:15px;color:var(--text-dim);display:flex;align-items:center;flex-wrap:wrap;gap:6px}
-.ba-delta b{color:var(--accent);font-family:var(--font-mono)}
-.tag-est{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px;color:var(--warn);background:rgba(217,164,65,.13);border:1px solid rgba(217,164,65,.35)}
-.legend{display:flex;gap:18px;margin-top:16px;font-size:12px;color:var(--text-dim);font-family:var(--font-mono)}
-.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-.legend .r{background:var(--accent)}.legend .c{background:var(--seg-code)}
-.invariant{margin-top:28px;padding:20px 24px;border-left:3px solid var(--accent);background:var(--accent-dim);border-radius:0 10px 10px 0;font-size:17px;line-height:1.5}
-.invariant b{color:var(--accent)}
-.roadmap{display:grid;gap:12px;margin-top:30px}
-.step{display:grid;grid-template-columns:42px 1fr;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;align-items:start}
-.step .n{font-family:var(--font-mono);font-weight:600;font-size:14px;color:var(--accent);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid var(--accent-line);border-radius:9px;background:var(--accent-dim)}
-.step.freeze{border-color:rgba(201,138,58,.3)}
-.step.freeze .n{color:var(--code);border-color:rgba(201,138,58,.4);background:var(--code-dim)}
-.step h3{font-size:15.5px;font-weight:600;margin-bottom:4px}
-.step p{font-size:14px;color:var(--text-dim)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px;margin-top:30px}
-.tile{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
-.tile.hero{border-color:var(--accent-line);background:linear-gradient(160deg,var(--accent-dim),transparent 70%)}
-.tile .big{font-family:var(--font-mono);font-size:clamp(26px,3.6vw,36px);font-weight:600;letter-spacing:-.02em;line-height:1}
-.tile.hero .big{color:var(--accent)}
-.tile .cap{font-size:13px;color:var(--text-dim);margin-top:9px;line-height:1.45}
-.tile .cap a{color:inherit}
-.sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
-@media(max-width:680px){.sec-grid{grid-template-columns:1fr}}
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
-.panel h3{font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.panel h3 .mk{width:9px;height:9px;border-radius:2px;background:var(--accent)}
-.std-chips{display:flex;flex-wrap:wrap;gap:8px}
-.std-chips a,.std-chips span{font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);border:1px solid var(--border);background:var(--surface-2);padding:5px 10px;border-radius:6px;text-decoration:none}
-.std-chips a:hover{border-color:var(--accent-line);color:var(--accent)}
-.gov-list{list-style:none;display:grid;gap:9px}
-.gov-list li{position:relative;padding-left:20px;font-size:14px;color:var(--text-dim)}
-.gov-list li::before{content:'';position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--good)}
-.gov-list code{font-family:var(--font-mono);font-size:12px;color:var(--code);background:var(--code-dim);padding:1px 5px;border-radius:4px}
-.callout{margin-top:30px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:24px 26px}
-.callout .section-label{margin-bottom:14px}
-.callout .row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-@media(max-width:640px){.callout .row{grid-template-columns:1fr;gap:16px}}
-.callout h4{font-size:15px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.callout .mk{width:9px;height:9px;border-radius:2px}
-.callout .paid .mk{background:var(--good)}.callout .kept .mk{background:var(--code)}
-.callout p{font-size:14.5px;color:var(--text-dim)}
-.note{margin-top:16px;font-size:13.5px;color:var(--text-faint)}.note a{color:var(--accent)}
-footer{padding:40px 0 68px;color:var(--text-faint);font-size:13.5px}
-footer .ip{font-family:var(--font-mono);font-size:12px;border:1px solid var(--border);border-radius:8px;padding:14px 18px;color:var(--text-dim);margin-bottom:22px;background:var(--surface)}
-footer a{color:var(--accent);text-decoration:none}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:no-preference){header>*,section>.wrap>*{animation:fadeUp .5s both}.tile,.panel,.step{animation:fadeUp .5s both}}
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/substrate.css">
 </head>
 <body>
-<div class="wrap"><a href="../zabble.md" class="backlink mono">← read the full write-up</a></div>
 
-<header><div class="wrap">
-  <div class="eyebrow"><span class="dot"></span>the-substrate · case study 03 · before → after</div>
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="../../README.md"><span class="tick"></span>the&#8209;substrate</a>
+  <div class="topnav">
+    <a href="../../visuals/thesis.html">Thesis</a>
+    <a href="../../visuals/engineering.html">Engineering</a>
+    <a href="../../demos/interactive/index.html">Demos</a>
+    <a href="../../LICENSE.md">License</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<a href="../zabble.md" class="backlink mono">&larr; read the full write-up</a>
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>case study 03 · before &rarr; after</div>
   <h1>Zabble</h1>
-  <div class="badges">
-    <span class="status plan"><span class="d"></span>Planned · estimate</span>
-    <span class="ratio-badge">AI : code, ~8:92 → ~30-40:60-70 (est.)</span>
+  <div class="badges" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;align-items:center">
+    <span class="chip gold">Planned &middot; estimate</span>
+    <span class="chip blue">AI : code, ~8:92 &rarr; ~30-40:60-70 (est.)</span>
   </div>
-  <p class="lead">The case with a hard <strong>ceiling</strong>. A live platform with payments, real-time messaging, and trust-and-safety. Reasoning expands at the judgment seams while the deterministic core stays put. <strong>Where the substrate stops is the story.</strong></p>
-  <div class="stack">
-    <span class="chip">Next.js · Supabase</span><span class="chip">~33k LOC · 65 tables</span><span class="chip">234 RPCs</span><span class="chip">3-layer safety</span><span class="chip">service-role guard · pgTAP</span>
+  <p class="lede">The case with a hard <strong>ceiling</strong>. A live platform with payments, real-time messaging, and trust-and-safety. Reasoning expands at the judgment seams while the deterministic core stays put. <strong>Where the substrate stops is the story.</strong></p>
+  <div class="stack" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:22px">
+    <span class="chip">Next.js &middot; Supabase</span><span class="chip">~33k LOC &middot; 65 tables</span><span class="chip">234 RPCs</span><span class="chip">3-layer safety</span><span class="chip">service-role guard &middot; pgTAP</span>
   </div>
-</div></header>
+</header>
 
 <section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>the conversion: before → after</span>
-  <div class="ba">
-    <div class="ba-head"><span class="section-label"><span class="sq"></span>whole platform</span><span class="ba-note">AI : code</span></div>
-    <div class="ba-grid">
-      <div class="ba-line"><span class="ba-when">BEFORE</span><div class="bar"><span class="seg reason" style="width:8%"></span><span class="seg code" style="width:92%">92% code: deterministic envelope, ~17 fenced seams</span></div></div>
-      <div class="ba-arrow">↓ govern the reversible seams · freeze the safety/payments core</div>
-      <div class="ba-line"><span class="ba-when now">AFTER (est.)</span><div class="bar"><span class="seg reason" style="width:35%">~30-40% reasoning</span><span class="seg code" style="width:65%">~60-70% code</span></div></div>
-    </div>
-    <div class="legend"><span><i class="r"></i>governed reasoning</span><span><i class="c"></i>deterministic code</span></div>
-    <div class="ba-delta"><b>~25-40%</b> of non-safety-critical logic displaced <span class="tag-est">projected · deliberately short of 90:10</span></div>
+  <span class="slabel"><span class="sq"></span>the conversion: before &rarr; after</span>
+  <h2>Whole platform</h2>
+  <div class="grid cols-2">
+    <div class="card"><div class="cn">Before</div><h3>~8% reasoning &middot; ~92% code</h3><p>A deterministic envelope with ~17 fenced seams where reasoning is already used.</p></div>
+    <div class="card"><div class="cn">After (est.)</div><h3>~30-40% reasoning &middot; ~60-70% code</h3><p>Govern the reversible seams; freeze the safety/payments core.</p></div>
   </div>
-  <div class="invariant">Zabble's product <b>is</b> its deterministic envelope. A few reasoning calls can be trusted <b>because</b> the code around them is rigid, so the conversion stops well short of the 90 : 10 target, on purpose.</div>
+  <div class="stmt"><b>~25-40%</b> of non-safety-critical logic displaced. <span class="chip gold" style="margin-left:6px">projected &middot; deliberately short of 90:10</span></div>
+  <div class="pull">Zabble's product is its deterministic envelope. A few reasoning calls can be trusted because the code around them is rigid, so the conversion stops well short of the 90 : 10 target, on purpose.</div>
 </div></section>
 
 <section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>the conversion roadmap</span>
-  <h2 class="sec-title">Govern the judgment seams: freeze the core</h2>
-  <p class="sec-intro">Apply the envelope/compiler/auditor pattern only to the reversible, judgment-heavy surfaces. <strong>This is a plan; none of it has shipped.</strong></p>
-  <div class="roadmap">
-    <div class="step"><div class="n">1</div><div><h3>Blueprint read models &amp; discovery</h3><p>Replace hand-tuned ranking and read-model assembly with blueprint-compiled reasoning over the existing embeddings and graph.</p></div></div>
-    <div class="step"><div class="n">2</div><div><h3>Widen the governed moderation seam</h3><p>Move more borderline moderation and pattern analysis into governed reasoning (fixed action space, human escalation) but keep L1 deterministic.</p></div></div>
-    <div class="step"><div class="n">3</div><div><h3>Compile the extraction fleet</h3><p>Blueprint-driven, auditor-checked ingestion: one blueprint per source <em>shape</em>, not per site.</p></div></div>
-    <div class="step freeze"><div class="n">4</div><div><h3>Freeze the core</h3><p>Payments, the L1 safety gate (cannot be prompt-injected), and the event-sourced spine stay deterministic by policy. This is the ceiling, and it is intentional.</p></div></div>
+  <span class="slabel"><span class="sq"></span>the conversion roadmap</span>
+  <h2>Govern the judgment seams: freeze the core</h2>
+  <p class="intro">Apply the envelope/compiler/auditor pattern only to the reversible, judgment-heavy surfaces. <strong>This is a plan; none of it has shipped.</strong></p>
+  <table class="boxed-table">
+    <thead><tr><th>#</th><th>Step</th></tr></thead>
+    <tbody>
+      <tr><td class="k"><span class="num">1</span>Blueprint read models &amp; discovery</td><td>Replace hand-tuned ranking and read-model assembly with blueprint-compiled reasoning over the existing embeddings and graph.</td></tr>
+      <tr><td class="k"><span class="num">2</span>Widen the governed moderation seam</td><td>Move more borderline moderation and pattern analysis into governed reasoning (fixed action space, human escalation) but keep L1 deterministic.</td></tr>
+      <tr><td class="k"><span class="num">3</span>Compile the extraction fleet</td><td>Blueprint-driven, auditor-checked ingestion: one blueprint per source <em>shape</em>, not per site.</td></tr>
+      <tr><td class="k"><span class="num">4</span>Freeze the core</td><td>Payments, the L1 safety gate (cannot be prompt-injected), and the event-sourced spine stay deterministic by policy. This is the ceiling, and it is intentional. <span class="chip blue">frozen</span></td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+<section><div class="wrap">
+  <span class="slabel"><span class="sq"></span>total cost of ownership</span>
+  <h2>A modest shift, by design</h2>
+  <p class="intro">Maintenance is concentrated in a heavy data layer: 234 RPCs and 65 tables, business logic pushed into Postgres. Blueprint-compiling the CRUD/workflow surface targets that; the safety/payments floor stays.</p>
+  <div class="grid cols-3">
+    <div class="card"><div class="mono" style="font-size:28px;font-weight:800;color:var(--accent);letter-spacing:-.02em">~25-40%&darr;</div><p style="margin-top:10px">Non-safety-critical operational logic, projected (est.).</p></div>
+    <div class="card"><div class="mono" style="font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.02em">234</div><p style="margin-top:10px">RPCs today, the maintenance-cost driver a compiler targets.</p></div>
+    <div class="card"><div class="mono" style="font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.02em">~20-30%</div><p style="margin-top:10px">Fixed safety/payments floor that stays in code, and <a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">should</a>.</p></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>total cost of ownership</span>
-  <h2 class="sec-title">A modest shift, by design</h2>
-  <p class="sec-intro">Maintenance is concentrated in a heavy data layer: 234 RPCs and 65 tables, business logic pushed into Postgres. Blueprint-compiling the CRUD/workflow surface targets that; the safety/payments floor stays.</p>
-  <div class="tiles">
-    <div class="tile hero"><div class="big mono">~25-40%↓</div><div class="cap">Non-safety-critical operational logic, projected (est.).</div></div>
-    <div class="tile"><div class="big mono">234</div><div class="cap">RPCs today, the maintenance-cost driver a compiler targets.</div></div>
-    <div class="tile"><div class="big mono">~20-30%</div><div class="cap">Fixed safety/payments floor that stays in code, and <a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">should</a>.</div></div>
-  </div>
-</div></section>
-
-<section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>code quality &amp; security</span>
-  <h2 class="sec-title">The strictest external bar of the four</h2>
-  <p class="sec-intro">Payments, trust-and-safety, and multi-tenant access control: exactly the categories where the published weakness of ungoverned LLM code bites hardest.</p>
-  <div class="sec-grid">
-    <div class="panel">
-      <h3><span class="mk"></span>Category standard</h3>
-      <div class="std-chips">
-        <a href="https://owasp.org/Top10/2025/">OWASP Top 10:2025</a>
-        <span>A01 broken access control (#1)</span>
-        <a href="https://genai.owasp.org/llm-top-10/">OWASP LLM Top 10</a>
-        <a href="https://www.pcisecuritystandards.org/document_library/">PCI DSS 4.0</a>
+  <span class="slabel"><span class="sq"></span>code quality &amp; security</span>
+  <h2>The strictest external bar of the four</h2>
+  <p class="intro">Payments, trust-and-safety, and multi-tenant access control: exactly the categories where the published weakness of ungoverned LLM code bites hardest.</p>
+  <div class="grid cols-2">
+    <div class="card">
+      <h3>Category standard</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+        <a class="chip" href="https://owasp.org/Top10/2025/">OWASP Top 10:2025</a>
+        <span class="chip">A01 broken access control (#1)</span>
+        <a class="chip" href="https://genai.owasp.org/llm-top-10/">OWASP LLM Top 10</a>
+        <a class="chip" href="https://www.pcisecuritystandards.org/document_library/">PCI DSS 4.0</a>
       </div>
-      <p class="note">Ungoverned LLM code picks the insecure option ~45% of the time, per <a href="../../ENGINEERING.md">ENGINEERING.md §3</a>.</p>
+      <p style="margin-top:14px;font-size:14px;color:var(--text-dim)">Ungoverned LLM code picks the insecure option ~45% of the time, per <a href="../../ENGINEERING.md">ENGINEERING.md &sect;3</a>.</p>
     </div>
-    <div class="panel">
-      <h3><span class="mk"></span>Governance in place</h3>
-      <ul class="gov-list">
-        <li>Security findings <code>F-01…F-12</code> closed across tracked batches + a plan-drift self-heal</li>
+    <div class="card">
+      <h3>Governance in place</h3>
+      <ul class="tight-list">
+        <li>Security findings <code>F-01&hellip;F-12</code> closed across tracked batches + a plan-drift self-heal</li>
         <li>CI <code>service-role-key guard</code>: fails the build if a privileged secret escapes its module</li>
         <li><code>pgTAP</code> + RLS-audit skill on an ephemeral database</li>
         <li>Three-layer safety: deterministic L1 gate, fenced L2 model, batch L3</li>
@@ -192,19 +104,26 @@ footer a{color:var(--accent);text-decoration:none}
 </div></section>
 
 <section><div class="wrap">
-  <div class="callout">
-    <span class="section-label"><span class="sq"></span>the honest boundary</span>
-    <div class="row">
-      <div class="paid"><h4><span class="mk"></span>Where it should expand</h4><p>Reversible judgment: ranking, curation, moderation triage, extraction.</p></div>
-      <div class="kept"><h4><span class="mk"></span>Where it must not</h4><p>Anything fast, certain, or irreversible. The most credible thing Zabble can say is where it <em>chooses not to</em> apply the substrate.</p></div>
-    </div>
+  <span class="slabel"><span class="sq"></span>the honest boundary</span>
+  <div class="cols">
+    <div class="item"><div class="k">Where it should expand</div><h3>Reversible judgment</h3><p>Reversible judgment: ranking, curation, moderation triage, extraction.</p></div>
+    <div class="item"><div class="k">Where it must not</div><h3>Fast, certain, irreversible</h3><p>Anything fast, certain, or irreversible. The most credible thing Zabble can say is where it <em>chooses not to</em> apply the substrate.</p></div>
   </div>
 </div></section>
 
-<footer><div class="wrap">
+</div>
+
+<footer class="page"><div class="wrap">
   <div class="ip">IP-safety reviewed before publishing. No secrets or project identifiers, no verbatim safety prompts or thresholds, no third-party-sourced datasets. "After" figures are projected estimates, clearly labeled. No BOSNet.io internals.</div>
-  Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
-  <span class="mono" style="font-size:12px">the-substrate · AI as the governed operational substrate</span>
+  <div class="linkrow">
+    <a href="../zabble.md">read the full write-up &rarr;</a>
+    <a href="../../README.md">README &rarr;</a>
+    <a href="../../BOSS-STANDARD.md">BOSS-STANDARD.md &rarr;</a>
+    <a href="../../demos/interactive/index.html">interactive demos &rarr;</a>
+  </div>
+  <div class="byline" style="margin-top:18px">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions &middot; <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate &middot; AI as the governed operational substrate</span></div>
 </div></footer>
+
 </body>
 </html>

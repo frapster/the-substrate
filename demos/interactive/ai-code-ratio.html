@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive: the 90:10 AI-code ratio · the-substrate</title>
+<meta name="description" content="Play with a small ticket-routing feature built two ways: a hand-authored if/elif tree, and a generic evaluator reading a fact table. Watch new requirements cost the code path branches and the governed path facts. A convenience; the real proof is the Python you can run and change.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/substrate.css">
+<link rel="stylesheet" href="playground.css">
+</head>
+<body>
+
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="index.html"><span class="tick"></span>the&#8209;substrate · demos</a>
+  <div class="topnav">
+    <a href="index.html">All demos</a>
+    <a href="../../README.md">README</a>
+    <a href="../../BOSS-STANDARD.md">BOSS</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<a href="index.html" class="backlink mono">&larr; all interactive demos</a>
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>spine · AI : code ratio</div>
+  <h1>Where does new<br>requirement meaning land?</h1>
+  <p class="lede">One feature, support-ticket routing by plan tier and severity, built two ways below: a hand-authored <code>if/elif</code> tree, and a generic evaluator reading a fact table. Add a new business case and watch what it costs each one.</p>
+</header>
+
+<section><div class="wrap">
+  <span class="slabel"><span class="sq"></span>the claim</span>
+  <h2>New cases cost the code path branches, and the governed path facts</h2>
+  <p class="intro">Both implementations agree on the base requirement (3 plan tiers &times; 3 severities, 9 tickets). When three new business cases arrive (critical severity), the code version needs new <code>elif</code> branches, a developer writes, reviews, and ships them. The governed version needs new rows in a fact table; its one evaluator function never changes. Add a case below and watch the counters move.</p>
+
+  <div class="pg">
+    <div class="pg-head"><span class="t">the routing table</span><span class="mono small muted">code vs. governed, live in your browser</span></div>
+    <div class="pg-body">
+      <div id="counters" class="counter"></div>
+
+      <div id="table"></div>
+      <div id="verdict" class="verdict"></div>
+
+      <div class="pg-row" style="margin-top:18px">
+        <button class="btn sm" id="addCaseBtn">Add a new case (severity=critical) <span class="arw">&rarr;</span></button>
+        <button class="btn sm ghost" id="ungovernedBtn">Route an ungoverned ticket</button>
+      </div>
+
+      <div id="out" class="out"></div>
+      <p class="hint">"Add a new case" adds one critical-severity case to both sides: the code version gets a new <code>elif</code> branch (counted), the governed version gets a new fact row. "Route an ungoverned ticket" sends a ticket neither side was ever built to handle (severity=<code>outage</code>): the governed evaluator abstains; the unmodified code falls through to its default, silently.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="panel warn">
+    <div class="h">Don't take this at face value</div>
+    <div class="b">
+      <p>This page is a <strong>JavaScript reimplementation</strong> of <code>demos/ai-code-ratio/code_version.py</code>, <code>code_version_v2.py</code>, <code>facts.py</code>, and <code>governed_version.py</code>. The branch and LOC counts shown here are hardcoded to match what the Python actually measures by parsing its own source with <code>ast</code>, they are not recomputed live from this JS. A demo you cannot inspect proves nothing; the real proof is the code you run yourself:</p>
+      <pre>git clone https://github.com/frapster/the-substrate &amp;&amp; cd the-substrate
+python demos/ai-code-ratio/ratio_demo.py     <span class="muted"># watch the counted delta: 9 &rarr; 12 branches</span>
+python demos/ai-code-ratio/test_ratio.py     <span class="muted"># the revert-the-fact litmus is the point</span></pre>
+      <p style="margin-top:12px">Read the source: <a href="../ai-code-ratio/code_version.py">code_version.py</a> · <a href="../ai-code-ratio/governed_version.py">governed_version.py</a> · <a href="../ai-code-ratio/README.md">README</a> · <a href="../../THESIS.md">THESIS.md</a></p>
+      <p style="margin-top:12px">Be honest about scope: this is <strong>one small, illustrative feature</strong>, not a whole-system measurement. The 90:10 LLM-First target is a design aspiration, not an empirical finding about this or any system. See the README's "what this does and does not prove" section.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="h">Prove it yourself · extend the tests</div>
+    <div class="b">
+      <p>Adding a business case to the governed path means adding a row to <code>NEW_FACTS</code> in <code>facts.py</code>, the evaluator in <code>governed_version.py</code> is untouched. Add your own case and assert it changes behavior with zero evaluator code change:</p>
+      <pre>NEW_FACTS: list[dict] = [
+    {"conditions": {"plan_tier": "free", "severity": "critical"},
+     "outcome": {"queue": "standard_urgent", "escalation": "tier1"}},
+    <span class="muted"># ...existing rows...</span>
+    {"conditions": {"plan_tier": "pro", "severity": "outage"},   <span class="muted"># your new case</span>
+     "outcome": {"queue": "priority_urgent", "escalation": "tier4_incident"}},
+]
+
+def test_my_own_fact_changes_behavior(self):
+    probe = {"plan_tier": "pro", "severity": "outage"}
+    before = governed_version.evaluate(probe, facts=facts.BASE_FACTS)
+    after = governed_version.evaluate(probe, facts=facts.BASE_FACTS + facts.NEW_FACTS)
+    self.assertEqual(before.get("status"), "hitl_required")   # abstained before
+    self.assertNotEqual(after.get("status"), "hitl_required") # governed after</pre>
+      <p style="margin-top:12px">Run <code>python demos/ai-code-ratio/test_ratio.py</code>. If your new fact row changes the routing decision without touching <code>governed_version.py</code>, you've reproduced the claim. Then try reverting just that one row, the revert-the-fact litmus, and confirm the decision reverts too.</p>
+    </div>
+  </div>
+</div></section>
+
+</div>
+
+<footer class="page"><div class="wrap">
+  <div class="ip">This interactive page is a clean-room illustration, not the BOSNet.io engine. It demonstrates one countable property (where new requirement meaning lands: code vs. facts) with code you can read and rerun. The machine-checkable spec and kernel are patent-pending and reserved; BOSNet.io and BOSS are proprietary. See the license.</div>
+  <div class="byline">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate · <a href="index.html">interactive demos</a> · <a href="../../README.md">README</a></span></div>
+</div></footer>
+
+<script src="ai-code-ratio.js"></script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 # governed-decision: the whole loop in one runnable file
 
+> **Try it in your browser** (no install): [interactive governed-decision demo](../interactive/governed-decision.html). The interactive version mirrors this Python; it is the convenience, and the code here is the proof.
+
 The flagship demo. One intent flows through **all four BOSS guarantees** end to end:
 **bounded** gate → **evidence** check → deterministic **validator** → **audited**
 hash-chained ledger → **reversible** commit, and each stage can refuse its own bad input

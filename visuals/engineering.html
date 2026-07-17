@@ -4,138 +4,119 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Engineering Thesis · the-substrate</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="description" content="Total cost of ownership, the quality and security of LLM-authored code, governing a model inside a harness you don't own, and the drift it fights.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../assets/substrate.css">
 <style>
-:root{
-  --bg:#0c1119;--surface:#121926;--surface-2:#16202f;--border:rgba(255,255,255,0.09);--grid:rgba(255,255,255,0.033);
-  --text:#e5ebf3;--text-dim:#8b99ad;--text-faint:#5a6779;
-  --accent:#5a8fd6;--accent-dim:rgba(90,143,214,0.15);--accent-line:rgba(90,143,214,0.42);
-  --amber:#d6a54a;--amber-dim:rgba(214,165,74,0.13);--good:#3fb27f;--bad:#d0644f;--seg-code:#3a4658;
-  --font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;--font-mono:'IBM Plex Mono',ui-monospace,monospace;
-}
-@media (prefers-color-scheme:light){:root{
-  --bg:#eef1f6;--surface:#ffffff;--surface-2:#f2f5fb;--border:rgba(18,26,42,0.12);--grid:rgba(18,26,42,0.04);
-  --text:#131b28;--text-dim:#4f5d73;--text-faint:#7f8a9d;--accent:#2c5aa8;--accent-dim:rgba(44,90,168,0.1);--accent-line:rgba(44,90,168,0.35);--amber:#9a6f16;--seg-code:#c4cedb;
-}}
-*{box-sizing:border-box;margin:0;padding:0;min-width:0}html{scroll-behavior:smooth}
-body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:34px 34px}
-.wrap{max-width:1040px;margin:0 auto;padding:0 24px}.mono{font-family:var(--font-mono)}a{color:var(--accent)}
-code{font-family:var(--font-mono);font-size:.88em;color:var(--amber);background:var(--amber-dim);padding:1px 5px;border-radius:4px}
-.backlink{font-family:var(--font-mono);font-size:12.5px;color:var(--text-dim);text-decoration:none;display:inline-flex;gap:8px;margin-bottom:34px}.backlink:hover{color:var(--accent)}
-header{padding:60px 0 40px;border-bottom:1px solid var(--border)}
-.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:10px;margin-bottom:20px}.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-dim)}
-h1{font-size:clamp(34px,5.2vw,54px);font-weight:700;letter-spacing:-.02em;line-height:1.03}
-.lead{font-size:clamp(17px,2.2vw,21px);color:var(--text-dim);max-width:74ch;margin-top:20px;line-height:1.5}.lead strong{color:var(--text);font-weight:600}
-section{padding:46px 0;border-bottom:1px solid var(--border)}
-.slabel{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600;display:flex;align-items:center;gap:9px}.slabel .n{color:var(--text-faint)}
-h2{font-size:clamp(21px,2.9vw,29px);font-weight:600;letter-spacing:-.01em;margin:12px 0 11px}
-.intro{color:var(--text-dim);max-width:74ch;font-size:16px}.intro strong{color:var(--text)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:24px}
-.tile{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:19px}.tile.hero{border-color:var(--accent-line);background:linear-gradient(160deg,var(--accent-dim),transparent 70%)}
-.tile .big{font-family:var(--font-mono);font-size:clamp(24px,3.4vw,34px);font-weight:600;letter-spacing:-.02em;line-height:1}.tile.hero .big{color:var(--accent)}
-.tile .cap{font-size:13px;color:var(--text-dim);margin-top:8px;line-height:1.45}.tile .cap a{color:inherit}
-.def{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}@media(max-width:640px){.def{grid-template-columns:1fr}}
-.pane{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}.pane.yes{border-color:var(--accent-line)}.pane.no{border-color:rgba(208,100,79,.28)}
-.pane .t{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-bottom:9px;display:inline-block;padding:3px 8px;border-radius:5px}
-.pane.yes .t{color:var(--accent);background:var(--accent-dim)}.pane.no .t{color:var(--bad);background:rgba(208,100,79,.12)}
-.pane h3{font-size:16px;font-weight:600;margin-bottom:6px}.pane p{font-size:13.5px;color:var(--text-dim);line-height:1.5}
-.gov{list-style:none;display:grid;gap:9px;margin-top:22px}.gov li{position:relative;padding-left:20px;font-size:14.5px;color:var(--text-dim)}.gov li::before{content:'';position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--good)}.gov li b{color:var(--text)}.gov code{color:var(--amber);background:var(--amber-dim);padding:1px 5px;border-radius:4px;font-family:var(--font-mono);font-size:12px}
-.stmt{margin-top:24px;padding:22px 26px;border-left:3px solid var(--accent);background:var(--accent-dim);border-radius:0 10px 10px 0;font-size:17px;line-height:1.5}.stmt b{color:var(--accent)}
-.obj{display:grid;gap:13px;margin-top:24px}
-.o{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:19px 21px}.o h3{font-size:15px;font-weight:600;margin-bottom:5px;color:var(--text)}.o .a{font-size:13.5px;color:var(--text-dim);line-height:1.5}.o .a b{color:var(--accent)}
-.src{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);margin-top:8px}.src a{color:var(--text-dim)}
-.note{margin-top:16px;font-size:13.5px;color:var(--text-faint)}.note a{color:var(--accent)}
-.nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.nav a{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);border:1px solid var(--border);background:var(--surface);padding:6px 11px;border-radius:20px;text-decoration:none}.nav a:hover{border-color:var(--accent-line);color:var(--accent)}
-footer{padding:38px 0 66px;color:var(--text-faint);font-size:13.5px}footer a{color:var(--accent);text-decoration:none}
-footer .ip{font-family:var(--font-mono);font-size:12px;border:1px solid var(--border);border-radius:8px;padding:14px 18px;color:var(--text-dim);margin-bottom:20px;background:var(--surface)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:no-preference){header>*,section>.wrap>*{animation:fadeUp .5s both}.tile,.pane,.o{animation:fadeUp .5s both}}
+.card .big { font-family: var(--font-mono); font-weight: 700; font-size: clamp(24px, 3.2vw, 32px); color: var(--accent); line-height: 1; }
+.card .big + p { margin-top: 8px; }
 </style>
 </head>
 <body>
-<div class="wrap"><a href="../ENGINEERING.md" class="backlink mono">← read ENGINEERING.md</a>
-<header>
-  <div class="eyebrow"><span class="dot"></span>the-substrate · the engineering thesis</div>
+
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="../README.md"><span class="tick"></span>the&#8209;substrate</a>
+  <div class="topnav">
+    <a href="thesis.html">Thesis</a>
+    <a href="engineering.html">Engineering</a>
+    <a href="../demos/interactive/index.html">Demos</a>
+    <a href="../LICENSE.md">License</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<a href="../ENGINEERING.md" class="backlink mono">&larr; read ENGINEERING.md</a>
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>the engineering thesis</div>
   <h1>What it costs, and what it takes</h1>
-  <p class="lead">The economics and discipline behind the thesis: <strong>total cost of ownership</strong>, the <strong>quality and security of LLM-authored code</strong>, governing a model inside a <strong>harness you don't own</strong>, and the <strong>drift</strong> it fights. Every external claim is cited; every objection is answered.</p>
+  <p class="lede">The economics and discipline behind the thesis: <strong>total cost of ownership</strong>, the <strong>quality and security of LLM-authored code</strong>, governing a model inside a <strong>harness you don't own</strong>, and the <strong>drift</strong> it fights. Every external claim is cited; every objection is answered.</p>
 </header>
 
 <section><div class="wrap">
-  <span class="slabel">LLM-First by design</span>
+  <span class="slabel"><span class="sq"></span>LLM-First by design</span>
   <h2>The 90 : 10 target</h2>
   <p class="intro">Reasoning as the <strong>default operational layer</strong>; hand-authored code the <em>exception</em>, for what a model should not do (irreversible, identity, money, secrets). A build posture too: author blueprints + intent, a governed compiler emits behavior, a human curates.</p>
-  <div class="def">
-    <div class="pane yes"><span class="t">LLM-First · target</span><h3>90% AI · 10% code</h3><p>Governed reasoning carries operational behavior; a thin deterministic shell holds the irreversible parts. Evolved from BOSNet.io's original 80/20.</p></div>
-    <div class="pane no"><span class="t">LLM-Heavy · off target</span><h3>Many calls, still code-first</h3><p>An LLM bolted onto code-first structure, with no governed default and no compiler. Lots of AI; none of the substrate.</p></div>
+  <div class="grid cols-2">
+    <div class="card"><div class="cn">LLM-First &middot; target</div><h3>90% AI &middot; 10% code</h3><p>Governed reasoning carries operational behavior; a thin deterministic shell holds the irreversible parts. Evolved from BOSNet.io's original 80/20.</p></div>
+    <div class="card"><div class="cn">LLM-Heavy &middot; off target</div><h3>Many calls, still code-first</h3><p>An LLM bolted onto code-first structure, with no governed default and no compiler. Lots of AI; none of the substrate.</p></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
-  <span class="slabel">total cost of ownership</span>
+  <span class="slabel"><span class="sq"></span>total cost of ownership</span>
   <h2>Maintenance is where LLM-First wins</h2>
   <p class="intro">Software is paid for over its life, not when written. The <a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">60/60 rule</a>: ~60% of lifetime cost is maintenance, ~60% of that is enhancement. Moving operational logic to blueprints changes what you maintain for a decade.</p>
-  <div class="tiles">
-    <div class="tile hero"><div class="big mono">~60%</div><div class="cap">Of lifetime cost is maintenance: the part LLM-First attacks.</div></div>
-    <div class="tile"><div class="big mono">70-85%</div><div class="cap">Of hand-authored surface is operational logic: the compile target.</div></div>
-    <div class="tile"><div class="big mono">15-30%</div><div class="cap">Irreducible plumbing floor (auth, billing, secrets, RLS) that stays code.</div></div>
+  <div class="grid cols-3">
+    <div class="card"><div class="big">~60%</div><p>Of lifetime cost is maintenance: the part LLM-First attacks.</p></div>
+    <div class="card"><div class="big">70-85%</div><p>Of hand-authored surface is operational logic: the compile target.</p></div>
+    <div class="card"><div class="big">15-30%</div><p>Irreducible plumbing floor (auth, billing, secrets, RLS) that stays code.</p></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
-  <span class="slabel">LLM-authored code</span>
+  <span class="slabel"><span class="sq"></span>LLM-authored code</span>
   <h2>A draft until something enforces it</h2>
   <p class="intro">Every line here is LLM-authored; Rob is the human-in-the-loop orchestrator. The published evidence on <em>ungoverned</em> LLM code is not flattering, so the code is held to a bar.</p>
-  <div class="tiles">
-    <div class="tile"><div class="big mono">~45%</div><div class="cap">Of security-relevant tasks, models pick the insecure option (<a href="https://www.veracode.com/blog/genai-code-security-report/">Veracode 2025</a>).</div></div>
-    <div class="tile"><div class="big mono">19%↓</div><div class="cap">Experts were <em>slower</em> with AI while feeling faster (<a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">METR</a>).</div></div>
-    <div class="tile"><div class="big mono">15-50</div><div class="cap">Defects/KLOC baseline for typical dev (<a href="https://stevemcconnell.com/articles/gauging-software-readiness-with-defect-tracking/">McConnell</a>).</div></div>
+  <div class="grid cols-3">
+    <div class="card"><div class="big">~45%</div><p>Of security-relevant tasks, models pick the insecure option (<a href="https://www.veracode.com/blog/genai-code-security-report/">Veracode 2025</a>).</p></div>
+    <div class="card"><div class="big">19%&darr;</div><p>Experts were <em>slower</em> with AI while feeling faster (<a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">METR</a>).</p></div>
+    <div class="card"><div class="big">15-50</div><p>Defects/KLOC baseline for typical dev (<a href="https://stevemcconnell.com/articles/gauging-software-readiness-with-defect-tracking/">McConnell</a>).</p></div>
   </div>
-  <ul class="gov">
+  <ul class="tight-list">
     <li><b>Pre-commit guards</b>, a chained set: <code>endpoint-lock</code>, a <code>no-stubs</code> gate, <code>blueprint-lint</code>, a public-view protocol, a content-truth check.</li>
-    <li><b>CI</b>, in order: typecheck → lint → test → build, a hard <code>service-role-key guard</code>, ephemeral-DB <code>pgTAP</code> + RLS audits.</li>
-    <li><b>Audit-style remediation</b>: numbered findings closed in tracked batches (<code>F-01…F-12</code>), IDOR/authz fixes, committed-secret cleanup.</li>
+    <li><b>CI</b>, in order: typecheck &rarr; lint &rarr; test &rarr; build, a hard <code>service-role-key guard</code>, ephemeral-DB <code>pgTAP</code> + RLS audits.</li>
+    <li><b>Audit-style remediation</b>: numbered findings closed in tracked batches (<code>F-01&hellip;F-12</code>), IDOR/authz fixes, committed-secret cleanup.</li>
   </ul>
   <div class="stmt">The claim: <b>governed LLM code, held to these gates by a disciplined orchestrator, is a deliverable, and the governance is the product.</b></div>
 </div></section>
 
 <section><div class="wrap">
-  <span class="slabel">a harness you don't own</span>
+  <span class="slabel"><span class="sq"></span>a harness you don't own</span>
   <h2>Cooperative, always-on, and its ceiling</h2>
-  <p class="intro">Building with Claude.ai Max means governing a model inside <strong>someone else's harness</strong>. You can't modify the runtime, so governance is a cooperative overlay that re-asserts every session: session mandates → tool-call hooks → a pre-impl architecture-fit check → a post-impl drift audit → self-heal.</p>
+  <p class="intro">Building with Claude.ai Max means governing a model inside <strong>someone else's harness</strong>. You can't modify the runtime, so governance is a cooperative overlay that re-asserts every session: session mandates &rarr; tool-call hooks &rarr; a pre-impl architecture-fit check &rarr; a post-impl drift audit &rarr; self-heal.</p>
   <div class="stmt">But be honest about the ceiling: an overlay is only as good as <b>what hasn't changed in the harness beneath it</b> and <b>what you didn't forget to invoke</b>. A rule not loaded, a hook not registered, is not enforced. <b>Omission is ungoverned.</b> Managing drift dies here first.</div>
 </div></section>
 
 <section><div class="wrap">
-  <span class="slabel">drift &amp; the substrate</span>
+  <span class="slabel"><span class="sq"></span>drift &amp; the substrate</span>
   <h2>Code, harness, and knowledge</h2>
   <p class="intro">Two drift modes come from a model trained on code-first software (code-first drift; and harness-injection, where it smuggles governance logic into the app schema). The third has nothing to do with code: <strong>knowledge drift</strong>: the wrong, stale, or missing context. Prompts govern what the model may <em>do</em>; they don't supply what it <em>knows</em>.</p>
-  <p class="intro" style="margin-top:12px">The remedy is a governance-carrying dimensional matrix: naive vector RAG returns what's <em>near</em>, not what's <em>governed and true</em> (<a href="https://arxiv.org/abs/2401.00396">RAGTruth</a>, <a href="https://arxiv.org/abs/2307.03172">Lost in the Middle</a>, <a href="https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/">OWASP LLM08</a>). The rule: <strong>right index per query class</strong>.</p>
+  <p class="intro" style="margin-top:14px">The remedy is a governance-carrying dimensional matrix: naive vector RAG returns what's <em>near</em>, not what's <em>governed and true</em> (<a href="https://arxiv.org/abs/2401.00396">RAGTruth</a>, <a href="https://arxiv.org/abs/2307.03172">Lost in the Middle</a>, <a href="https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/">OWASP LLM08</a>). The rule: <strong>right index per query class</strong>.</p>
   <div class="stmt">The operational substrate of an LLM is <b>governance plus knowledge.</b> Drift is the erosion of either half: a rule un-invoked, a harness shifted, or context fed wrong. Managing it means holding both, continuously.</div>
 </div></section>
 
 <section><div class="wrap">
-  <span class="slabel">objections we take seriously</span>
+  <span class="slabel"><span class="sq"></span>objections we take seriously</span>
   <h2>The sharpest counter-arguments, answered</h2>
-  <div class="obj">
-    <div class="o"><h3>"Compounding error dooms run-time reasoning."</h3><p class="a">99%/step → ~37% over 100 steps. <b>Answer:</b> the auditor re-derives ground truth and discards failing steps, so per-step correctness is enforced by code rather than left to decay. Agency is concentrated in about 8 decisions rather than 100, and rejects are thrown away, never compounded.</p><div class="src"><a href="https://arxiv.org/abs/2507.21504">agent-eval survey</a></div></div>
-    <div class="o"><h3>"The governance/knowledge framing hides a false trichotomy."</h3><p class="a">Policy and knowledge are authored artifacts too. <b>Answer:</b> we don't claim code disappears; the <em>locus of authored truth</em> shifts to declarative governed artifacts, and <em>decision execution</em> shifts to run-time. That's a real difference in what you maintain and when decisions are made.</p><div class="src"><a href="https://www.pulumi.com/what-is/what-is-policy-as-code/">policy-as-code</a> · <a href="https://arxiv.org/abs/2501.00309">GraphRAG-is-RAG</a></div></div>
-    <div class="o"><h3>"Structure doesn't always pay."</h3><p class="a">Graph knowledge can lose to vector RAG on factoids and costs more. <b>Answer:</b> agreed: right index per query class. Governed structure is for what must be <em>accountable</em>; similarity search is fine for open factoid lookup.</p><div class="src"><a href="https://arxiv.org/abs/2502.11371">RAG vs GraphRAG</a></div></div>
-    <div class="o"><h3>On the 90 : 10 number.</h3><p class="a">It's a <b>design aspiration.</b> No study shows an optimal ratio; it's the target BOSNet.io reaches for, and each project approaches honestly (Zabble stays ~30-40). A measured north star.</p></div>
-  </div>
+  <table class="boxed-table">
+    <thead><tr><th>Objection</th><th>Answer</th></tr></thead>
+    <tbody>
+      <tr><td class="k">"Compounding error dooms run-time reasoning."</td><td>99%/step &rarr; ~37% over 100 steps. <b>Answer:</b> the auditor re-derives ground truth and discards failing steps, so per-step correctness is enforced by code rather than left to decay. Agency is concentrated in about 8 decisions rather than 100, and rejects are thrown away, never compounded. <span class="mono small">(<a href="https://arxiv.org/abs/2507.21504">agent-eval survey</a>)</span></td></tr>
+      <tr><td class="k">"The governance/knowledge framing hides a false trichotomy."</td><td>Policy and knowledge are authored artifacts too. <b>Answer:</b> we don't claim code disappears; the <em>locus of authored truth</em> shifts to declarative governed artifacts, and <em>decision execution</em> shifts to run-time. That's a real difference in what you maintain and when decisions are made. <span class="mono small">(<a href="https://www.pulumi.com/what-is/what-is-policy-as-code/">policy-as-code</a> &middot; <a href="https://arxiv.org/abs/2501.00309">GraphRAG-is-RAG</a>)</span></td></tr>
+      <tr><td class="k">"Structure doesn't always pay."</td><td>Graph knowledge can lose to vector RAG on factoids and costs more. <b>Answer:</b> agreed: right index per query class. Governed structure is for what must be <em>accountable</em>; similarity search is fine for open factoid lookup. <span class="mono small">(<a href="https://arxiv.org/abs/2502.11371">RAG vs GraphRAG</a>)</span></td></tr>
+      <tr><td class="k">On the 90 : 10 number.</td><td>It's a <b>design aspiration.</b> No study shows an optimal ratio; it's the target BOSNet.io reaches for, and each project approaches honestly (Zabble stays ~30-40). A measured north star.</td></tr>
+    </tbody>
+  </table>
 </div></section>
 
 <section><div class="wrap">
-  <span class="slabel">governance built to free people</span>
+  <span class="slabel"><span class="sq"></span>governance built to free people</span>
   <h2>Governing AI begins with governing people</h2>
   <p class="intro">Safe, governed tools <strong>free</strong> people rather than constrain them, and the evidence backs it (<a href="https://dora.dev/capabilities/streamlining-change-approval/">DORA</a>: lightweight guardrails beat heavyweight gates on speed <em>and</em> stability; <a href="https://airc.nist.gov/airmf-resources/airmf/5-sec-core/">NIST AI RMF</a> makes GOVERN a people function). It holds under one condition: <strong>the guardrails act as paved roads, easy to follow, rather than fences that block movement.</strong></p>
-  <div class="nav"><a href="governing-people.html">→ The Builder &amp; the Guardrails</a><a href="../GOVERNING-PEOPLE.md">→ companion document</a></div>
+  <div class="linkrow"><a href="governing-people.html">The Builder &amp; the Guardrails &rarr;</a><a href="../GOVERNING-PEOPLE.md">companion document &rarr;</a></div>
 </div></section>
 
-<footer><div class="wrap">
-  <div class="ip">IP-safety reviewed. Public-safe patterns and cited claims only: no proprietary BOSNet.io or BOSS internals, secrets, project identifiers, or client names. "After" figures are labeled estimates.</div>
-  Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
-  <span class="mono" style="font-size:12px">the-substrate · <a href="../README.md">README</a> · <a href="../ENGINEERING.md">ENGINEERING.md</a> · <a href="thesis.html">thesis</a></span>
-</div></footer>
 </div>
+
+<footer class="page"><div class="wrap">
+  <div class="ip">IP-safety reviewed. Public-safe patterns and cited claims only: no proprietary BOSNet.io or BOSS internals, secrets, project identifiers, or client names. "After" figures are labeled estimates.</div>
+  <div class="byline">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions &middot; <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate &middot; <a href="../README.md">README</a> &middot; <a href="../ENGINEERING.md">ENGINEERING.md</a> &middot; <a href="thesis.html">thesis</a></span></div>
+</div></footer>
+
 </body>
 </html>

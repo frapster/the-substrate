@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive demos: watch governance say no · the-substrate</title>
+<meta name="description" content="Eight runnable proofs you can play with in your browser, no install. Each shows a governed refusal happening live, and each points you to the Python you can run and change to prove it yourself.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/substrate.css">
+<link rel="stylesheet" href="playground.css">
+</head>
+<body>
+
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="../../README.md"><span class="tick"></span>the&#8209;substrate</a>
+  <div class="topnav">
+    <a href="../../README.md">README</a>
+    <a href="../../BOSS-STANDARD.md">BOSS</a>
+    <a href="../../visuals/thesis.html">Thesis</a>
+    <a href="../../LICENSE.md">License</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>interactive proofs</div>
+  <h1>Watch governance<br>say no</h1>
+  <p class="lede">A governed system is defined by what it declines to do. Here are eight proofs you can drive in your browser, no install: each one shows a refusal happening live, and each points you to the Python you can run and change to prove it for yourself.</p>
+  <div class="pull">The interactive version is the convenience. The Python you rerun is the proof.</div>
+</header>
+
+<section><div class="wrap">
+  <span class="slabel"><span class="sq"></span>eight refusals</span>
+  <h2>One proof per guarantee</h2>
+  <p class="intro">Every demo re-implements a Python proof from <code>demos/</code> in dependency-free JavaScript, so it runs anywhere and the numbers match the source. Play with the inputs, force the failure, then open the "prove it yourself" panel on each page to run and extend the real tests.</p>
+
+  <div class="grid cols-2">
+    <a class="card" href="audit-ledger.html" style="text-decoration:none">
+      <div class="cn">Audited</div><h3>Tamper-evident ledger</h3>
+      <p class="desc">Edit a past decision, watch verify() pinpoint the break.</p>
+    </a>
+    <a class="card" href="bounded-authority.html" style="text-decoration:none">
+      <div class="cn">Bounded</div><h3>Deny-by-default gate</h3>
+      <p class="desc">Propose an over-scoped action, watch it blocked before it runs.</p>
+    </a>
+    <a class="card" href="evidence-provenance.html" style="text-decoration:none">
+      <div class="cn">Evidence-backed</div><h3>Provenance or refusal</h3>
+      <p class="desc">Edit a source, watch the claim it backed go stale.</p>
+    </a>
+    <a class="card" href="governed-knowledge.html" style="text-decoration:none">
+      <div class="cn">Knowledge</div><h3>Governed vs RAG</h3>
+      <p class="desc">Naive cosine returns a stale atom; governed returns current, or abstains.</p>
+    </a>
+    <a class="card" href="reversible-actions.html" style="text-decoration:none">
+      <div class="cn">Reversible</div><h3>Append-only recovery</h3>
+      <p class="desc">An in-place edit fails closed; restore reproduces the exact prior state.</p>
+    </a>
+    <a class="card" href="deterministic-validator.html" style="text-decoration:none">
+      <div class="cn">Validated</div><h3>Discarded, not patched</h3>
+      <p class="desc">A bad proposal is discarded; even an approving judge cannot launder it.</p>
+    </a>
+    <a class="card" href="ai-code-ratio.html" style="text-decoration:none">
+      <div class="cn">90:10 AI:code</div><h3>Facts, not branches</h3>
+      <p class="desc">Add a case: the code grows branches, the governed version adds a fact.</p>
+    </a>
+    <a class="card" href="governed-decision.html" style="text-decoration:none">
+      <div class="cn">The flagship</div><h3>One decision, end to end</h3>
+      <p class="desc">One intent through all four guarantees; break any stage, see the refusal.</p>
+    </a>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <span class="slabel"><span class="sq"></span>how to read these</span>
+  <h2>A demo you cannot inspect proves nothing</h2>
+  <p class="intro">Each interactive page mirrors a specific Python file and stays faithful to it, so the browser and the local proof agree. But the honest posture is to distrust the pre-built version. Clone the repo, run the demos, read the negative tests, and change them until you are convinced.</p>
+  <pre>git clone https://github.com/frapster/the-substrate &amp;&amp; cd the-substrate
+python demos/run_tests.py        <span class="muted"># all 8 suites, negatives included</span>
+python demos/audit-ledger/ledger_demo.py</pre>
+  <div class="linkrow">
+    <a href="../../README.md">README &rarr;</a>
+    <a href="../../BOSS-STANDARD.md">the standard &rarr;</a>
+    <a href="../README.md">demos/ overview &rarr;</a>
+    <a href="../../docs/adr/">architecture decisions &rarr;</a>
+  </div>
+</div></section>
+
+</div>
+
+<footer class="page"><div class="wrap">
+  <div class="ip">These interactive pages are clean-room illustrations, not the BOSNet.io engine. Each is grounded in a real mechanism but reproduces none of the proprietary schema, coordinate scheme, or kernel. The machine-checkable spec and kernel are patent-pending and reserved; BOSNet.io and BOSS are proprietary. See the license.</div>
+  <div class="byline">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate · <a href="../../README.md">README</a> · <a href="../../LICENSE.md">license</a></span></div>
+</div></footer>
+
+</body>
+</html>

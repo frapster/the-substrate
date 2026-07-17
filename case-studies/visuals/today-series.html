@@ -4,210 +4,127 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Today Series: Before / After · the-substrate</title>
+<meta name="description" content="Today Series case study: a content platform's authoring, curation, and retrieval logic converted to blueprint-compiled governed reasoning. AI:code ~35:65 → ~85-90:10-15, planned estimate.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0d1417;--surface:#121b1e;--surface-2:#162226;--border:rgba(255,255,255,0.09);--grid:rgba(255,255,255,0.035);
-  --text:#e6eff0;--text-dim:#8a9b9d;--text-faint:#5b6d70;
-  --accent:#22a699;--accent-dim:rgba(34,166,153,0.15);--accent-line:rgba(34,166,153,0.42);
-  --seg-code:#39485a;--code:#c98a3a;--code-dim:rgba(201,138,58,0.13);
-  --good:#3fb27f;--bad:#d6604d;--warn:#d9a441;
-  --font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;--font-mono:'IBM Plex Mono',ui-monospace,monospace;
-}
-@media (prefers-color-scheme:light){:root{
-  --bg:#eef2f0;--surface:#ffffff;--surface-2:#f3f8f6;--border:rgba(15,30,30,0.12);--grid:rgba(15,30,30,0.04);
-  --text:#15211f;--text-dim:#516260;--text-faint:#83918f;
-  --accent:#0f7d72;--accent-dim:rgba(15,125,114,0.1);--accent-line:rgba(15,125,114,0.35);
-  --seg-code:#c4cedb;--code:#a2670f;--code-dim:rgba(162,103,15,0.08);
-}}
-*{box-sizing:border-box;margin:0;padding:0;min-width:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:34px 34px}
-.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
-.mono{font-family:var(--font-mono)}
-.backlink{font-family:var(--font-mono);font-size:12.5px;color:var(--text-dim);text-decoration:none;display:inline-flex;gap:8px;align-items:center;margin-bottom:36px}
-.backlink:hover{color:var(--accent)}
-header{padding:64px 0 40px;border-bottom:1px solid var(--border)}
-.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:10px;margin-bottom:20px}
-.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-dim)}
-h1{font-size:clamp(38px,6vw,60px);font-weight:700;letter-spacing:-.02em;line-height:1.02}
-.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;align-items:center}
-.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:6px}
-.status .d{width:7px;height:7px;border-radius:50%;background:currentColor}
-.status.plan{color:var(--warn);background:rgba(217,164,65,.12);border:1px solid rgba(217,164,65,.35)}
-.ratio-badge{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--accent);border:1px solid var(--accent-line);background:var(--accent-dim);padding:6px 12px;border-radius:6px}
-.lead{font-size:clamp(18px,2.4vw,22px);color:var(--text-dim);max-width:70ch;margin-top:22px;line-height:1.5}
-.lead strong{color:var(--text);font-weight:600}
-.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
-.chip{font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);border:1px solid var(--border);background:var(--surface);padding:5px 11px;border-radius:20px}
-section{padding:50px 0;border-bottom:1px solid var(--border)}
-.section-label{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);font-weight:500;display:flex;align-items:center;gap:9px}
-.section-label .sq{width:8px;height:8px;background:var(--accent);border-radius:2px}
-.sec-title{font-size:clamp(23px,3.2vw,30px);font-weight:600;letter-spacing:-.01em;margin:14px 0 10px}
-.sec-intro{color:var(--text-dim);max-width:68ch;font-size:16px}
-.ba{margin-top:30px;padding:26px;background:var(--surface);border:1px solid var(--border);border-radius:14px}
-.ba-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.ba-note{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);letter-spacing:.1em;text-transform:uppercase}
-.ba-grid{margin-top:22px;display:grid;gap:11px}
-.ba-line{display:grid;grid-template-columns:70px 1fr;gap:14px;align-items:center}
-.ba-when{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--text-dim)}
-.ba-when.now{color:var(--accent)}
-.bar{display:flex;height:32px;border-radius:7px;overflow:hidden;border:1px solid var(--border);background:var(--surface-2)}
-.seg{display:flex;align-items:center;padding:0 11px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden}
-.seg.reason{background:var(--accent);color:var(--bg)}
-.seg.code{background:var(--seg-code);color:var(--text)}
-.ba-arrow{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);padding-left:84px;margin:2px 0}
-.ba-delta{margin-top:18px;font-size:15px;color:var(--text-dim);display:flex;align-items:center;flex-wrap:wrap;gap:6px}
-.ba-delta b{color:var(--accent);font-family:var(--font-mono)}
-.tag-est{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px;color:var(--warn);background:rgba(217,164,65,.13);border:1px solid rgba(217,164,65,.35)}
-.legend{display:flex;gap:18px;margin-top:16px;font-size:12px;color:var(--text-dim);font-family:var(--font-mono)}
-.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-.legend .r{background:var(--accent)}.legend .c{background:var(--seg-code)}
-.invariant{margin-top:28px;padding:20px 24px;border-left:3px solid var(--accent);background:var(--accent-dim);border-radius:0 10px 10px 0;font-size:17px;line-height:1.5}
-.invariant b{color:var(--accent)}
-/* roadmap */
-.roadmap{display:grid;gap:12px;margin-top:30px}
-.step{display:grid;grid-template-columns:42px 1fr;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;align-items:start}
-.step .n{font-family:var(--font-mono);font-weight:600;font-size:14px;color:var(--accent);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid var(--accent-line);border-radius:9px;background:var(--accent-dim)}
-.step.freeze{border-color:rgba(201,138,58,.3)}
-.step.freeze .n{color:var(--code);border-color:rgba(201,138,58,.4);background:var(--code-dim)}
-.step h3{font-size:15.5px;font-weight:600;margin-bottom:4px}
-.step p{font-size:14px;color:var(--text-dim)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px;margin-top:30px}
-.tile{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
-.tile.hero{border-color:var(--accent-line);background:linear-gradient(160deg,var(--accent-dim),transparent 70%)}
-.tile .big{font-family:var(--font-mono);font-size:clamp(26px,3.6vw,36px);font-weight:600;letter-spacing:-.02em;line-height:1}
-.tile.hero .big{color:var(--accent)}
-.tile .cap{font-size:13px;color:var(--text-dim);margin-top:9px;line-height:1.45}
-.tile .cap a{color:inherit}
-.sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
-@media(max-width:680px){.sec-grid{grid-template-columns:1fr}}
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
-.panel h3{font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.panel h3 .mk{width:9px;height:9px;border-radius:2px;background:var(--accent)}
-.std-chips{display:flex;flex-wrap:wrap;gap:8px}
-.std-chips a,.std-chips span{font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);border:1px solid var(--border);background:var(--surface-2);padding:5px 10px;border-radius:6px;text-decoration:none}
-.std-chips a:hover{border-color:var(--accent-line);color:var(--accent)}
-.gov-list{list-style:none;display:grid;gap:9px}
-.gov-list li{position:relative;padding-left:20px;font-size:14px;color:var(--text-dim)}
-.gov-list li::before{content:'';position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--good)}
-.gov-list li.risk::before{background:var(--warn)}
-.gov-list code{font-family:var(--font-mono);font-size:12px;color:var(--code);background:var(--code-dim);padding:1px 5px;border-radius:4px}
-.callout{margin-top:30px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:24px 26px}
-.callout .section-label{margin-bottom:14px}
-.callout .row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-@media(max-width:640px){.callout .row{grid-template-columns:1fr;gap:16px}}
-.callout h4{font-size:15px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.callout .mk{width:9px;height:9px;border-radius:2px}
-.callout .paid .mk{background:var(--good)}.callout .kept .mk{background:var(--code)}
-.callout p{font-size:14.5px;color:var(--text-dim)}
-.note{margin-top:16px;font-size:13.5px;color:var(--text-faint)}.note a{color:var(--accent)}
-footer{padding:40px 0 68px;color:var(--text-faint);font-size:13.5px}
-footer .ip{font-family:var(--font-mono);font-size:12px;border:1px solid var(--border);border-radius:8px;padding:14px 18px;color:var(--text-dim);margin-bottom:22px;background:var(--surface)}
-footer a{color:var(--accent);text-decoration:none}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:no-preference){header>*,section>.wrap>*{animation:fadeUp .5s both}.tile,.panel,.step{animation:fadeUp .5s both}}
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/substrate.css">
 </head>
 <body>
-<div class="wrap"><a href="../today-series.md" class="backlink mono">← read the full write-up</a></div>
 
-<header><div class="wrap">
-  <div class="eyebrow"><span class="dot"></span>the-substrate · case study 02 · before → after</div>
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="../../README.md"><span class="tick"></span>the&#8209;substrate</a>
+  <div class="topnav">
+    <a href="../../visuals/thesis.html">Thesis</a>
+    <a href="../../visuals/engineering.html">Engineering</a>
+    <a href="../../demos/interactive/index.html">Demos</a>
+    <a href="../../LICENSE.md">License</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<a href="../today-series.md" class="backlink mono">&larr; read the full write-up</a>
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>case study 02 · before &rarr; after</div>
   <h1>Today Series</h1>
-  <div class="badges">
-    <span class="status plan"><span class="d"></span>Planned · estimate</span>
-    <span class="ratio-badge">AI : code, ~35:65 → ~85-90:10-15 (est.)</span>
+  <div class="badges" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;align-items:center">
+    <span class="chip gold">Planned &middot; estimate</span>
+    <span class="chip blue">AI : code, ~35:65 &rarr; ~85-90:10-15 (est.)</span>
   </div>
-  <p class="lead">The case that can go <strong>furthest</strong> toward LLM-First. A content platform's "physics" is <strong>language and judgment</strong>. Most authoring, curation, and retrieval logic can become blueprint-compiled governed reasoning.</p>
-  <div class="stack">
-    <span class="chip">Next.js · React</span><span class="chip">Supabase · pgvector</span><span class="chip">~9.9k LOC · 19 pages</span><span class="chip">hybrid retrieval (RRF)</span><span class="chip">human-in-the-loop publish</span>
+  <p class="lede">The case that can go <strong>furthest</strong> toward LLM-First. A content platform's "physics" is <strong>language and judgment</strong>. Most authoring, curation, and retrieval logic can become blueprint-compiled governed reasoning.</p>
+  <div class="stack" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:22px">
+    <span class="chip">Next.js &middot; React</span><span class="chip">Supabase &middot; pgvector</span><span class="chip">~9.9k LOC &middot; 19 pages</span><span class="chip">hybrid retrieval (RRF)</span><span class="chip">human-in-the-loop publish</span>
   </div>
-</div></header>
+</header>
 
 <section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>the conversion: before → after</span>
-  <div class="ba">
-    <div class="ba-head"><span class="section-label"><span class="sq"></span>whole platform</span><span class="ba-note">AI : code</span></div>
-    <div class="ba-grid">
-      <div class="ba-line"><span class="ba-when">BEFORE</span><div class="bar"><span class="seg reason" style="width:35%">35% reasoning</span><span class="seg code" style="width:65%">65% code (serving layer)</span></div></div>
-      <div class="ba-arrow">↓ blueprint-compile the operational layer, not just ingestion</div>
-      <div class="ba-line"><span class="ba-when now">AFTER (est.)</span><div class="bar"><span class="seg reason" style="width:87%">~85-90% governed reasoning</span><span class="seg code" style="width:13%">~10-15%</span></div></div>
-    </div>
-    <div class="legend"><span><i class="r"></i>governed reasoning</span><span><i class="c"></i>deterministic code</span></div>
-    <div class="ba-delta"><b>~50-70%</b> of hand-authored operational logic displaced <span class="tag-est">projected · not shipped</span></div>
+  <span class="slabel"><span class="sq"></span>the conversion: before &rarr; after</span>
+  <h2>Whole platform</h2>
+  <div class="grid cols-2">
+    <div class="card"><div class="cn">Before</div><h3>~35% reasoning &middot; ~65% code</h3><p>Authoring, curation, and the serving layer are mostly hand-authored code.</p></div>
+    <div class="card"><div class="cn">After (est.)</div><h3>~85-90% governed reasoning &middot; ~10-15% code</h3><p>Blueprint-compile the operational layer, not just ingestion.</p></div>
   </div>
-  <div class="invariant">Reasoning becomes the operational default; hand-authored code shrinks to the irreducible plumbing: <b>approaching the LLM-First 90 : 10 target</b> because so little of a content platform is irreducibly deterministic.</div>
+  <div class="stmt"><b>~50-70%</b> of hand-authored operational logic displaced. <span class="chip gold" style="margin-left:6px">projected &middot; not shipped</span></div>
+  <div class="pull">Reasoning becomes the operational default; hand-authored code shrinks to the irreducible plumbing: approaching the LLM-First 90 : 10 target because so little of a content platform is irreducibly deterministic.</div>
 </div></section>
 
 <section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>the conversion roadmap</span>
-  <h2 class="sec-title">Apply the proven pattern to the operational layer</h2>
-  <p class="sec-intro">The same envelope compiler + blueprints + auditor Relic Wars already ships, pointed at authoring and serving, not just ingestion. <strong>This is a plan; none of it has shipped.</strong></p>
-  <div class="roadmap">
-    <div class="step"><div class="n">1</div><div><h3>Blueprint the content types</h3><p>Declarative blueprints for what a lesson is, what a study article requires, what a valid publication looks like, replacing hand-coded page/lesson logic.</p></div></div>
-    <div class="step"><div class="n">2</div><div><h3>Compile, don't branch</h3><p>A governed compiler turns a blueprint + retrieved evidence into a run-time plan. Curation, sequencing, and metadata become compiled reasoning.</p></div></div>
-    <div class="step"><div class="n">3</div><div><h3>Auditor over authoring</h3><p>Reject any artifact citing unretrieved sources or missing provenance: the Relic Wars commit-gate, applied to content.</p></div></div>
-    <div class="step"><div class="n">4</div><div><h3>Raise the test floor</h3><p>Blueprint conformance + auditor checks become the regression net the current codebase (3 test files) lacks.</p></div></div>
-    <div class="step freeze"><div class="n">5</div><div><h3>Keep the transactional shell</h3><p>Auth, billing, RLS, and the publish gate stay deterministic code.</p></div></div>
+  <span class="slabel"><span class="sq"></span>the conversion roadmap</span>
+  <h2>Apply the proven pattern to the operational layer</h2>
+  <p class="intro">The same envelope compiler + blueprints + auditor Relic Wars already ships, pointed at authoring and serving, not just ingestion. <strong>This is a plan; none of it has shipped.</strong></p>
+  <table class="boxed-table">
+    <thead><tr><th>#</th><th>Step</th></tr></thead>
+    <tbody>
+      <tr><td class="k"><span class="num">1</span>Blueprint the content types</td><td>Declarative blueprints for what a lesson is, what a study article requires, what a valid publication looks like, replacing hand-coded page/lesson logic.</td></tr>
+      <tr><td class="k"><span class="num">2</span>Compile, don't branch</td><td>A governed compiler turns a blueprint + retrieved evidence into a run-time plan. Curation, sequencing, and metadata become compiled reasoning.</td></tr>
+      <tr><td class="k"><span class="num">3</span>Auditor over authoring</td><td>Reject any artifact citing unretrieved sources or missing provenance: the Relic Wars commit-gate, applied to content.</td></tr>
+      <tr><td class="k"><span class="num">4</span>Raise the test floor</td><td>Blueprint conformance + auditor checks become the regression net the current codebase (3 test files) lacks.</td></tr>
+      <tr><td class="k"><span class="num">5</span>Keep the transactional shell</td><td>Auth, billing, RLS, and the publish gate stay deterministic code. <span class="chip blue">frozen</span></td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+<section><div class="wrap">
+  <span class="slabel"><span class="sq"></span>total cost of ownership</span>
+  <h2>Change a blueprint, not a fleet of routes and services</h2>
+  <p class="intro">Lifetime cost is dominated by <em>enhancement</em> (new content types, formats, retrieval tuning), the expensive slice of the <a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">60/60 rule</a>, landing on code that today is barely tested.</p>
+  <div class="grid cols-3">
+    <div class="card"><div class="mono" style="font-size:28px;font-weight:800;color:var(--accent);letter-spacing:-.02em">~50-70%&darr;</div><p style="margin-top:10px">Maintained operational code, projected (est.).</p></div>
+    <div class="card"><div class="mono" style="font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.02em">blueprint</div><p style="margin-top:10px">The unit of change: not a route, a service, and a test each time.</p></div>
+    <div class="card"><div class="mono" style="font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.02em">3&rarr;net</div><p style="margin-top:10px">From 3 test files today to blueprint-conformance + auditor as the regression net.</p></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>total cost of ownership</span>
-  <h2 class="sec-title">Change a blueprint, not a fleet of routes and services</h2>
-  <p class="sec-intro">Lifetime cost is dominated by <em>enhancement</em> (new content types, formats, retrieval tuning), the expensive slice of the <a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">60/60 rule</a>, landing on code that today is barely tested.</p>
-  <div class="tiles">
-    <div class="tile hero"><div class="big mono">~50-70%↓</div><div class="cap">Maintained operational code, projected (est.).</div></div>
-    <div class="tile"><div class="big mono">blueprint</div><div class="cap">The unit of change: not a route, a service, and a test each time.</div></div>
-    <div class="tile"><div class="big mono">3→net</div><div class="cap">From 3 test files today to blueprint-conformance + auditor as the regression net.</div></div>
-  </div>
-</div></section>
-
-<section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>code quality &amp; security</span>
-  <h2 class="sec-title">Grounding is not security</h2>
-  <p class="sec-intro">Neither RAG nor fine-tuning removes prompt injection, so the conversion's auditor and provenance checks are load-bearing controls, not nice-to-haves.</p>
-  <div class="sec-grid">
-    <div class="panel">
-      <h3><span class="mk"></span>Category standard</h3>
-      <div class="std-chips">
-        <a href="https://genai.owasp.org/llm-top-10/">OWASP LLM Top 10 2025</a>
-        <span>indirect prompt injection</span>
-        <span>vector isolation</span>
-        <a href="https://c2pa.org/">C2PA provenance</a>
+  <span class="slabel"><span class="sq"></span>code quality &amp; security</span>
+  <h2>Grounding is not security</h2>
+  <p class="intro">Neither RAG nor fine-tuning removes prompt injection, so the conversion's auditor and provenance checks are load-bearing controls, not nice-to-haves.</p>
+  <div class="grid cols-2">
+    <div class="card">
+      <h3>Category standard</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+        <a class="chip" href="https://genai.owasp.org/llm-top-10/">OWASP LLM Top 10 2025</a>
+        <span class="chip">indirect prompt injection</span>
+        <span class="chip">vector isolation</span>
+        <a class="chip" href="https://c2pa.org/">C2PA provenance</a>
       </div>
-      <p class="note">The LLM-code baseline &amp; gate stack: see <a href="../../ENGINEERING.md">ENGINEERING.md §3</a>.</p>
+      <p style="margin-top:14px;font-size:14px;color:var(--text-dim)">The LLM-code baseline &amp; gate stack: see <a href="../../ENGINEERING.md">ENGINEERING.md &sect;3</a>.</p>
     </div>
-    <div class="panel">
-      <h3><span class="mk"></span>Governance in place</h3>
-      <ul class="gov-list">
-        <li>Security findings <code>F-01…F-08</code> closed in a tracked remediation batch</li>
+    <div class="card">
+      <h3>Governance in place</h3>
+      <ul class="tight-list">
+        <li>Security findings <code>F-01&hellip;F-08</code> closed in a tracked remediation batch</li>
         <li>Grounding / refusal prompts + input &amp; output moderation</li>
         <li>Hybrid retrieval behind a security-definer function</li>
-        <li class="risk">Thin test surface today: a risk the conversion is built to fix, not inherit</li>
+        <li>Thin test surface today: a risk the conversion is built to fix, not inherit</li>
       </ul>
     </div>
   </div>
 </div></section>
 
 <section><div class="wrap">
-  <div class="callout">
-    <span class="section-label"><span class="sq"></span>the honest boundary</span>
-    <div class="row">
-      <div class="paid"><h4><span class="mk"></span>Where it should go LLM-First</h4><p>Content decisions, lesson structure, curation, retrieval planning: judgment with reversible outputs and a human gate.</p></div>
-      <div class="kept"><h4><span class="mk"></span>Where code must stay</h4><p>Money, identity, access control. The estimate is a range, theoretical until built and measured.</p></div>
-    </div>
+  <span class="slabel"><span class="sq"></span>the honest boundary</span>
+  <div class="cols">
+    <div class="item"><div class="k">Where it should go LLM-First</div><h3>Content, curation, retrieval</h3><p>Content decisions, lesson structure, curation, retrieval planning: judgment with reversible outputs and a human gate.</p></div>
+    <div class="item"><div class="k">Where code must stay</div><h3>Money, identity, access</h3><p>Money, identity, access control. The estimate is a range, theoretical until built and measured.</p></div>
   </div>
 </div></section>
 
-<footer><div class="wrap">
+</div>
+
+<footer class="page"><div class="wrap">
   <div class="ip">IP-safety reviewed before publishing. No secrets, project identifiers, or third-party copyrighted text. "After" figures are projected estimates, clearly labeled. No BOSNet.io internals.</div>
-  Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
-  <span class="mono" style="font-size:12px">the-substrate · AI as the governed operational substrate</span>
+  <div class="linkrow">
+    <a href="../today-series.md">read the full write-up &rarr;</a>
+    <a href="../../README.md">README &rarr;</a>
+    <a href="../../BOSS-STANDARD.md">BOSS-STANDARD.md &rarr;</a>
+    <a href="../../demos/interactive/index.html">interactive demos &rarr;</a>
+  </div>
+  <div class="byline" style="margin-top:18px">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions &middot; <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate &middot; AI as the governed operational substrate</span></div>
 </div></footer>
+
 </body>
 </html>

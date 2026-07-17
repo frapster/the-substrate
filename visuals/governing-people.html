@@ -4,115 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Builder &amp; the Guardrails: Governing People · the-substrate</title>
+<meta name="description" content="Governing AI begins with governing people: why good governance liberates the people and the AI it governs, and what the research holds and bounds about it.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../assets/substrate.css">
 <style>
-:root{
-  --bg:#0c1411;--surface:#111c18;--surface-2:#152420;--border:rgba(255,255,255,0.09);--grid:rgba(255,255,255,0.032);
-  --text:#e6efea;--text-dim:#8ba096;--text-faint:#5c6f67;
-  --accent:#31a877;--accent-dim:rgba(49,168,119,0.14);--accent-line:rgba(49,168,119,0.42);
-  --amber:#d9a441;--amber-dim:rgba(217,164,65,0.13);
-  --good:#3fb27f;--bad:#d0644f;--bad-dim:rgba(208,100,79,0.12);
-  --font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;--font-mono:'IBM Plex Mono',ui-monospace,monospace;
-}
-@media (prefers-color-scheme:light){:root{
-  --bg:#eef3f0;--surface:#ffffff;--surface-2:#f1f7f4;--border:rgba(15,30,25,0.12);--grid:rgba(15,30,25,0.04);
-  --text:#122019;--text-dim:#4f625a;--text-faint:#82918a;
-  --accent:#0f7a54;--accent-dim:rgba(15,122,84,0.1);--accent-line:rgba(15,122,84,0.35);
-  --amber:#9a6f16;--amber-dim:rgba(154,111,22,0.09);--bad:#b0432f;--bad-dim:rgba(176,67,47,0.09);
-}}
-*{box-sizing:border-box;margin:0;padding:0;min-width:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:34px 34px}
-.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
-.mono{font-family:var(--font-mono)}
-a{color:var(--accent)}
-.backlink{font-family:var(--font-mono);font-size:12.5px;color:var(--text-dim);text-decoration:none;display:inline-flex;gap:8px;align-items:center;margin-bottom:34px}
-.backlink:hover{color:var(--accent)}
-header{padding:60px 0 40px;border-bottom:1px solid var(--border)}
-.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:10px;margin-bottom:20px}
-.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-dim)}
-h1{font-size:clamp(34px,5.4vw,58px);font-weight:700;letter-spacing:-.02em;line-height:1.02}
-.sub{font-family:var(--font-mono);font-size:13px;letter-spacing:.04em;color:var(--accent);margin-top:14px;font-weight:600}
-.lead{font-size:clamp(18px,2.3vw,22px);color:var(--text-dim);max-width:72ch;margin-top:20px;line-height:1.5}
-.lead strong{color:var(--text);font-weight:600}
-.pull{margin-top:26px;font-family:var(--font-mono);font-size:clamp(15px,2vw,18px);color:var(--accent);border-left:3px solid var(--accent);padding:10px 0 10px 18px;font-weight:500}
-section{padding:50px 0;border-bottom:1px solid var(--border)}
-.slabel{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600;display:flex;align-items:center;gap:9px}
-.slabel .sq{width:8px;height:8px;background:var(--accent);border-radius:2px}
-h2{font-size:clamp(23px,3.2vw,31px);font-weight:600;letter-spacing:-.01em;margin:14px 0 12px}
-.intro{color:var(--text-dim);max-width:70ch;font-size:16.5px}
-.intro strong{color:var(--text)}
-/* three-stage arc */
-.arc{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:14px;align-items:stretch;margin-top:30px}
-@media(max-width:720px){.arc{grid-template-columns:1fr}}
-.stage{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
-.stage .sn{font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:600;letter-spacing:.06em}
-.stage h3{font-size:16px;margin:8px 0 6px;font-weight:600}
-.stage p{font-size:13.5px;color:var(--text-dim);line-height:1.45}
-.arc .arr{display:flex;align-items:center;justify-content:center;color:var(--text-faint);font-family:var(--font-mono);font-size:18px}
-@media(max-width:720px){.arc .arr{transform:rotate(90deg);padding:2px 0}}
-.arc-cap{margin-top:20px;text-align:center;font-family:var(--font-mono);font-size:14px;color:var(--accent);background:var(--accent-dim);border:1px solid var(--accent-line);border-radius:8px;padding:12px}
-/* contrast panels */
-.contrast{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
-@media(max-width:640px){.contrast{grid-template-columns:1fr}}
-.pane{border-radius:12px;padding:22px;border:1px solid var(--border);background:var(--surface)}
-.pane.fence{border-color:rgba(208,100,79,0.32)}
-.pane.paved{border-color:var(--accent-line);background:linear-gradient(160deg,var(--accent-dim),transparent 66%)}
-.pane .tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;padding:4px 9px;border-radius:5px;display:inline-block;margin-bottom:12px}
-.pane.fence .tag{color:var(--bad);background:var(--bad-dim)}
-.pane.paved .tag{color:var(--accent);background:var(--accent-dim)}
-.pane h3{font-size:18px;font-weight:600;margin-bottom:8px}
-.pane p{font-size:14px;color:var(--text-dim);line-height:1.5}
-.pane .res{margin-top:12px;font-family:var(--font-mono);font-size:12px;padding-top:11px;border-top:1px dashed var(--border)}
-.pane.fence .res{color:var(--bad)}.pane.paved .res{color:var(--accent)}
-/* statement */
-.stmt{margin-top:28px;padding:22px 26px;border-left:3px solid var(--accent);background:var(--accent-dim);border-radius:0 10px 10px 0;font-size:18px;line-height:1.5}
-.stmt b{color:var(--accent)}
-/* evidence cards */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:28px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
-.card h3{font-size:15.5px;margin-bottom:7px;font-weight:600}
-.card p{font-size:13.5px;color:var(--text-dim);line-height:1.5}
-.card .src{margin-top:11px;font-family:var(--font-mono);font-size:11.5px}
-.card .src a{text-decoration:none;border-bottom:1px solid var(--accent-line)}
-/* challenge */
-.challenge{margin-top:28px;background:var(--amber-dim);border:1px solid rgba(217,164,65,0.3);border-radius:12px;padding:24px 26px}
-.challenge .slabel{color:var(--amber);margin-bottom:14px}.challenge .slabel .sq{background:var(--amber)}
-.challenge ul{list-style:none;display:grid;gap:11px}
-.challenge li{position:relative;padding-left:20px;font-size:14.5px;color:var(--text-dim)}
-.challenge li::before{content:'';position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--amber)}
-.challenge li b{color:var(--text)}
-.challenge .rule{margin-top:16px;font-size:15.5px;color:var(--text);border-top:1px solid rgba(217,164,65,0.3);padding-top:14px}
-.challenge .rule b{color:var(--amber)}
-/* guarantees map */
-.gmap{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:28px}
-.g{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:16px}
-.g .gn{font-family:var(--font-mono);font-size:12px;color:var(--accent);font-weight:600}
-.g p{font-size:13.5px;color:var(--text-dim);margin-top:5px;line-height:1.45}
-.g p b{color:var(--text)}
-/* close */
-.close{padding:56px 0 40px;text-align:center}
-.close .q{font-size:clamp(22px,3.4vw,32px);font-weight:600;letter-spacing:-.01em;max-width:24ch;margin:0 auto;line-height:1.25}
-.close .q b{color:var(--accent)}
-footer{padding:34px 0 66px;color:var(--text-faint);font-size:13.5px}
-footer .ip{font-family:var(--font-mono);font-size:12px;border:1px solid var(--border);border-radius:8px;padding:14px 18px;color:var(--text-dim);margin-bottom:22px;background:var(--surface)}
-footer a{color:var(--accent);text-decoration:none}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:no-preference){header>*,section>.wrap>*,.close>*{animation:fadeUp .5s both}.stage,.card,.g,.pane{animation:fadeUp .5s both}}
+/* page-specific: three-stage arc, unique to this page */
+.arc { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0; align-items: stretch; margin-top: 24px; }
+@media (max-width: 760px) { .arc { grid-template-columns: 1fr; } }
+.arc .arr { display: flex; align-items: center; justify-content: center; color: var(--text-faint); font-family: var(--font-mono); font-size: 18px; }
+@media (max-width: 760px) { .arc .arr { transform: rotate(90deg); padding: 6px 0; } }
 </style>
 </head>
 <body>
-<div class="wrap"><a href="../GOVERNING-PEOPLE.md" class="backlink mono">← read the companion document</a>
 
-<header>
-  <div class="eyebrow"><span class="dot"></span>the-substrate · governing people, not just AI</div>
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="../README.md"><span class="tick"></span>the&#8209;substrate</a>
+  <div class="topnav">
+    <a href="thesis.html">Thesis</a>
+    <a href="engineering.html">Engineering</a>
+    <a href="../demos/interactive/index.html">Demos</a>
+    <a href="../LICENSE.md">License</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<a href="../GOVERNING-PEOPLE.md" class="backlink mono">&larr; read the companion document</a>
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>the-substrate &middot; governing people, not just AI</div>
   <h1>The Builder &amp; the Guardrails</h1>
-  <div class="sub">GOOD GOVERNANCE LIBERATES THE PEOPLE IT GOVERNS</div>
-  <p class="lead">The rest of this repo is about governing the machine. This is about the thing underneath it: <strong>governing AI begins with governing people</strong>, and good governance <strong>frees</strong> them to work.</p>
-  <div class="pull mono">"The builder became the architect of the builder's constraints."</div>
+  <div class="reserved">Good governance liberates the people it governs</div>
+  <p class="lede">The rest of this repo is about governing the machine. This is about the thing underneath it: <strong>governing AI begins with governing people</strong>, and good governance <strong>frees</strong> them to work.</p>
+  <div class="pull">"The builder became the architect of the builder's constraints."</div>
 </header>
 
 <section><div class="wrap">
@@ -125,31 +51,29 @@ footer a{color:var(--accent);text-decoration:none}
   <span class="slabel"><span class="sq"></span>the arc</span>
   <h2>Three stages to structural governance</h2>
   <div class="arc">
-    <div class="stage"><div class="sn mono">STAGE 01</div><h3>"AI does things for me"</h3><p>Delight, then the first burned hand.</p></div>
-    <div class="arr">→</div>
-    <div class="stage"><div class="sn mono">STAGE 02</div><h3>"I control what AI does"</h3><p>Prompts, checklists, review: governance by remembering, which works until it doesn't.</p></div>
-    <div class="arr">→</div>
-    <div class="stage"><div class="sn mono">STAGE 03</div><h3>"AI controls what AI does"</h3><p>Governance made structural: the framework enforces the bounds so the human doesn't have to police every step.</p></div>
+    <div class="card"><div class="cn">Stage 01</div><h3>"AI does things for me"</h3><p>Delight, then the first burned hand.</p></div>
+    <div class="arr">&rarr;</div>
+    <div class="card"><div class="cn">Stage 02</div><h3>"I control what AI does"</h3><p>Prompts, checklists, review: governance by remembering, which works until it doesn't.</p></div>
+    <div class="arr">&rarr;</div>
+    <div class="card"><div class="cn">Stage 03</div><h3>"AI controls what AI does"</h3><p>Governance made structural: the framework enforces the bounds so the human doesn't have to police every step.</p></div>
   </div>
-  <div class="arc-cap mono">The builder becomes the architect of the builder's constraints, authoring the rules the work must satisfy.</div>
+  <div class="stmt">The builder becomes the architect of the builder's constraints, authoring the rules the work must satisfy.</div>
 </div></section>
 
 <section><div class="wrap">
   <span class="slabel"><span class="sq"></span>governance as liberation</span>
-  <h2>Freedom Runs <em>Through</em> Structure</h2>
+  <h2>Freedom runs <em>through</em> structure</h2>
   <p class="intro">The purpose of the rails is to let a person <strong>delegate safely</strong>: hand real work to a governed tool and get their attention back. The same bounds that look like restriction are what make it safe to let the tool run.</p>
-  <div class="contrast">
-    <div class="pane fence">
-      <span class="tag">Fenced · mandated</span>
+  <div class="grid cols-2">
+    <div class="card"><span class="chip bad">Fenced &middot; mandated</span>
       <h3>A cage constrains</h3>
       <p>Restriction for its own sake, imposed and non-optional. People can't route around it officially, so they route around it anyway: workarounds, resentment, shadow IT. A mandate <em>forbids</em> the alternative.</p>
-      <div class="res mono">→ friction, disengagement, drift underground</div>
+      <p class="mono small" style="margin-top:12px;color:var(--bad)">&rarr; friction, disengagement, drift underground</p>
     </div>
-    <div class="pane paved">
-      <span class="tag">Paved · safe-by-default</span>
+    <div class="card"><span class="chip blue">Paved &middot; safe-by-default</span>
       <h3>A road frees</h3>
       <p>Opinionated but optional. The tool stays in policy, cites its evidence, and stops where a human is needed, so you can let it run. A paved road <em>prices</em> the alternative instead of banning it.</p>
-      <div class="res mono">→ engineered autonomy: a receipt for what happened</div>
+      <p class="mono small" style="margin-top:12px;color:var(--accent)">&rarr; engineered autonomy: a receipt for what happened</p>
     </div>
   </div>
   <div class="stmt">Constraint, done right, is the price of automating the first large chunk of the job. What you buy is <b>engineered autonomy</b>: the tool acts independently <em>precisely because</em> the framework makes independent action safe.</div>
@@ -164,26 +88,26 @@ footer a{color:var(--accent);text-decoration:none}
 <section><div class="wrap">
   <span class="slabel"><span class="sq"></span>what the evidence says</span>
   <h2>Testable, and it holds up</h2>
-  <div class="cards">
-    <div class="card"><h3>Guardrails beat gates</h3><p>Heavyweight approval boards don't lower failure rates and do slow delivery; lightweight peer-review guardrails win on speed <em>and</em> stability.</p><div class="src mono"><a href="https://dora.dev/capabilities/streamlining-change-approval/">DORA: change approval</a></div></div>
-    <div class="card"><h3>Paved roads free people</h3><p>Golden paths, opinionated but optional, cut cognitive load and setup time; Spotify went from ~14 days to minutes to first deploy.</p><div class="src mono"><a href="https://engineering.atspotify.com/2020/08/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem">Spotify Golden Paths</a></div></div>
-    <div class="card"><h3>Structure can raise autonomy</h3><p>Autonomy is ownership of one's own action. Good constraints raise felt autonomy, and a <em>safe</em> climate predicts performance.</p><div class="src mono"><a href="https://selfdeterminationtheory.org/SDT/documents/2000_RyanDeci_SDT.pdf">SDT</a> · <a href="https://journals.sagepub.com/doi/10.2307/2666999">Edmondson</a></div></div>
-    <div class="card"><h3>Governance starts with people</h3><p>NIST's AI RMF makes GOVERN a culture-and-people function that the rest of the framework depends on; ISO 42001 is a <em>human</em> management system.</p><div class="src mono"><a href="https://airc.nist.gov/airmf-resources/airmf/5-sec-core/">NIST AI RMF</a> · <a href="https://www.iso.org/standard/42001">ISO 42001</a></div></div>
+  <div class="grid cols-2">
+    <div class="card"><h3>Guardrails beat gates</h3><p>Heavyweight approval boards don't lower failure rates and do slow delivery; lightweight peer-review guardrails win on speed <em>and</em> stability.</p><p class="mono small" style="margin-top:11px"><a href="https://dora.dev/capabilities/streamlining-change-approval/">DORA: change approval &rarr;</a></p></div>
+    <div class="card"><h3>Paved roads free people</h3><p>Golden paths, opinionated but optional, cut cognitive load and setup time; Spotify went from ~14 days to minutes to first deploy.</p><p class="mono small" style="margin-top:11px"><a href="https://engineering.atspotify.com/2020/08/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem">Spotify Golden Paths &rarr;</a></p></div>
+    <div class="card"><h3>Structure can raise autonomy</h3><p>Autonomy is ownership of one's own action. Good constraints raise felt autonomy, and a <em>safe</em> climate predicts performance.</p><p class="mono small" style="margin-top:11px"><a href="https://selfdeterminationtheory.org/SDT/documents/2000_RyanDeci_SDT.pdf">SDT &rarr;</a> &middot; <a href="https://journals.sagepub.com/doi/10.2307/2666999">Edmondson &rarr;</a></p></div>
+    <div class="card"><h3>Governance starts with people</h3><p>NIST's AI RMF makes GOVERN a culture-and-people function that the rest of the framework depends on; ISO 42001 is a <em>human</em> management system.</p><p class="mono small" style="margin-top:11px"><a href="https://airc.nist.gov/airmf-resources/airmf/5-sec-core/">NIST AI RMF &rarr;</a> &middot; <a href="https://www.iso.org/standard/42001">ISO 42001 &rarr;</a></p></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
-  <div class="challenge">
+  <div class="note reserved-box">
     <span class="slabel"><span class="sq"></span>the honest condition</span>
-    <h2 style="margin-top:0">This Holds Only When the Framework Is Paved</h2>
-    <p class="intro" style="margin-bottom:16px">The same research that supports the claim also bounds it. Naming the limits is the point.</p>
-    <ul>
-      <li><b>The platform paradox.</b> Run badly, a platform can <em>cost</em> throughput and stability: a measured transition-phase dip (<a href="https://dora.dev/research/2024/dora-report/">DORA 2024</a>).</li>
-      <li><b>Mandate makes a railroad.</b> Golden paths free people only while optional; mandated, they breed workarounds and shadow IT.</li>
-      <li><b>Surveillance isn't governance.</b> "Governance" as monitoring erodes trust and <em>reduces</em> the productivity it claims to protect (<a href="https://hbr.org/2024/02/surveilling-employees-erodes-trust-and-puts-managers-in-a-bind">HBR</a>).</li>
-      <li><b>The motte-and-bailey.</b> "Good guardrails help" is near-tautological, and much support is self-reported by the platform's own builders.</li>
+    <h2 class="mt0">This holds only when the framework is paved</h2>
+    <p class="intro" style="margin-bottom:14px">The same research that supports the claim also bounds it. Naming the limits is the point.</p>
+    <ul class="tight-list">
+      <li><strong>The platform paradox.</strong> Run badly, a platform can <em>cost</em> throughput and stability: a measured transition-phase dip (<a href="https://dora.dev/research/2024/dora-report/">DORA 2024</a>).</li>
+      <li><strong>Mandate makes a railroad.</strong> Golden paths free people only while optional; mandated, they breed workarounds and shadow IT.</li>
+      <li><strong>Surveillance isn't governance.</strong> "Governance" as monitoring erodes trust and <em>reduces</em> the productivity it claims to protect (<a href="https://hbr.org/2024/02/surveilling-employees-erodes-trust-and-puts-managers-in-a-bind">HBR</a>).</li>
+      <li><strong>The motte-and-bailey.</strong> "Good guardrails help" is near-tautological, and much support is self-reported by the platform's own builders.</li>
     </ul>
-    <div class="rule">So the claim carries its conditions: <b>governed tools free people when the framework is paved rather than fenced</b>, product-managed, optional where it can be, safe-by-default, built to remove friction rather than watch the worker.</div>
+    <div class="stmt" style="margin-top:16px">So the claim carries its conditions: <b>governed tools free people when the framework is paved rather than fenced</b>, product-managed, optional where it can be, safe-by-default, built to remove friction rather than watch the worker.</div>
   </div>
 </div></section>
 
@@ -191,24 +115,31 @@ footer a{color:var(--accent);text-decoration:none}
   <span class="slabel"><span class="sq"></span>how it connects</span>
   <h2>The four guarantees, felt from the operator's chair</h2>
   <p class="intro">This <em>is</em> the thesis, seen from the human side. Each guarantee buys back attention.</p>
-  <div class="gmap">
-    <div class="g"><div class="gn mono">BOUNDED</div><p><b>Lets you delegate without fear.</b> The blast radius is known.</p></div>
-    <div class="g"><div class="gn mono">EVIDENCE-BACKED</div><p><b>Trust the output without re-deriving it.</b> Every fact has provenance.</p></div>
-    <div class="g"><div class="gn mono">AUDITED</div><p><b>Answer for it afterward.</b> The decision trail is there.</p></div>
-    <div class="g"><div class="gn mono">REVERSIBLE</div><p><b>Safe to let go.</b> High-impact actions are gated and recoverable.</p></div>
+  <div class="grid cols-4">
+    <div class="card"><div class="cn">Bounded</div><p><strong>Lets you delegate without fear.</strong> The blast radius is known.</p></div>
+    <div class="card"><div class="cn">Evidence-backed</div><p><strong>Trust the output without re-deriving it.</strong> Every fact has provenance.</p></div>
+    <div class="card"><div class="cn">Audited</div><p><strong>Answer for it afterward.</strong> The decision trail is there.</p></div>
+    <div class="card"><div class="cn">Reversible</div><p><strong>Safe to let go.</strong> High-impact actions are gated and recoverable.</p></div>
   </div>
-  <div class="stmt" style="margin-top:26px">Human-in-the-loop is a <b>dial</b>: high-impact actions default to human sign-off, and a tool <em>earns</em> more independence by passing the framework's checks. The human sets the level; the rails make each level safe.</div>
+  <div class="stmt">Human-in-the-loop is a <b>dial</b>: high-impact actions default to human sign-off, and a tool <em>earns</em> more independence by passing the framework's checks. The human sets the level; the rails make each level safe.</div>
 </div></section>
 
-<div class="close"><div class="wrap">
-  <p class="q">Govern the people, and the governed tools set them free. <b>You remain the conductor.</b></p>
-</div></div>
+<section><div class="wrap">
+  <div class="stmt center" style="font-size:20px">Govern the people, and the governed tools set them free. <b>You remain the conductor.</b></div>
+  <div class="linkrow">
+    <a href="../GOVERNING-PEOPLE.md">GOVERNING-PEOPLE.md &rarr;</a>
+    <a href="thesis.html">the thesis &rarr;</a>
+    <a href="../demos/interactive/index.html">interactive demos &rarr;</a>
+  </div>
+</div></section>
 
-<footer><div class="wrap">
-  <div class="ip">IP-safety reviewed before publishing. Concept-level only: no proprietary BOSNet.io or BOSS internals, secrets, or client material. Support and honest limits both cited to primary or standards sources.</div>
-  Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
-  <span class="mono" style="font-size:12px">the-substrate · AI as the governed operational substrate</span>
-</div></footer>
 </div>
+
+<footer class="page"><div class="wrap">
+  <div class="ip">IP-safety reviewed before publishing. Concept-level only: no proprietary BOSNet.io or BOSS internals, secrets, or client material. Support and honest limits both cited to primary or standards sources.</div>
+  <div class="byline">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions &middot; <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate &middot; AI as the governed operational substrate</span></div>
+</div></footer>
+
 </body>
 </html>

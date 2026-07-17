@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive: bounded-authority gate · the-substrate</title>
+<meta name="description" content="Play with a deny-by-default policy gate in your browser: propose registered and unregistered actions, cross soft caps and hard ceilings, and watch propose() refuse before anything executes. A convenience; the real proof is the Python you can run and change.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/substrate.css">
+<link rel="stylesheet" href="playground.css">
+</head>
+<body>
+
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="index.html"><span class="tick"></span>the&#8209;substrate · demos</a>
+  <div class="topnav">
+    <a href="index.html">All demos</a>
+    <a href="../../README.md">README</a>
+    <a href="../../BOSS-STANDARD.md">BOSS</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<a href="index.html" class="backlink mono">&larr; all interactive demos</a>
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>guarantee · bounded authority</div>
+  <h1>Bounded&#8209;authority<br>policy gate</h1>
+  <p class="lede">An agent's authority is bounded to a closed roster of registered actions, each capped by blast radius. Every proposal is checked BEFORE anything executes, fail-closed, deny-by-default. Try to get it to act outside the roster.</p>
+</header>
+
+<section><div class="wrap">
+  <span class="slabel"><span class="sq"></span>the claim</span>
+  <h2>An agent cannot act outside a registered, bounded surface</h2>
+  <p class="intro"><code>propose(action, scope) &rarr; proceed | escalated | blocked</code>, decided before execution. An action not on the roster cannot be proposed into existence, omission is prohibition. A registered action whose scope exceeds its hard ceiling is blocked. A scope between the soft cap and the hard ceiling is escalated to a human. Every failure mode fails closed: a missing or unreadable policy blocks rather than lets the action pass.</p>
+
+  <div class="pg">
+    <div class="pg-head"><span class="t">the roster</span><span class="mono small muted">checked in your browser, same rules as gate.py</span></div>
+    <div class="pg-body">
+      <div id="roster"></div>
+
+      <div class="pg-row" style="margin-top:18px">
+        <div class="field"><label for="actionSel">action</label>
+          <select id="actionSel"></select></div>
+        <div class="field"><label for="magInput">magnitude</label>
+          <input type="number" id="magInput" value="40" min="0" step="1"></div>
+        <button class="btn sm" id="proposeBtn">Propose <span class="arw">&rarr;</span></button>
+      </div>
+
+      <div class="pg-row">
+        <button class="btn sm ghost" id="scenarioBtn">Load scenario: propose delete_rows(10,000)</button>
+      </div>
+
+      <div id="verdict" class="verdict"></div>
+      <div id="out" class="out"></div>
+      <p class="hint">"unregistered action" proposes <code>wire_transfer</code>-style actions that were never registered on this roster, an agent cannot invent an action to act through. Every proposal is decided before a single side effect runs.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="panel warn">
+    <div class="h">Don't take this at face value</div>
+    <div class="b">
+      <p>This page is a <strong>JavaScript reimplementation</strong> of <code>demos/bounded-authority/gate.py</code>. It uses the same roster, the same caps, and the same fail-closed rules, but a demo you cannot inspect proves nothing. The real proof is the code you run yourself:</p>
+      <pre>git clone https://github.com/frapster/the-substrate &amp;&amp; cd the-substrate
+python demos/bounded-authority/gate_demo.py     <span class="muted"># watch it block delete_rows(10,000) before execution</span>
+python demos/bounded-authority/test_gate.py     <span class="muted"># the negative tests are the point</span>
+python demos/bounded-authority/bench.py         <span class="muted"># throughput of the check itself</span></pre>
+      <p style="margin-top:12px">Read the source: <a href="../bounded-authority/gate.py">gate.py</a> · <a href="../bounded-authority/README.md">README</a> · <a href="../../docs/adr/ADR-0002-deny-by-default-roster.md">ADR-0002</a></p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="h">Prove it yourself · extend the tests</div>
+    <div class="b">
+      <p>The tests in <code>demos/bounded-authority/test_gate.py</code> assert that <code>propose()</code> <em>refuses for the right reason</em> under each kind of over-reach. Register your own action, or add your own negative test, and confirm the gate catches it. Drop this into the <code>RefusalIsEnforced</code> class and re-run:</p>
+      <pre>def test_my_own_action_is_capped(self):
+    gate = _seeded_gate()
+    gate.register(
+        "rotate_api_key", tier="red",
+        soft_cap={"max_keys": 5}, hard_ceiling={"max_keys": 20},
+    )
+    decision = gate.propose("rotate_api_key", {"max_keys": 500})
+    self.assertEqual(decision.outcome, "blocked")   # it must be caught
+    self.assertIn("exceeds hard ceiling", decision.reason)</pre>
+      <p style="margin-top:12px">Run <code>python demos/bounded-authority/test_gate.py</code>. If you can register an action, or shape a proposal, that slips past its own ceiling, you have broken the claim. That is the point: it is falsifiable, and you hold the falsifier.</p>
+    </div>
+  </div>
+</div></section>
+
+</div>
+
+<footer class="page"><div class="wrap">
+  <div class="ip">This interactive page is a clean-room illustration, not the BOSNet.io engine. It demonstrates one authorization primitive (a closed roster checked against blast-radius caps) with code you can read and rerun. The machine-checkable spec and kernel are patent-pending and reserved; BOSNet.io and BOSS are proprietary. See the license.</div>
+  <div class="byline">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate · <a href="index.html">interactive demos</a> · <a href="../../README.md">README</a></span></div>
+</div></footer>
+
+<script src="bounded-authority.js"></script>
+</body>
+</html>

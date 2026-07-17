@@ -1,5 +1,7 @@
 # demo: a runnable, deny-by-default policy gate
 
+> **Try it in your browser** (no install): [interactive bounded-authority demo](../interactive/bounded-authority.html). The interactive version mirrors this Python; it is the convenience, and the code here is the proof.
+
 A small, **zero-dependency** proof of one claim `the-substrate` makes in prose: that an
 agent's authority is bounded to a registered, closed surface, and that an over-scoped
 action is refused *before* it executes (see [`../../README.md`](../../README.md),

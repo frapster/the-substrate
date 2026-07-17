@@ -1,5 +1,7 @@
 # demo: a runnable, evidence-backed claim store
 
+> **Try it in your browser** (no install): [interactive evidence-provenance demo](../interactive/evidence-provenance.html). The interactive version mirrors this Python; it is the convenience, and the code here is the proof.
+
 A small, **zero-dependency** proof of one claim `the-substrate` makes in prose: that
 the substrate is *evidence-backed*: an asserted fact traces to a hashed source and is
 superseded (or detached) when that source changes, rather than merely being "the

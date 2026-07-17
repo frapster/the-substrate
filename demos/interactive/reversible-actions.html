@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive: reversible actions · the-substrate</title>
+<meta name="description" content="Play with a gated, versioned state store in your browser: commit gated changes, watch an ungated high-impact action get refused, try to edit history in place, then restore a prior state and see its hash match exactly. A convenience; the real proof is the Python you can run and change.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/substrate.css">
+<link rel="stylesheet" href="playground.css">
+</head>
+<body>
+
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="index.html"><span class="tick"></span>the&#8209;substrate · demos</a>
+  <div class="topnav">
+    <a href="index.html">All demos</a>
+    <a href="../../README.md">README</a>
+    <a href="../../BOSS-STANDARD.md">BOSS</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<a href="index.html" class="backlink mono">&larr; all interactive demos</a>
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>guarantee · reversible</div>
+  <h1>Reversible,<br>gated, versioned state</h1>
+  <p class="lede">High-impact actions are gated, versioned, and recoverable. Nothing committed is ever edited in place: apply a change, try to force one through ungated, try to reach past the API, then recover a prior state below.</p>
+</header>
+
+<section><div class="wrap">
+  <span class="slabel"><span class="sq"></span>the claim</span>
+  <h2>Recovery is deterministic, and history cannot be rewritten</h2>
+  <p class="intro"><code>apply(change)</code> is the only sanctioned mutation: it appends a NEW version, current state merged with the change (supersede-forward). Predecessors are never touched. An ungated <code>high_impact</code> change is refused outright. <code>restore(version=N)</code> recovers a prior state the same way, by appending a new version equal to it, so its <code>state_hash</code> matches version N's exactly, byte-for-byte. There is no <code>update()</code> or <code>delete()</code> on a committed version, reaching past the API fails closed.</p>
+
+  <div class="pg">
+    <div class="pg-head"><span class="t">the version chain</span><span class="mono small muted">SHA-256, computed in your browser</span></div>
+    <div class="pg-body">
+      <div id="chain"></div>
+      <div id="verdict" class="verdict"></div>
+
+      <div class="pg-row" style="margin-top:18px">
+        <div class="field"><label for="changeKey">gated change · key</label><input type="text" id="changeKey" value="tier" size="12"></div>
+        <div class="field"><label for="changeVal">value</label><input type="text" id="changeVal" value="gold" size="12"></div>
+        <button class="btn sm" id="applyBtn">Apply (gated) <span class="arw">&rarr;</span></button>
+      </div>
+
+      <div class="pg-row">
+        <button class="btn sm ghost" id="ungatedBtn">Try ungated high-impact action</button>
+        <button class="btn sm ghost" id="updateBtn">Try in-place update</button>
+        <button class="btn sm ghost" id="deleteBtn">Try in-place delete</button>
+      </div>
+
+      <div class="pg-row">
+        <div class="field"><label for="restoreTo">restore to version</label>
+          <select id="restoreTo"></select></div>
+        <button class="btn sm" id="restoreBtn">Restore <span class="arw">&rarr;</span></button>
+      </div>
+
+      <div id="out" class="out"></div>
+      <p class="hint">Apply commits a new version forward. The ungated and in-place buttons each attempt to reach past that sanctioned path, and each is refused for a different reason: a missing approval token, or the durable append-only guard. Restore reconstructs a prior state and its hash is compared against the original snapshot.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="panel warn">
+    <div class="h">Don't take this at face value</div>
+    <div class="b">
+      <p>This page is a <strong>JavaScript reimplementation</strong> of <code>demos/reversible-actions/reversible.py</code>. It uses the same versioning rule, so the hashes match the Python byte-for-byte, but a demo you cannot inspect proves nothing. The real proof is the code you run yourself:</p>
+      <pre>git clone https://github.com/frapster/the-substrate &amp;&amp; cd the-substrate
+python demos/reversible-actions/reversible_demo.py     <span class="muted"># watch it gate, guard, and recover</span>
+python demos/reversible-actions/test_reversible.py     <span class="muted"># the negative tests are the point</span></pre>
+      <p style="margin-top:12px">Read the source: <a href="../reversible-actions/reversible.py">reversible.py</a> · <a href="../reversible-actions/README.md">README</a> · <a href="../../BOSS-STANDARD.md">BOSS-STANDARD.md</a></p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="h">Prove it yourself · extend the tests</div>
+    <div class="b">
+      <p>The tests in <code>demos/reversible-actions/test_reversible.py</code> assert that recovery is deterministic and that every attempt to rewrite history is <em>refused for the right reason</em>. Add your own case and confirm it holds. Drop this into the <code>GuardsEnforced</code> class and re-run:</p>
+      <pre>def test_my_own_restore(self):
+    store = _seed()
+    store.apply({"tier": "silver"}, gated=True)   # apply N versions
+    store.apply({"tier": "bronze"}, gated=True)
+    target = 2                                     # restore an arbitrary earlier one
+    checkpoint_hash = store.versions[target].state_hash
+    restored = store.restore(target)
+    self.assertEqual(restored.state_hash, checkpoint_hash)   # must match exactly</pre>
+      <p style="margin-top:12px">Run <code>python demos/reversible-actions/test_reversible.py</code>. If you can make an in-place edit that the append-only guard misses, or a restore that does not reproduce the exact prior hash, you have broken the claim. That is the point: it is falsifiable, and you hold the falsifier.</p>
+    </div>
+  </div>
+</div></section>
+
+</div>
+
+<footer class="page"><div class="wrap">
+  <div class="ip">This interactive page is a clean-room illustration, not the BOSNet.io engine. It demonstrates one governance property (reversibility via append-only, versioned state) with code you can read and rerun. The machine-checkable spec and kernel are patent-pending and reserved; BOSNet.io and BOSS are proprietary. See the license.</div>
+  <div class="byline">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate · <a href="index.html">interactive demos</a> · <a href="../../README.md">README</a></span></div>
+</div></footer>
+
+<script src="reversible-actions.js"></script>
+</body>
+</html>

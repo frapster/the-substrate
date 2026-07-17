@@ -1,5 +1,7 @@
 # demo: a runnable, gated and reversible versioned store
 
+> **Try it in your browser** (no install): [interactive reversible-actions demo](../interactive/reversible-actions.html). The interactive version mirrors this Python; it is the convenience, and the code here is the proof.
+
 A small, **zero-dependency** proof of one claim `the-substrate` makes in prose: that a
 governance engine treats high-impact actions as *gated, versioned, and recoverable* (see
 [`../../BOSS-STANDARD.md`](../../BOSS-STANDARD.md), which lists **Reversible** (defined as

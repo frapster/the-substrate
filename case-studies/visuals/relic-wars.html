@@ -4,210 +4,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Relic Wars: Before / After · the-substrate</title>
+<meta name="description" content="Relic Wars case study: a ~2,350-line rules engine retired for a fact matrix, prompt, and deterministic auditor. AI:code ~0:100 → ~85:15, shipped and factual.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0e141b;--surface:#141c26;--surface-2:#182230;--border:rgba(255,255,255,0.09);--grid:rgba(255,255,255,0.035);
-  --text:#e6edf3;--text-dim:#8b98a8;--text-faint:#5c6a7a;
-  --accent:#e0a02a;--accent-dim:rgba(224,160,42,0.14);--accent-line:rgba(224,160,42,0.4);
-  --seg-code:#39465a;--code:#5b8def;--code-dim:rgba(91,141,239,0.13);
-  --good:#3fb27f;--bad:#d6604d;--warn:#d9a441;
-  --font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;--font-mono:'IBM Plex Mono',ui-monospace,monospace;
-}
-@media (prefers-color-scheme:light){:root{
-  --bg:#f4f1ea;--surface:#fffdf8;--surface-2:#faf6ec;--border:rgba(20,28,38,0.12);--grid:rgba(20,28,38,0.04);
-  --text:#1a222c;--text-dim:#5a6675;--text-faint:#8a95a3;
-  --accent:#b06f0e;--accent-dim:rgba(176,111,14,0.1);--accent-line:rgba(176,111,14,0.35);
-  --seg-code:#c4cedb;--code:#2f5fc4;--code-dim:rgba(47,95,196,0.08);
-}}
-*{box-sizing:border-box;margin:0;padding:0;min-width:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:34px 34px}
-.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
-.mono{font-family:var(--font-mono)}
-.backlink{font-family:var(--font-mono);font-size:12.5px;color:var(--text-dim);text-decoration:none;display:inline-flex;gap:8px;align-items:center;margin-bottom:36px}
-.backlink:hover{color:var(--accent)}
-header{padding:64px 0 40px;border-bottom:1px solid var(--border)}
-.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:10px;margin-bottom:20px}
-.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-dim)}
-h1{font-size:clamp(38px,6vw,60px);font-weight:700;letter-spacing:-.02em;line-height:1.02}
-.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;align-items:center}
-.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:6px}
-.status .d{width:7px;height:7px;border-radius:50%;background:currentColor}
-.status.done{color:var(--good);background:rgba(63,178,127,.12);border:1px solid rgba(63,178,127,.3)}
-.status.plan{color:var(--warn);background:rgba(217,164,65,.12);border:1px solid rgba(217,164,65,.35)}
-.ratio-badge{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--accent);border:1px solid var(--accent-line);background:var(--accent-dim);padding:6px 12px;border-radius:6px}
-.lead{font-size:clamp(18px,2.4vw,22px);color:var(--text-dim);max-width:70ch;margin-top:22px;line-height:1.5}
-.lead strong{color:var(--text);font-weight:600}
-.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
-.chip{font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);border:1px solid var(--border);background:var(--surface);padding:5px 11px;border-radius:20px}
-section{padding:50px 0;border-bottom:1px solid var(--border)}
-.section-label{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);font-weight:500;display:flex;align-items:center;gap:9px}
-.section-label .sq{width:8px;height:8px;background:var(--accent);border-radius:2px}
-.sec-title{font-size:clamp(23px,3.2vw,30px);font-weight:600;letter-spacing:-.01em;margin:14px 0 10px}
-.sec-intro{color:var(--text-dim);max-width:68ch;font-size:16px}
-/* before/after bars */
-.ba{margin-top:30px;padding:26px;background:var(--surface);border:1px solid var(--border);border-radius:14px}
-.ba-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.ba-note{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);letter-spacing:.1em;text-transform:uppercase}
-.ba-grid{margin-top:22px;display:grid;gap:11px}
-.ba-line{display:grid;grid-template-columns:70px 1fr;gap:14px;align-items:center}
-.ba-when{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--text-dim)}
-.ba-when.now{color:var(--accent)}
-.bar{display:flex;height:32px;border-radius:7px;overflow:hidden;border:1px solid var(--border);background:var(--surface-2)}
-.seg{display:flex;align-items:center;padding:0 11px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden}
-.seg.reason{background:var(--accent);color:var(--bg)}
-.seg.code{background:var(--seg-code);color:var(--text)}
-.ba-arrow{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);padding-left:84px;margin:2px 0}
-.ba-delta{margin-top:18px;font-size:15px;color:var(--text-dim);display:flex;align-items:center;flex-wrap:wrap;gap:6px}
-.ba-delta b{color:var(--accent);font-family:var(--font-mono)}
-.tag-fact,.tag-est{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px}
-.tag-fact{color:var(--good);background:rgba(63,178,127,.13);border:1px solid rgba(63,178,127,.3)}
-.tag-est{color:var(--warn);background:rgba(217,164,65,.13);border:1px solid rgba(217,164,65,.35)}
-.legend{display:flex;gap:18px;margin-top:16px;font-size:12px;color:var(--text-dim);font-family:var(--font-mono)}
-.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-.legend .r{background:var(--accent)}.legend .c{background:var(--seg-code)}
-/* governance loop */
-.loop-wrap{margin-top:30px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:26px 20px;overflow-x:auto}
-svg{display:block;width:100%;height:auto;min-width:640px}
-.svg-cap{color:var(--text-dim);font-size:14px;margin-top:16px;text-align:center}.svg-cap b{color:var(--text)}
-/* tiles */
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px;margin-top:30px}
-.tile{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
-.tile.hero{border-color:var(--accent-line);background:linear-gradient(160deg,var(--accent-dim),transparent 70%)}
-.tile .big{font-family:var(--font-mono);font-size:clamp(26px,3.6vw,36px);font-weight:600;letter-spacing:-.02em;line-height:1}
-.tile.hero .big{color:var(--accent)}
-.tile .cap{font-size:13px;color:var(--text-dim);margin-top:9px;line-height:1.45}
-.tile .cap a{color:inherit}
-.note{margin-top:16px;font-size:13.5px;color:var(--text-faint)}
-.note a{color:var(--accent)}
-/* security posture */
-.sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
-@media(max-width:680px){.sec-grid{grid-template-columns:1fr}}
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
-.panel h3{font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.panel h3 .mk{width:9px;height:9px;border-radius:2px;background:var(--accent)}
-.std-chips{display:flex;flex-wrap:wrap;gap:8px}
-.std-chips a,.std-chips span{font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);border:1px solid var(--border);background:var(--surface-2);padding:5px 10px;border-radius:6px;text-decoration:none}
-.std-chips a:hover{border-color:var(--accent-line);color:var(--accent)}
-.gov-list{list-style:none;display:grid;gap:9px}
-.gov-list li{position:relative;padding-left:20px;font-size:14px;color:var(--text-dim)}
-.gov-list li::before{content:'';position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--good)}
-.gov-list code{font-family:var(--font-mono);font-size:12px;color:var(--code);background:var(--code-dim);padding:1px 5px;border-radius:4px}
-/* callout */
-.callout{margin-top:30px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:24px 26px}
-.callout .section-label{margin-bottom:14px}
-.callout .row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-@media(max-width:640px){.callout .row{grid-template-columns:1fr;gap:16px}}
-.callout h4{font-size:15px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.callout .mk{width:9px;height:9px;border-radius:2px}
-.callout .paid .mk{background:var(--good)}.callout .kept .mk{background:var(--code)}
-.callout p{font-size:14.5px;color:var(--text-dim)}
-.invariant{margin-top:28px;padding:20px 24px;border-left:3px solid var(--accent);background:var(--accent-dim);border-radius:0 10px 10px 0;font-size:17px;line-height:1.5}
-.invariant b{color:var(--accent)}
-footer{padding:40px 0 68px;color:var(--text-faint);font-size:13.5px}
-footer .ip{font-family:var(--font-mono);font-size:12px;border:1px solid var(--border);border-radius:8px;padding:14px 18px;color:var(--text-dim);margin-bottom:22px;background:var(--surface)}
-footer a{color:var(--accent);text-decoration:none}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:no-preference){header>*,section>.wrap>*{animation:fadeUp .5s both}.tile,.panel,.step{animation:fadeUp .5s both}}
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/substrate.css">
 </head>
 <body>
-<div class="wrap"><a href="../relic-wars.md" class="backlink mono">← read the full write-up</a></div>
 
-<header><div class="wrap">
-  <div class="eyebrow"><span class="dot"></span>the-substrate · case study 01 · before → after</div>
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="../../README.md"><span class="tick"></span>the&#8209;substrate</a>
+  <div class="topnav">
+    <a href="../../visuals/thesis.html">Thesis</a>
+    <a href="../../visuals/engineering.html">Engineering</a>
+    <a href="../../demos/interactive/index.html">Demos</a>
+    <a href="../../LICENSE.md">License</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<a href="../relic-wars.md" class="backlink mono">&larr; read the full write-up</a>
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>case study 01 · before &rarr; after</div>
   <h1>Relic Wars</h1>
-  <div class="badges">
-    <span class="status done"><span class="d"></span>Converted · factual</span>
-    <span class="ratio-badge">AI : code (adjudication), ~0:100 → ~85:15</span>
+  <div class="badges" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;align-items:center">
+    <span class="chip good">Converted &middot; factual</span>
+    <span class="chip blue">AI : code (adjudication), ~0:100 &rarr; ~85:15</span>
   </div>
-  <p class="lead">The one conversion here that has actually <strong>shipped</strong>. A ~2,350-line rules engine was retired for a fact matrix + prompt + deterministic auditor. It is the <strong>proof</strong> (and, because its core is algorithmic, the honest <strong>contrast case</strong>).</p>
-  <div class="stack">
-    <span class="chip">TypeScript</span><span class="chip">React · Three.js</span><span class="chip">Supabase</span><span class="chip">30 test files · tournament harness</span><span class="chip">auto-RLS trigger</span>
+  <p class="lede">The one conversion here that has actually <strong>shipped</strong>. A ~2,350-line rules engine was retired for a fact matrix + prompt + deterministic auditor. It is the <strong>proof</strong> (and, because its core is algorithmic, the honest <strong>contrast case</strong>).</p>
+  <div class="stack" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:22px">
+    <span class="chip">TypeScript</span><span class="chip">React &middot; Three.js</span><span class="chip">Supabase</span><span class="chip">30 test files &middot; tournament harness</span><span class="chip">auto-RLS trigger</span>
   </div>
-</div></header>
+</header>
 
 <section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>the conversion: before → after</span>
-  <div class="ba">
-    <div class="ba-head"><span class="section-label"><span class="sq"></span>adjudication subsystem</span><span class="ba-note">AI : code</span></div>
-    <div class="ba-grid">
-      <div class="ba-line"><span class="ba-when">BEFORE</span><div class="bar"><span class="seg code" style="width:100%">100% code: a ~2,350-line rules engine</span></div></div>
-      <div class="ba-arrow">↓ retired the engine · governed the adjudication</div>
-      <div class="ba-line"><span class="ba-when now">AFTER</span><div class="bar"><span class="seg reason" style="width:85%">85% governed reasoning</span><span class="seg code" style="width:15%">15%</span></div></div>
-    </div>
-    <div class="legend"><span><i class="r"></i>governed reasoning</span><span><i class="c"></i>deterministic code</span></div>
-    <div class="ba-delta"><b>~88%</b> of adjudication code displaced <span class="tag-fact">factual · shipped</span></div>
+  <span class="slabel"><span class="sq"></span>the conversion: before &rarr; after</span>
+  <h2>Adjudication subsystem</h2>
+  <div class="grid cols-2">
+    <div class="card"><div class="cn">Before</div><h3>100% code</h3><p>A ~2,350-line rules engine handled every adjudication decision.</p></div>
+    <div class="card"><div class="cn">After</div><h3>~85% governed reasoning &middot; ~15% code</h3><p>The engine is retired. A fact matrix and prompt drive the model; ~15% of the surface stays deterministic code.</p></div>
   </div>
-  <div class="invariant">Code computes <b>what does happen</b>; the substrate decides <b>what should happen</b>; a deterministic auditor grades every decision. <b>Math is law; code disposes.</b></div>
+  <div class="stmt"><b>~88%</b> of adjudication code displaced. <span class="chip good" style="margin-left:6px">factual &middot; shipped</span></div>
+  <div class="pull">Code computes what does happen; the substrate decides what should happen; a deterministic auditor grades every decision. Math is law; code disposes.</div>
 </div></section>
 
 <section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>the governance loop</span>
-  <h2 class="sec-title">Every contest passes a commit gate</h2>
-  <p class="sec-intro">~8 decisions per snap route through the model in dependency order. None commit unless a deterministic validator confirms the model cited only real, in-envelope facts and did not contradict the computed outcome.</p>
-  <div class="loop-wrap">
-    <svg viewBox="0 0 900 240" role="img" aria-label="Governance loop: compile envelope, model adjudicates, auditor validates, commit or deny">
+  <span class="slabel"><span class="sq"></span>the governance loop</span>
+  <h2>Every contest passes a commit gate</h2>
+  <p class="intro">~8 decisions per snap route through the model in dependency order. None commit unless a deterministic validator confirms the model cited only real, in-envelope facts and did not contradict the computed outcome.</p>
+  <div class="note" style="margin-top:24px;overflow-x:auto">
+    <svg viewBox="0 0 900 240" role="img" aria-label="Governance loop: compile envelope, model adjudicates, auditor validates, commit or deny" style="display:block;width:100%;height:auto;min-width:640px">
       <defs>
-        <marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--text-faint)"/></marker>
-        <marker id="ag" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--good)"/></marker>
-        <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--bad)"/></marker>
+        <marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8b9196"/></marker>
+        <marker id="ag" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#0a7d3c"/></marker>
+        <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#b3261e"/></marker>
       </defs>
-      <g font-family="var(--font-mono)" font-size="13">
-        <rect x="8" y="86" width="150" height="68" rx="9" fill="var(--surface-2)" stroke="var(--code)" stroke-width="1.5"/>
-        <text x="83" y="112" text-anchor="middle" fill="var(--text)" font-weight="600">Compile</text><text x="83" y="130" text-anchor="middle" fill="var(--text-dim)" font-size="11">hashed envelope</text>
-        <rect x="235" y="86" width="150" height="68" rx="9" fill="var(--surface-2)" stroke="var(--accent)" stroke-width="1.5"/>
-        <text x="310" y="112" text-anchor="middle" fill="var(--text)" font-weight="600">Model</text><text x="310" y="130" text-anchor="middle" fill="var(--text-dim)" font-size="11">classify + cite</text>
-        <rect x="462" y="86" width="150" height="68" rx="9" fill="var(--surface-2)" stroke="var(--text)" stroke-width="1.5"/>
-        <text x="537" y="112" text-anchor="middle" fill="var(--text)" font-weight="600">Auditor</text><text x="537" y="130" text-anchor="middle" fill="var(--text-dim)" font-size="11">re-derive truth</text>
-        <rect x="742" y="20" width="150" height="60" rx="9" fill="var(--surface-2)" stroke="var(--good)" stroke-width="1.5"/>
-        <text x="817" y="44" text-anchor="middle" fill="var(--text)" font-weight="600">Commit</text><text x="817" y="62" text-anchor="middle" fill="var(--text-dim)" font-size="11">→ evidence ledger</text>
-        <rect x="742" y="160" width="150" height="60" rx="9" fill="var(--surface-2)" stroke="var(--bad)" stroke-width="1.5"/>
-        <text x="817" y="184" text-anchor="middle" fill="var(--text)" font-weight="600">Deny</text><text x="817" y="202" text-anchor="middle" fill="var(--text-dim)" font-size="11">escalate / receipt</text>
+      <g font-family="'IBM Plex Mono',monospace" font-size="13">
+        <rect x="8" y="86" width="150" height="68" fill="#f5f7f9" stroke="#0066a1" stroke-width="1.5"/>
+        <text x="83" y="112" text-anchor="middle" fill="#111" font-weight="600">Compile</text><text x="83" y="130" text-anchor="middle" fill="#6b6b6b" font-size="11">hashed envelope</text>
+        <rect x="235" y="86" width="150" height="68" fill="#f5f7f9" stroke="#0066a1" stroke-width="1.5"/>
+        <text x="310" y="112" text-anchor="middle" fill="#111" font-weight="600">Model</text><text x="310" y="130" text-anchor="middle" fill="#6b6b6b" font-size="11">classify + cite</text>
+        <rect x="462" y="86" width="150" height="68" fill="#f5f7f9" stroke="#111" stroke-width="1.5"/>
+        <text x="537" y="112" text-anchor="middle" fill="#111" font-weight="600">Auditor</text><text x="537" y="130" text-anchor="middle" fill="#6b6b6b" font-size="11">re-derive truth</text>
+        <rect x="742" y="20" width="150" height="60" fill="#f5f7f9" stroke="#0a7d3c" stroke-width="1.5"/>
+        <text x="817" y="44" text-anchor="middle" fill="#111" font-weight="600">Commit</text><text x="817" y="62" text-anchor="middle" fill="#6b6b6b" font-size="11">&rarr; evidence ledger</text>
+        <rect x="742" y="160" width="150" height="60" fill="#f5f7f9" stroke="#b3261e" stroke-width="1.5"/>
+        <text x="817" y="184" text-anchor="middle" fill="#111" font-weight="600">Deny</text><text x="817" y="202" text-anchor="middle" fill="#6b6b6b" font-size="11">escalate / receipt</text>
       </g>
-      <line x1="158" y1="120" x2="230" y2="120" stroke="var(--text-faint)" stroke-width="1.6" marker-end="url(#ah)"/>
-      <line x1="385" y1="120" x2="457" y2="120" stroke="var(--text-faint)" stroke-width="1.6" marker-end="url(#ah)"/>
-      <path d="M612,105 C670,105 690,60 737,52" fill="none" stroke="var(--good)" stroke-width="1.6" marker-end="url(#ag)"/>
-      <path d="M612,135 C670,135 690,182 737,188" fill="none" stroke="var(--bad)" stroke-width="1.6" marker-end="url(#ar)"/>
-      <text x="672" y="74" fill="var(--good)" font-family="var(--font-mono)" font-size="11">clean</text>
-      <text x="672" y="168" fill="var(--bad)" font-family="var(--font-mono)" font-size="11">rejected</text>
+      <line x1="158" y1="120" x2="230" y2="120" stroke="#8b9196" stroke-width="1.6" marker-end="url(#ah)"/>
+      <line x1="385" y1="120" x2="457" y2="120" stroke="#8b9196" stroke-width="1.6" marker-end="url(#ah)"/>
+      <path d="M612,105 C670,105 690,60 737,52" fill="none" stroke="#0a7d3c" stroke-width="1.6" marker-end="url(#ag)"/>
+      <path d="M612,135 C670,135 690,182 737,188" fill="none" stroke="#b3261e" stroke-width="1.6" marker-end="url(#ar)"/>
+      <text x="672" y="74" fill="#0a7d3c" font-family="'IBM Plex Mono',monospace" font-size="11">clean</text>
+      <text x="672" y="168" fill="#b3261e" font-family="'IBM Plex Mono',monospace" font-size="11">rejected</text>
     </svg>
-    <p class="svg-cap"><b>Fail-closed.</b> The auditor never "corrects" the model. A bad answer is thrown away. Twice-failed contests commit <b>nothing</b>.</p>
+    <p style="margin-top:14px;color:var(--text-dim);font-size:14px"><b style="color:var(--ink)">Fail-closed.</b> The auditor never "corrects" the model. A bad answer is thrown away. Twice-failed contests commit <b style="color:var(--ink)">nothing</b>.</p>
   </div>
 </div></section>
 
 <section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>total cost of ownership</span>
-  <h2 class="sec-title">The part that changes most is now the cheapest to change</h2>
-  <p class="sec-intro">A rules engine's lifetime cost is dominated by <em>enhancement</em> (endless balancing and new content), the expensive 60% of the <a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">60/60 maintenance rule</a>. The conversion attacks exactly that bucket.</p>
-  <div class="tiles">
-    <div class="tile hero"><div class="big mono">~88%↓</div><div class="cap">Adjudication build cost: ~2,350 → ~280 lines.</div></div>
-    <div class="tile"><div class="big mono">1 row</div><div class="cap">Adding a new rule: one table row instead of a new code branch.</div></div>
-    <div class="tile"><div class="big mono">60/60</div><div class="cap">Maintenance ≈ 60% of lifetime cost; enhancement ≈ 60% of that: the slice this targets.</div></div>
+  <span class="slabel"><span class="sq"></span>total cost of ownership</span>
+  <h2>The part that changes most is now the cheapest to change</h2>
+  <p class="intro">A rules engine's lifetime cost is dominated by <em>enhancement</em> (endless balancing and new content), the expensive 60% of the <a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">60/60 maintenance rule</a>. The conversion attacks exactly that bucket.</p>
+  <div class="grid cols-3">
+    <div class="card"><div class="mono" style="font-size:28px;font-weight:800;color:var(--accent);letter-spacing:-.02em">~88%&darr;</div><p style="margin-top:10px">Adjudication build cost: ~2,350 &rarr; ~280 lines.</p></div>
+    <div class="card"><div class="mono" style="font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.02em">1 row</div><p style="margin-top:10px">Adding a new rule: one table row instead of a new code branch.</p></div>
+    <div class="card"><div class="mono" style="font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.02em">60/60</div><p style="margin-top:10px">Maintenance &asymp; 60% of lifetime cost; enhancement &asymp; 60% of that: the slice this targets.</p></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>code quality &amp; security</span>
-  <h2 class="sec-title">Never trust the client or the model</h2>
-  <p class="sec-intro">The category norm and the AI-governance model are the same shape: authoritative state stays server-side, and every answer is re-derived and checked.</p>
-  <div class="sec-grid">
-    <div class="panel">
-      <h3><span class="mk"></span>Category standard</h3>
-      <div class="std-chips">
-        <a href="https://www.gabrielgambetta.com/client-server-game-architecture.html">server-authoritative</a>
-        <span>never trust the client</span>
-        <span>never trust the model</span>
+  <span class="slabel"><span class="sq"></span>code quality &amp; security</span>
+  <h2>Never trust the client or the model</h2>
+  <p class="intro">The category norm and the AI-governance model are the same shape: authoritative state stays server-side, and every answer is re-derived and checked.</p>
+  <div class="grid cols-2">
+    <div class="card">
+      <h3>Category standard</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+        <a class="chip" href="https://www.gabrielgambetta.com/client-server-game-architecture.html">server-authoritative</a>
+        <span class="chip">never trust the client</span>
+        <span class="chip">never trust the model</span>
       </div>
-      <p class="note">LLM-authored code is a draft until graded: see <a href="../../ENGINEERING.md">ENGINEERING.md §3</a>.</p>
+      <p style="margin-top:14px;font-size:14px;color:var(--text-dim)">LLM-authored code is a draft until graded: see <a href="../../ENGINEERING.md">ENGINEERING.md &sect;3</a>.</p>
     </div>
-    <div class="panel">
-      <h3><span class="mk"></span>Governance in place</h3>
-      <ul class="gov-list">
+    <div class="card">
+      <h3>Governance in place</h3>
+      <ul class="tight-list">
         <li>Deterministic <code>auditor</code>: fail-closed, two-tier escalation, denial receipts</li>
         <li>Server-authoritative resolve: runs code-only with no model key</li>
         <li>Auto-RLS DDL trigger: RLS enabled on every new table</li>
@@ -218,19 +122,26 @@ footer a{color:var(--accent);text-decoration:none}
 </div></section>
 
 <section><div class="wrap">
-  <div class="callout">
-    <span class="section-label"><span class="sq"></span>the honest boundary</span>
-    <div class="row">
-      <div class="paid"><h4><span class="mk"></span>Where it paid off</h4><p>Rule extensibility (rows instead of branches) and explainability: every outcome ships with checkable citations.</p></div>
-      <div class="kept"><h4><span class="mk"></span>Where code stayed</h4><p>All arithmetic, seeded randomness, and geometry: the numeric core. Its bulk is algorithmic, so it is the <em>least</em> blueprint-compilable of the four, the honest anchor for the estimates elsewhere.</p></div>
-    </div>
+  <span class="slabel"><span class="sq"></span>the honest boundary</span>
+  <div class="cols">
+    <div class="item"><div class="k">Where it paid off</div><h3>Extensibility &amp; explainability</h3><p>Rule extensibility (rows instead of branches) and explainability: every outcome ships with checkable citations.</p></div>
+    <div class="item"><div class="k">Where code stayed</div><h3>The numeric core</h3><p>All arithmetic, seeded randomness, and geometry: the numeric core. Its bulk is algorithmic, so it is the <em>least</em> blueprint-compilable of the four, the honest anchor for the estimates elsewhere.</p></div>
   </div>
 </div></section>
 
-<footer><div class="wrap">
+</div>
+
+<footer class="page"><div class="wrap">
   <div class="ip">IP-safety reviewed before publishing. Describes Relic Wars' own governance pattern only: no proprietary BOSNet.io source, no secrets, no client IP.</div>
-  Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
-  <span class="mono" style="font-size:12px">the-substrate · AI as the governed operational substrate</span>
+  <div class="linkrow">
+    <a href="../relic-wars.md">read the full write-up &rarr;</a>
+    <a href="../../README.md">README &rarr;</a>
+    <a href="../../BOSS-STANDARD.md">BOSS-STANDARD.md &rarr;</a>
+    <a href="../../demos/interactive/index.html">interactive demos &rarr;</a>
+  </div>
+  <div class="byline" style="margin-top:18px">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions &middot; <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate &middot; AI as the governed operational substrate</span></div>
 </div></footer>
+
 </body>
 </html>

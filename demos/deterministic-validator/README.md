@@ -1,5 +1,7 @@
 # demo: a deterministic validator that commits only what passes
 
+> **Try it in your browser** (no install): [interactive deterministic-validator demo](../interactive/deterministic-validator.html). The interactive version mirrors this Python; it is the convenience, and the code here is the proof.
+
 A small, **zero-dependency** proof of the decision recorded in
 [`../../docs/adr/ADR-0003-deterministic-validator-commits.md`](../../docs/adr/ADR-0003-deterministic-validator-commits.md):
 **deterministic code computes what does happen and grades the reasoning; the model decides

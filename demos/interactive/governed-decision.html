@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive: one governed decision, end to end · the-substrate</title>
+<meta name="description" content="Run one intent through all four BOSS guarantees in your browser: bounded gate, evidence check, deterministic validator, audited ledger, reversible commit. Break any stage and watch the refusal fire there.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/substrate.css">
+<link rel="stylesheet" href="playground.css">
+</head>
+<body>
+
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="index.html"><span class="tick"></span>the&#8209;substrate · demos</a>
+  <div class="topnav">
+    <a href="index.html">All demos</a>
+    <a href="../../README.md">README</a>
+    <a href="../../BOSS-STANDARD.md">BOSS</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<a href="index.html" class="backlink mono">&larr; all interactive demos</a>
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>the flagship · all four guarantees</div>
+  <h1>One governed<br>decision, end to end</h1>
+  <p class="lede">One intent, five deterministic checkpoints wrapped around a single model step. A good decision commits, is audited, and is reversible. A bad one is refused at the exact stage that owns the broken check.</p>
+</header>
+
+<section><div class="wrap">
+  <span class="slabel"><span class="sq"></span>the loop</span>
+  <h2>Bounded, evidence-backed, validated, audited, reversible</h2>
+  <p class="intro">Run the well-formed intent and watch all five stages pass, the audit chain verify, and a restore reproduce the prior state exactly. Then break one stage at a time and watch the refusal fire there, with nothing partial committing. The substrate is a pipeline of checkpoints, one model step in the middle.</p>
+
+  <div class="pg">
+    <div class="pg-head"><span class="t">the pipeline</span><span class="mono small muted">five stages, run in your browser</span></div>
+    <div class="pg-body">
+      <div id="stages" class="stages"></div>
+      <div id="verdict" class="verdict"></div>
+
+      <div class="pg-row" style="margin-top:18px">
+        <button class="btn sm" data-preset="good">Well-formed intent</button>
+        <button class="btn sm ghost" data-preset="scope">Break: over-scope</button>
+        <button class="btn sm ghost" data-preset="unsourced">Break: unsourced</button>
+        <button class="btn sm ghost" data-preset="invalid">Break: invalid proposal</button>
+        <button class="btn sm ghost" data-preset="unreg">Break: unregistered</button>
+      </div>
+
+      <div id="out" class="out"></div>
+      <p class="hint">Each "break" preset ships an intent broken in exactly one way. The refusal names the stage that owns that check: over-scope and unregistered are caught by <em>bounded</em>, a missing source by <em>evidence</em>, a malformed proposal by <em>validated</em>. A refused intent never reaches the ledger or the versioned store.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="panel warn">
+    <div class="h">Don't take this at face value</div>
+    <div class="b">
+      <p>This page is a <strong>JavaScript reimplementation</strong> of <code>demos/governed-decision/pipeline.py</code>, with the same stages, the same refusal conditions, and the same reason strings. It is a convenience. The proof is the Python you run yourself:</p>
+      <pre>git clone https://github.com/frapster/the-substrate &amp;&amp; cd the-substrate
+python demos/governed-decision/governed_decision_demo.py   <span class="muted"># one intent, five stages</span>
+python demos/governed-decision/test_pipeline.py            <span class="muted"># each stage refuses its own failure</span>
+python demos/run_tests.py                                  <span class="muted"># all 8 demo suites at once</span></pre>
+      <p style="margin-top:12px">Read the source: <a href="../governed-decision/pipeline.py">pipeline.py</a> · <a href="../governed-decision/README.md">README</a>. Each stage has a fuller standalone proof: <a href="bounded-authority.html">bounded</a>, <a href="evidence-provenance.html">evidence</a>, <a href="deterministic-validator.html">validator</a>, <a href="audit-ledger.html">audit</a>, <a href="reversible-actions.html">reversible</a>.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="h">Prove it yourself · extend the tests</div>
+    <div class="b">
+      <p>The tests in <code>demos/governed-decision/test_pipeline.py</code> assert each stage refuses its own bad input and that a refusal leaves no trace. Add your own broken intent and confirm it is caught at the stage you expect:</p>
+      <pre>def test_my_broken_intent(self):
+    s = _substrate()
+    intent = _good()
+    intent.scope = {"usd": 100000}      # over the grant_refund hard cap
+    d = s.decide(intent)
+    self.assertFalse(d.committed)
+    self.assertEqual(d.refusal_stage, "bounded")   # is it caught where you expect?
+    self.assertEqual(len(s.ledger.rows), 0)         # nothing partial committed</pre>
+      <p style="margin-top:12px">Run <code>python demos/governed-decision/test_pipeline.py</code>. If you can craft a broken intent that commits anyway, or that leaks a partial write, you have found a real gap. You hold the falsifier.</p>
+    </div>
+  </div>
+</div></section>
+
+</div>
+
+<footer class="page"><div class="wrap">
+  <div class="ip">This interactive page is a clean-room illustration, not the BOSNet.io engine. Each stage is a small toy; the real gate, evidence model, validator, ledger, and reversibility machinery are the proprietary reference implementation. The machine-checkable spec and kernel are patent-pending and reserved; BOSNet.io and BOSS are proprietary. See the license.</div>
+  <div class="byline">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate · <a href="index.html">interactive demos</a> · <a href="../../README.md">README</a></span></div>
+</div></footer>
+
+<script src="governed-decision.js"></script>
+</body>
+</html>

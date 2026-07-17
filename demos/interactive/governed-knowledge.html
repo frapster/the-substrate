@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive: governed knowledge vs RAG · the-substrate</title>
+<meta name="description" content="Play with a governed knowledge retriever in your browser: a naive cosine-similarity search confidently returns a superseded fact with the higher score, while governed retrieval filters to current, authorized atoms first and abstains rather than guess. A fair fight, not a rigged retriever.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/substrate.css">
+<link rel="stylesheet" href="playground.css">
+</head>
+<body>
+
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="index.html"><span class="tick"></span>the&#8209;substrate · demos</a>
+  <div class="topnav">
+    <a href="index.html">All demos</a>
+    <a href="../../README.md">README</a>
+    <a href="../../BOSS-STANDARD.md">BOSS</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<a href="index.html" class="backlink mono">&larr; all interactive demos</a>
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>guarantee · governed knowledge</div>
+  <h1>Governed knowledge<br>vs. naive similarity search</h1>
+  <p class="lede">A correct cosine search can confidently return a fact that used to be true. Watch the same query hand a naive retriever a superseded answer, and a governed retriever the current one, or an honest abstain.</p>
+</header>
+
+<section><div class="wrap">
+  <span class="slabel"><span class="sq"></span>the claim</span>
+  <h2>Retrieval-by-similarity is not the governed-knowledge substrate</h2>
+  <p class="intro">Every atom below is a versioned fact: a body, a toy embedding vector, a <code>scope</code>, and a validity window (<code>validity_end</code> null means current; a set date means superseded). <code>naive_retrieve</code> ranks every atom in the knowledge base by cosine similarity and returns whichever scores highest, indifferent to currency or scope. <code>governed_retrieve</code> filters to CURRENT atoms in an AUTHORIZED scope first, THEN ranks, and ABSTAINS rather than guess if nothing qualifies. Pick a query and run both.</p>
+
+  <div class="note">
+    <span class="slabel"><span class="sq"></span>fairness</span>
+    <p>The similarity function is a correct cosine. The stale atom genuinely scores higher, governed knowledge wins on currency and provenance, not on a rigged retriever. Embeddings here are illustrative toy vectors; the cosine math is real, and this page re-derives the same scores <code>knowledge.py</code> does in Python.</p>
+  </div>
+
+  <div class="pg">
+    <div class="pg-head"><span class="t">the knowledge base</span><span class="mono small muted">7 platform atoms + 1 tenant atom, cosine computed in your browser</span></div>
+    <div class="pg-body">
+      <div id="kb"></div>
+      <div id="verdict" class="verdict"></div>
+
+      <div class="pg-row" style="margin-top:18px">
+        <div class="field"><label for="querySelect">query</label>
+          <select id="querySelect">
+            <option value="refund">refund window (supersession pair)</option>
+            <option value="password">password minimum length (supersession pair)</option>
+            <option value="retention">data retention period (supersession pair)</option>
+            <option value="warranty">warranty period (no current fact, abstain)</option>
+          </select>
+        </div>
+        <div class="field"><label for="scopeSelect">scope (governed only)</label>
+          <select id="scopeSelect">
+            <option value="platform">platform</option>
+            <option value="tenant_acme">tenant_acme</option>
+            <option value="tenant_zzz">tenant_zzz (unregistered, abstain)</option>
+          </select>
+        </div>
+        <button class="btn sm ghost" id="naiveBtn">Naive cosine retrieval <span class="arw">&rarr;</span></button>
+        <button class="btn sm" id="governedBtn">Governed retrieval <span class="arw">&rarr;</span></button>
+      </div>
+
+      <div id="out" class="out"></div>
+      <p class="hint">Naive retrieval ignores scope entirely and searches all 8 atoms. Governed retrieval filters to atoms current in the selected scope before it ever ranks by similarity, and abstains below a 0.5 cosine threshold or for a scope that isn't on the authorized list.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="panel warn">
+    <div class="h">Don't take this at face value</div>
+    <div class="b">
+      <p>This page is a <strong>JavaScript reimplementation</strong> of <code>demos/governed-knowledge/knowledge.py</code>. It uses the same atoms, the same toy embeddings, and the same unmodified cosine math, so the scores match the Python to the decimal, but a demo you cannot inspect proves nothing. The real proof is the code you run yourself:</p>
+      <pre>git clone https://github.com/frapster/the-substrate &amp;&amp; cd the-substrate
+python demos/governed-knowledge/knowledge_demo.py    <span class="muted"># watch naive lose to governed, live</span>
+python demos/governed-knowledge/test_knowledge.py    <span class="muted"># the Fairness assertion is the point</span>
+python demos/governed-knowledge/bench.py             <span class="muted"># governed: 100% current-or-abstain, 0% wrong</span></pre>
+      <p style="margin-top:12px">Read the source: <a href="../governed-knowledge/knowledge.py">knowledge.py</a> · <a href="../governed-knowledge/README.md">README</a> · <a href="../../docs/adr/ADR-0005-rag-is-not-the-substrate.md">ADR-0005</a> · <a href="../../ENGINEERING.md">ENGINEERING.md</a></p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="h">Prove it yourself · extend the tests</div>
+    <div class="b">
+      <p>Add your own supersession pair to <code>demos/governed-knowledge/knowledge.py</code>, then assert in <code>test_knowledge.py</code> that governed retrieval returns the current atom or abstains, AND that the fairness invariant still holds (the stale atom's cosine really is higher):</p>
+      <pre>def test_my_own_supersession_pair(self):
+    kb = seed_knowledge_base()
+    stale, current = kb.atoms[-2], kb.atoms[-1]   # your new pair
+    query = (...)                                  # your query vector
+
+    sim_stale = cosine(query, stale.embedding)
+    sim_current = cosine(query, current.embedding)
+    self.assertGreater(sim_stale, sim_current)      # fairness: stale scores higher
+
+    result = kb.governed_retrieve(query, scope=current.scope)
+    self.assertTrue(result.degraded or result.atom.atom_id == current.atom_id)</pre>
+      <p style="margin-top:12px">Run <code>python demos/governed-knowledge/test_knowledge.py</code>. If governed retrieval ever returns your stale atom, or the fairness assertion fails, you have broken the claim. That is the point: it is falsifiable, and you hold the falsifier.</p>
+    </div>
+  </div>
+</div></section>
+
+</div>
+
+<footer class="page"><div class="wrap">
+  <div class="ip">This interactive page is a clean-room illustration, not the BOSNet.io engine. It demonstrates one retrieval-governance property (filter-then-rank, abstain-on-uncertainty) with code you can read and rerun. The machine-checkable spec and kernel are patent-pending and reserved; BOSNet.io and BOSS are proprietary. See the license.</div>
+  <div class="byline">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate · <a href="index.html">interactive demos</a> · <a href="../../README.md">README</a></span></div>
+</div></footer>
+
+<script src="governed-knowledge.js"></script>
+</body>
+</html>

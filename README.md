@@ -52,22 +52,31 @@ dependencies (Python 3 standard library only). Every one is grounded in a real m
 proprietary engine but ships only a clean-room toy, and every one dramatizes a *refusal*: watch
 it say **no** correctly, which is exactly what separates governance from capability.
 
-| Demo | Guarantee / claim | The refusal you watch |
-|---|---|---|
-| [`demos/audit-ledger/`](./demos/audit-ledger/) | **Audited** (ADR-0001) | a silent edit to committed history is caught by recomputation |
-| [`demos/bounded-authority/`](./demos/bounded-authority/) | **Bounded** (ADR-0002) | an over-scoped or unregistered action is blocked *before* it runs |
-| [`demos/evidence-provenance/`](./demos/evidence-provenance/) | **Evidence-backed** (ADR-0005) | an unsourced claim is refused; editing a source auto-detaches its claim |
-| [`demos/governed-knowledge/`](./demos/governed-knowledge/) | **Knowledge** (ADR-0005) | naive cosine returns a stale atom; governed retrieval returns the current one, or abstains |
-| [`demos/reversible-actions/`](./demos/reversible-actions/) | **Reversible** | an in-place mutation fails closed; `restore()` reproduces the exact prior state |
-| [`demos/deterministic-validator/`](./demos/deterministic-validator/) | **Validated** (ADR-0003) | an invalid proposal is discarded, never patched into a passing one |
-| [`demos/ai-code-ratio/`](./demos/ai-code-ratio/) | **90:10 AI\:code** | new requirements cost *facts* rather than code branches, counted from source |
-| [`demos/governed-decision/`](./demos/governed-decision/) | **the whole loop** | one intent through all four guarantees; each stage refuses its own failure |
+Each also has an **interactive browser version** (no install) where you can drive the inputs and
+watch the refusal happen live. The interactive version is the convenience; the Python you rerun is
+the proof, and every interactive page shows you how to run and extend the real tests. Start at the
+[interactive demos suite](./demos/interactive/index.html).
+
+| Demo | Guarantee / claim | The refusal you watch | Try it |
+|---|---|---|---|
+| [`demos/audit-ledger/`](./demos/audit-ledger/) | **Audited** (ADR-0001) | a silent edit to committed history is caught by recomputation | [browser](./demos/interactive/audit-ledger.html) |
+| [`demos/bounded-authority/`](./demos/bounded-authority/) | **Bounded** (ADR-0002) | an over-scoped or unregistered action is blocked *before* it runs | [browser](./demos/interactive/bounded-authority.html) |
+| [`demos/evidence-provenance/`](./demos/evidence-provenance/) | **Evidence-backed** (ADR-0005) | an unsourced claim is refused; editing a source auto-detaches its claim | [browser](./demos/interactive/evidence-provenance.html) |
+| [`demos/governed-knowledge/`](./demos/governed-knowledge/) | **Knowledge** (ADR-0005) | naive cosine returns a stale atom; governed retrieval returns the current one, or abstains | [browser](./demos/interactive/governed-knowledge.html) |
+| [`demos/reversible-actions/`](./demos/reversible-actions/) | **Reversible** | an in-place mutation fails closed; `restore()` reproduces the exact prior state | [browser](./demos/interactive/reversible-actions.html) |
+| [`demos/deterministic-validator/`](./demos/deterministic-validator/) | **Validated** (ADR-0003) | an invalid proposal is discarded, never patched into a passing one | [browser](./demos/interactive/deterministic-validator.html) |
+| [`demos/ai-code-ratio/`](./demos/ai-code-ratio/) | **90:10 AI\:code** | new requirements cost *facts* rather than code branches, counted from source | [browser](./demos/interactive/ai-code-ratio.html) |
+| [`demos/governed-decision/`](./demos/governed-decision/) | **the whole loop** | one intent through all four guarantees; each stage refuses its own failure | [browser](./demos/interactive/governed-decision.html) |
 
 Run the whole suite's tests at once:
 
 ```bash
 python demos/run_tests.py
 ```
+
+_The interactive pages are static HTML with no dependencies; they run once the repo is served
+(GitHub Pages, or any static host) and also open directly from a local file. They mirror the Python
+byte-for-byte, but treat them as an illustration and prove the claims with the Python yourself._
 
 What each proves, and deliberately does **not**, is stated in its own README and summarized in
 [Limitations](#limitations-what-this-does-and-does-not-do) below.

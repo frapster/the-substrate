@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive: tamper-evident audit ledger · the-substrate</title>
+<meta name="description" content="Play with a hash-chained audit ledger in your browser: commit decisions, tamper a past row, and watch verify() pinpoint the break. A convenience; the real proof is the Python you can run and change.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23fff'/%3E%3Crect x='2' y='2' width='6' height='6' fill='%230066a1'/%3E%3Crect x='9' y='9' width='5' height='5' fill='%23111'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/substrate.css">
+<link rel="stylesheet" href="playground.css">
+</head>
+<body>
+
+<nav class="topbar"><div class="wrap">
+  <a class="brandmark" href="index.html"><span class="tick"></span>the&#8209;substrate · demos</a>
+  <div class="topnav">
+    <a href="index.html">All demos</a>
+    <a href="../../README.md">README</a>
+    <a href="../../BOSS-STANDARD.md">BOSS</a>
+  </div>
+</div></nav>
+
+<div class="wrap">
+<a href="index.html" class="backlink mono">&larr; all interactive demos</a>
+
+<header class="page">
+  <div class="eyebrow"><span class="tick"></span>guarantee · audited</div>
+  <h1>Tamper-evident<br>audit ledger</h1>
+  <p class="lede">Every governed decision writes a hash-chained entry. Edit one past row, and recomputation catches it. Try to forge history below.</p>
+</header>
+
+<section><div class="wrap">
+  <span class="slabel"><span class="sq"></span>the claim</span>
+  <h2>Silent edits to committed history are impossible</h2>
+  <p class="intro">Each row folds the previous row's hash into its own: <code>hash = SHA256(prev_hash | index | canonical_json(body))</code>. Change any past row and its hash no longer matches what the next row recorded, so <code>verify()</code> pinpoints the first break. Commit a decision, flip a past verdict, then verify.</p>
+
+  <div class="pg">
+    <div class="pg-head"><span class="t">the chain</span><span class="mono small muted">SHA-256, computed in your browser</span></div>
+    <div class="pg-body">
+      <div id="chain"></div>
+      <div id="verdict" class="verdict"></div>
+
+      <div class="pg-row" style="margin-top:18px">
+        <div class="field"><label for="newAction">new decision</label><input type="text" id="newAction" value="issue_credit" size="16"></div>
+        <div class="field"><label for="newVerdict">verdict</label>
+          <select id="newVerdict"><option value="allow">allow</option><option value="deny">deny</option></select></div>
+        <button class="btn sm" id="appendBtn">Commit <span class="arw">&rarr;</span></button>
+      </div>
+
+      <div class="pg-row">
+        <div class="field"><label for="tamperRow">tamper a past row</label>
+          <select id="tamperRow"></select></div>
+        <button class="btn sm ghost" id="tamperBtn">Flip verdict</button>
+        <button class="btn sm" id="verifyBtn">Verify chain</button>
+      </div>
+
+      <div id="out" class="out"></div>
+      <p class="hint">The tamper button edits a stored row's verdict without recomputing its hash, exactly as someone with database access would. Verify recomputes the whole chain from genesis and reports the first row where stored and recomputed disagree.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="panel warn">
+    <div class="h">Don't take this at face value</div>
+    <div class="b">
+      <p>This page is a <strong>JavaScript reimplementation</strong> of <code>demos/audit-ledger/ledger.py</code>. It uses the same chaining rule, so the hashes match the Python byte-for-byte, but a demo you cannot inspect proves nothing. The real proof is the code you run yourself:</p>
+      <pre>git clone https://github.com/frapster/the-substrate &amp;&amp; cd the-substrate
+python demos/audit-ledger/ledger_demo.py     <span class="muted"># watch it catch a forged row</span>
+python demos/audit-ledger/test_ledger.py     <span class="muted"># the negative tests are the point</span>
+python demos/audit-ledger/bench.py           <span class="muted"># ~74k rows/sec verify, 200/200 tampers caught</span></pre>
+      <p style="margin-top:12px">Read the source: <a href="../audit-ledger/ledger.py">ledger.py</a> · <a href="../audit-ledger/README.md">README</a> · <a href="../../docs/adr/ADR-0001-hash-chained-audit-ledger.md">ADR-0001</a></p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="h">Prove it yourself · extend the tests</div>
+    <div class="b">
+      <p>The tests in <code>demos/audit-ledger/test_ledger.py</code> assert that <code>verify()</code> <em>fails for the right reason</em> under each kind of tampering. Add your own attack and confirm the chain catches it. Drop this into the <code>TamperIsCaught</code> class and re-run:</p>
+      <pre>def test_my_own_tamper(self):
+    ledger = _seed(6)
+    # try YOUR attack: edit a body, swap two rows, delete one…
+    edited = dict(ledger.rows[4].body)
+    edited["amount_usd"] = 999999
+    ledger._tamper_body(4, edited)      # hash left stale
+    result = ledger.verify()
+    self.assertFalse(result.ok)          # it must be caught
+    self.assertEqual(result.broken_index, 4)</pre>
+      <p style="margin-top:12px">Run <code>python demos/audit-ledger/test_ledger.py</code>. If you can make a silent edit that <code>verify()</code> misses, you have broken the claim. That is the point: it is falsifiable, and you hold the falsifier.</p>
+    </div>
+  </div>
+</div></section>
+
+</div>
+
+<footer class="page"><div class="wrap">
+  <div class="ip">This interactive page is a clean-room illustration, not the BOSNet.io engine. It demonstrates one cryptographic property (tamper-evidence) with code you can read and rerun. The machine-checkable spec and kernel are patent-pending and reserved; BOSNet.io and BOSS are proprietary. See the license.</div>
+  <div class="byline">Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <span class="mono small">the-substrate · <a href="index.html">interactive demos</a> · <a href="../../README.md">README</a></span></div>
+</div></footer>
+
+<script src="audit-ledger.js"></script>
+</body>
+</html>

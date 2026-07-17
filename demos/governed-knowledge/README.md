@@ -1,5 +1,7 @@
 # demo: governed knowledge vs. naive similarity retrieval
 
+> **Try it in your browser** (no install): [interactive governed-knowledge demo](../interactive/governed-knowledge.html). The interactive version mirrors this Python; it is the convenience, and the code here is the proof.
+
 A small, **zero-dependency** proof of one claim in [`../../docs/adr/ADR-0005-rag-is-not-the-substrate.md`](../../docs/adr/ADR-0005-rag-is-not-the-substrate.md):
 that naive retrieval-by-cosine-similarity is a useful retrieval *tactic*, not the
 governed-knowledge *substrate*. A governance engine can authorize an action correctly
