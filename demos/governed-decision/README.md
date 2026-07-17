@@ -1,13 +1,12 @@
-# governed-decision — the whole loop in one runnable file
+# governed-decision: the whole loop in one runnable file
 
-The flagship demo. One intent flows through **all four BOSS guarantees** end to end —
+The flagship demo. One intent flows through **all four BOSS guarantees** end to end:
 **bounded** gate → **evidence** check → deterministic **validator** → **audited**
-hash-chained ledger → **reversible** commit — and each stage can refuse its own bad input
+hash-chained ledger → **reversible** commit, and each stage can refuse its own bad input
 in isolation.
 
 The other demos each prove one primitive. This one shows how they compose: the substrate
-is a **pipeline of deterministic checkpoints wrapped around a single probabilistic step**,
-not a prompt.
+is a **pipeline of deterministic checkpoints wrapped around a single probabilistic step**.
 
 ## Quickstart (30 seconds)
 
@@ -15,12 +14,12 @@ not a prompt.
 python demos/governed-decision/governed_decision_demo.py
 ```
 
-You'll watch a well-formed intent pass the full loop — commit, prove reversible (restored
-to its exact prior state hash), with the audit chain still intact — and then watch four
+You'll watch a well-formed intent pass the full loop: commit, prove reversible (restored
+to its exact prior state hash), with the audit chain still intact, and then watch four
 broken intents each get refused at the stage that owns the broken check:
 
 ```
-2. Each stage refuses its own failure — in isolation
+2. Each stage refuses its own failure, in isolation
   ✗ over-scope           refused at bounded   rows=10000 exceeds hard cap 100 …
   ✗ unsourced claim      refused at evidence  claim carries no resolvable source …
   ✗ invalid proposal     refused at validated proposal missing required field(s) …
@@ -54,19 +53,19 @@ Five minimal, self-contained stages, composed by `Substrate.decide(intent)`:
 | `ReversibleStore` | Reversible | append-only, supersede-forward, exact restore | [`../reversible-actions/`](../reversible-actions/) |
 
 Each stage here is a deliberately small reimplementation of the mechanism its sibling demo
-proves in full — so this folder runs standalone with **no cross-folder imports**. Any stage
+proves in full, so this folder runs standalone with **no cross-folder imports**. Any stage
 may raise a `GovernanceRefusal`; the loop stops and nothing commits.
 
-## What this proves — and what it does NOT
+## What this proves, and what it does not
 
 **Proves:** the four guarantees compose into a single decision path where the one
 probabilistic step (the model's proposed record) is wrapped, before and after, by
-deterministic checkpoints — and a failure of any one guarantee refuses the whole decision
+deterministic checkpoints, and a failure of any one guarantee refuses the whole decision
 at a nameable stage, with no partial commit. It is the *shape* of a governed decision made
 runnable.
 
-**Does NOT prove / is NOT:** this is a **generic illustration**, not the BOSNet.io engine.
-Each stage is a toy — the real gate, evidence model, validator, ledger, and reversibility
+**Does NOT prove / is NOT:** this is a **generic illustration**, distinct from the BOSNet.io engine.
+Each stage is a toy: the real gate, evidence model, validator, ledger, and reversibility
 machinery are the proprietary reference implementation described in
 [`../../BOSS-STANDARD.md`](../../BOSS-STANDARD.md). The machine-checkable specification and
 governance kernel are patent-pending and reserved (see [`../../LICENSE.md`](../../LICENSE.md)).

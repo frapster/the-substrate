@@ -1,21 +1,22 @@
 """
-bench.py — a small, reproducible benchmark for the evidence store.
+bench.py: a small, reproducible benchmark for the evidence store.
 
 Run it:
 
     python demos/evidence-provenance/bench.py            # default N = 50,000 sources/claims
     python demos/evidence-provenance/bench.py 200000     # custom count
 
-Standard-library only. Prints a Markdown table of measured numbers — not adjectives —
+Standard-library only. Prints a Markdown table of measured numbers, not adjectives,
 and the exact command to reproduce them.
 
 What it measures (and what it does NOT):
-  - assert throughput      — claims/sec pinned against registered sources
-  - verify throughput      — claims/sec re-checked against current source hashes
-  - unsourced refusal      — of K claims naming unregistered sources, how many are refused
-  - tamper detection       — of K source edits, how many detach the claim they backed
-This benchmarks the evidence PRIMITIVE's provenance-pinning and refusal overhead. It is
-not an end-to-end governance benchmark, and makes no claim about model quality.
+  - assert throughput: claims/sec pinned against registered sources
+  - verify throughput: claims/sec re-checked against current source hashes
+  - unsourced refusal: of K claims naming unregistered sources, how many are refused
+  - tamper detection: of K source edits, how many detach the claim they backed
+This benchmarks the evidence PRIMITIVE's provenance-pinning and refusal overhead. It
+is a primitive-level benchmark, not an end-to-end governance benchmark, and makes no
+claim about model quality.
 """
 
 from __future__ import annotations
@@ -86,7 +87,7 @@ def main(argv: list[str]) -> int:
 
     store, claims, assert_dt = bench_assert(n)
     all_ok, verify_dt = bench_verify(store, claims)
-    assert all_ok, "seeded claims failed to verify — benchmark environment is broken"
+    assert all_ok, "seeded claims failed to verify, benchmark environment is broken"
     refused, refusal_trials = bench_unsourced_refusal(k)
     caught, tamper_trials = bench_tamper_detection(min(n, 2_000), k)
 

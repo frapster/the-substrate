@@ -1,18 +1,18 @@
 """
-reversible_demo.py — watch a versioned store gate, guard, and recover.
+reversible_demo.py: watch a versioned store gate, guard, and recover.
 
 Run it:
 
     python demos/reversible-actions/reversible_demo.py
 
-No installation, no dependencies — Python 3 standard library only.
+No installation, no dependencies, Python 3 standard library only.
 
 The story in four acts:
   1. A governed system commits a few gated changes. Each is a NEW version;
      nothing already committed is ever touched.
   2. An ungated high-impact action is attempted. It is REFUSED before it can apply.
   3. Something reaches past the API to edit / delete a version in place. The durable
-     append-only guard FAILS CLOSED — both attempts are refused.
+     append-only guard FAILS CLOSED: both attempts are refused.
   4. Recovery: restore(version=N) reconstructs a prior state by superseding forward,
      and its state_hash matches the original snapshot byte-for-byte.
 
@@ -48,7 +48,7 @@ def main() -> int:
     print(
         "A governance engine treats high-impact state changes as gated and\n"
         "recoverable. The only sanctioned mutation is a new version appended\n"
-        "forward — never an edit to what's already committed. Let's watch that.\n"
+        "forward, never an edit to what's already committed. Let's watch that.\n"
     )
 
     guard_refusals = 0
@@ -77,7 +77,7 @@ def main() -> int:
     )
     try:
         store.apply({"balance_usd": 0}, high_impact=True)
-        print(f"  {RED}{CROSS} the change applied — the gate did not hold!{RESET}")
+        print(f"  {RED}{CROSS} the change applied, the gate did not hold!{RESET}")
         return 1
     except UngatedHighImpactError as exc:
         print(f"  {RED}[refused]{RESET}  {exc}")
@@ -92,7 +92,7 @@ def main() -> int:
     ):
         try:
             action()
-            print(f"  {RED}{CROSS} in-place {label} succeeded — the append-only guard failed!{RESET}")
+            print(f"  {RED}{CROSS} in-place {label} succeeded, the append-only guard failed!{RESET}")
             return 1
         except AppendOnlyViolation as exc:
             guard_refusals += 1
@@ -114,7 +114,7 @@ def main() -> int:
         f"state={restored.state}"
     )
     if restored.state_hash != checkpoint_hash:
-        print(f"  {RED}{CROSS} restored hash != original snapshot hash — recovery is not deterministic!{RESET}")
+        print(f"  {RED}{CROSS} restored hash != original snapshot hash, recovery is not deterministic!{RESET}")
         return 1
     print(f"  {GREEN}{CHECK} restored state_hash matches version {checkpoint_index} exactly, byte-for-byte.{RESET}")
     print()

@@ -1,9 +1,9 @@
-# ADR-0001 — Append-only, hash-chained audit ledger
+# ADR-0001: Append-only, hash-chained audit ledger
 
 - **Status:** Accepted
 - **Date:** 2026-07-15
 - **Deciders:** Robert J. Floyd
-- **Runnable proof:** [`demos/audit-ledger/`](../../demos/audit-ledger/) — a clean-room implementation of this decision.
+- **Runnable proof:** [`demos/audit-ledger/`](../../demos/audit-ledger/): a clean-room implementation of this decision.
 
 ## Context
 
@@ -31,15 +31,15 @@ deleted in place; there is no sanctioned mutate API.
   backup is invisible. Chaining makes any excision or reordering detectable, not just in-place edits.
 - **External SIEM / log shipping only.** Useful as a complement, but it moves the trust boundary to
   another system rather than making the record self-verifying. We keep the chain as the source of
-  truth and can *additionally* ship anchors off-site.
+  truth and can also ship anchors off-site.
 - **A full blockchain / distributed ledger.** Rejected as disproportionate: the requirement is
   tamper-*evidence* within a single system of record, not decentralized consensus. A hash chain
   delivers the needed property at a tiny fraction of the operational cost.
 
 ## Consequences
 
-- **Positive:** tamper-evidence becomes a checkable property, not a promise — demonstrated by the
-  runnable [`demos/audit-ledger/`](../../demos/audit-ledger/) (verify catches body edits, deletions, reordering, and partial
+- **Positive:** tamper-evidence becomes a checkable property. The runnable
+  [`demos/audit-ledger/`](../../demos/audit-ledger/) demonstrates it directly (verify catches body edits, deletions, reordering, and partial
   forgeries). Maps directly to the BOSS "Audited" guarantee and governance-directory entry #5.
 - **Cost:** verification is O(n) over the chain; very long chains need periodic checkpoints/anchors
   rather than full re-verification on every read (a known, bounded follow-on).

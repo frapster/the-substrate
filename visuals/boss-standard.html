@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BOSS — the Bounded Open Safety Standard · the-substrate</title>
+<title>BOSS: the Bounded Open Safety Standard · the-substrate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -58,16 +58,16 @@ footer .ip{font-family:var(--font-mono);font-size:12px;border:1px solid var(--bo
 <div class="wrap"><a href="../BOSS-STANDARD.md" class="backlink mono">← read BOSS-STANDARD.md</a>
 <header>
   <div class="eyebrow"><span class="dot"></span>the-substrate · the standard</div>
-  <h1>BOSS — the Bounded Open Safety Standard</h1>
+  <h1>BOSS: the Bounded Open Safety Standard</h1>
   <div class="reserved">Public overview · spec &amp; kernel patent-pending</div>
-  <p class="lead">A governance standard for agentic AI, organized around a published <strong>governance directory</strong> — the machine-readable record a governed system registers to declare <em>how it is governed</em>.</p>
+  <p class="lead">A governance standard for agentic AI, organized around a published <strong>governance directory</strong>: the machine-readable record a governed system registers to declare <em>how it is governed</em>.</p>
   <div class="pull mono">"Unbounded agents are ungoverned agents."</div>
 </header>
 
 <section><div class="wrap">
   <span class="slabel"><span class="sq"></span>what BOSS is</span>
-  <h2>The governance surface — not the stack</h2>
-  <p class="intro">BOSS specifies the <strong>governance surface</strong> a system must expose to make run-time reasoning load-bearing — the phase discipline, human checkpoints, execution contracts, knowledge model, and conformance — while leaving transport, auth, and deployment to the implementation layer. Modeled on how Kubernetes, OAuth, and OpenTelemetry commoditize a <em>specification</em> while value is captured at the implementation. The reference implementation is <strong>BOSNet.io</strong>. "Bounded" is a formal property, not marketing: every part of BOSS bounds something.</p>
+  <h2>The governance surface a system exposes</h2>
+  <p class="intro">BOSS specifies the <strong>governance surface</strong> a system must expose to make run-time reasoning load-bearing: the phase discipline, human checkpoints, execution contracts, knowledge model, and conformance, leaving transport, auth, and deployment to the implementation layer. It's modeled on how Kubernetes, OAuth, and OpenTelemetry commoditize a <em>specification</em> while value is captured at the implementation. The reference implementation is <strong>BOSNet.io</strong>. "Bounded" is a formal, checkable property: every part of BOSS bounds something.</p>
 </div></section>
 
 <section><div class="wrap">
@@ -84,38 +84,38 @@ footer .ip{font-family:var(--font-mono);font-size:12px;border:1px solid var(--bo
 <section><div class="wrap">
   <span class="slabel"><span class="sq"></span>the centerpiece</span>
   <h2>The governance directory</h2>
-  <p class="intro">A governed system must <strong>publish how it is governed.</strong> That machine-readable record is its governance directory — what an auditor, regulator, or partner reads to discover, verify, and audit the governance without access to the source. It enumerates seven things:</p>
+  <p class="intro">A governed system must <strong>publish how it is governed.</strong> That machine-readable record is its governance directory: what an auditor, regulator, or partner reads to discover, verify, and audit the governance without access to the source. It enumerates seven things:</p>
   <div class="dir">
     <span class="dir-tag">what a governed system publishes</span>
     <table>
-      <tr><td class="k"><span class="num">1</span>Policies &amp; constraints</td><td>The boundaries it operates under — what is admissible, and blast-radius limits on any action.</td></tr>
+      <tr><td class="k"><span class="num">1</span>Policies &amp; constraints</td><td>The boundaries it operates under: what is admissible, and blast-radius limits on any action.</td></tr>
       <tr><td class="k"><span class="num">2</span>Controls &amp; gates</td><td>The enforcement checkpoints and human-in-the-loop approvals that must be passed.</td></tr>
       <tr><td class="k"><span class="num">3</span>Evidence sources</td><td>The hashed, provenance-tracked sources that back every asserted fact.</td></tr>
       <tr><td class="k"><span class="num">4</span>Agent &amp; tool roster</td><td>Which agents/tools are registered and permitted. <b>Omission is prohibition.</b></td></tr>
       <tr><td class="k"><span class="num">5</span>Audit surface</td><td>Where the tamper-evident decision ledger lives and what each entry records.</td></tr>
-      <tr><td class="k"><span class="num">6</span>Reversibility guarantees</td><td>Which actions are gated, versioned, recoverable — and how they roll back.</td></tr>
+      <tr><td class="k"><span class="num">6</span>Reversibility guarantees</td><td>Which actions are gated, versioned, recoverable, and how they roll back.</td></tr>
       <tr><td class="k"><span class="num">7</span>Conformance claim</td><td>The BOSS conformance level asserted, and the evidence offered for it.</td></tr>
     </table>
   </div>
-  <div class="dir-rule"><b>Discoverability over trust:</b> governance that lives only in prose or intentions can't be verified. The directory turns "we govern our AI" into something an outside party can <em>read and check</em> — and every entry is an enforcement point, not documentation about one.</div>
+  <div class="dir-rule"><b>Discoverability over trust:</b> governance that lives only in prose or intentions can't be verified. The directory turns "we govern our AI" into something an outside party can <em>read and check</em>, and every entry is itself an enforcement point.</div>
 </div></section>
 
 <section><div class="wrap">
   <span class="slabel"><span class="sq"></span>conformance</span>
-  <h2>A ramp, not all-or-nothing</h2>
+  <h2>A ramp across three levels</h2>
   <div class="ramp">
     <div class="lvl"><div class="ln mono">LEVEL 1</div><h3>Foundation</h3><p>Phase discipline + mandatory human checkpoints. A directory covering policies, a gate roster, an audit surface.</p></div>
-    <div class="lvl l2"><div class="ln mono">LEVEL 2</div><h3>Structured</h3><p>Adds deterministic, reproducible execution and machine-compiled governance — derived from a model, not hand-written per feature.</p></div>
+    <div class="lvl l2"><div class="ln mono">LEVEL 2</div><h3>Structured</h3><p>Adds deterministic, reproducible execution and machine-compiled governance, derived from a model rather than hand-written per feature.</p></div>
     <div class="lvl l3"><div class="ln mono">LEVEL 3</div><h3>Full</h3><p>The complete surface: atomic evidence-backed knowledge, compiled governance, output-safety gates, checkable conformance.</p></div>
   </div>
-  <div class="stmt">Conformance is <b>demonstrated, not asserted</b> — a system proves it against criteria and test vectors rather than self-certifying by checklist.</div>
+  <div class="stmt">Conformance is <b>demonstrated</b>: a system proves it against criteria and test vectors rather than self-certifying by checklist.</div>
 </div></section>
 
 <section><div class="wrap">
   <div class="reserved-box">
     <span class="slabel"><span class="sq"></span>reserved · patent-pending</span>
     <h2 style="margin-top:0">What this overview does not disclose</h2>
-    <p class="intro" style="margin-bottom:14px">This publishes BOSS's principles, guarantees, directory structure, and conformance intent — enough to evaluate and adopt its shape. These remain proprietary and reserved:</p>
+    <p class="intro" style="margin-bottom:14px">This publishes BOSS's principles, guarantees, directory structure, and conformance intent: enough to evaluate and adopt its shape. These remain proprietary and reserved:</p>
     <ul>
       <li>the machine-checkable <b>specification</b> and its normative rules;</li>
       <li>the <b>conformance rule set</b> and test vectors;</li>
@@ -127,8 +127,8 @@ footer .ip{font-family:var(--font-mono);font-size:12px;border:1px solid var(--bo
 </div></section>
 
 <footer><div class="wrap">
-  <div class="ip">IP-safety reviewed. Principles, guarantees, and governance-directory structure only — the machine-checkable spec and kernel are patent-pending and reserved. BOSNet.io and BOSS are proprietary; see the license. No secrets or client material.</div>
-  Author: <strong>Robert J. Floyd</strong> — founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <div class="ip">IP-safety reviewed. Principles, guarantees, and governance-directory structure only: the machine-checkable spec and kernel are patent-pending and reserved. BOSNet.io and BOSS are proprietary; see the license. No secrets or client material.</div>
+  Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
   <span class="mono" style="font-size:12px">the-substrate · <a href="../README.md">README</a> · <a href="../BOSS-STANDARD.md">BOSS-STANDARD.md</a></span>
 </div></footer>
 </div>

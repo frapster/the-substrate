@@ -1,21 +1,21 @@
 """
-knowledge_demo.py — watch governed knowledge retrieval beat naive similarity search.
+knowledge_demo.py: watch governed knowledge retrieval beat naive similarity search.
 
 Run it:
 
     python demos/governed-knowledge/knowledge_demo.py
 
-No installation, no dependencies — Python 3 standard library only.
+No installation, no dependencies. Python 3 standard library only.
 
 The story in four acts:
   1. Show the knowledge base: current atoms and their superseded predecessors.
   2. A naive cosine-similarity retriever confidently returns a SUPERSEDED atom for
-     a query about refund policy — and its similarity score really is the highest
+     a query about refund policy, and its similarity score really is the highest
      in the whole knowledge base. No cheating: it's a correct search.
   3. A governed retriever, given the SAME query, filters to current + authorized
      atoms first and returns the CURRENT policy instead.
   4. A second query has no current atom that clears the confidence threshold.
-     The governed retriever ABSTAINS rather than guessing — no atom is returned.
+     The governed retriever ABSTAINS rather than guessing: no atom is returned.
 
 This is the runnable proof behind ADR-0005 (../../docs/adr/ADR-0005-rag-is-not-the-substrate.md):
 retrieval-by-similarity is a useful tactic, not the governed-knowledge substrate.
@@ -78,7 +78,7 @@ def main() -> int:
     naive = kb.naive_retrieve(QUERY_REFUND_WINDOW)
     print(
         f"  {RED}[naive_retrieve]{RESET} returns {BOLD}{naive.atom.atom_id}{RESET} "
-        f"(cosine={naive.score:.3f}) — {RED}{naive.atom.status()}{RESET}"
+        f"(cosine={naive.score:.3f}), {RED}{naive.atom.status()}{RESET}"
     )
     print(f"    {DIM}\"{naive.atom.body}\"{RESET}")
     print(
@@ -93,12 +93,12 @@ def main() -> int:
     governed = kb.governed_retrieve(QUERY_REFUND_WINDOW, scope="platform")
     print(
         f"  {GREEN}[governed_retrieve]{RESET} returns {BOLD}{governed.atom.atom_id}{RESET} "
-        f"(cosine={governed.score:.3f}) — {GREEN}{governed.atom.status()}{RESET}"
+        f"(cosine={governed.score:.3f}), {GREEN}{governed.atom.status()}{RESET}"
     )
     print(f"    {DIM}\"{governed.atom.body}\"{RESET}")
     print(
         f"    {DIM}governed_retrieve never even considered {naive.atom.atom_id} as a\n"
-        f"    candidate — it filtered to current + authorized atoms BEFORE ranking\n"
+        f"    candidate, it filtered to current + authorized atoms BEFORE ranking\n"
         f"    by similarity, so a superseded fact cannot outrank a current one.{RESET}"
     )
     print()
@@ -108,7 +108,7 @@ def main() -> int:
     print(f"  {DIM}The knowledge base has no atom about warranty at all.{RESET}")
     abstain = kb.governed_retrieve(QUERY_WARRANTY_PERIOD, scope="platform")
     if not abstain.degraded:
-        # This branch must never execute — abstaining on an off-topic query is the
+        # This branch must never execute. Abstaining on an off-topic query is the
         # whole point of the threshold.
         print(f"  {RED}{CROSS} governed_retrieve served a guess instead of abstaining!{RESET}")
         return 1
@@ -124,7 +124,7 @@ def main() -> int:
     print(rule())
     print(
         f"{GREEN}{CHECK} Governed retrieval wins on currency, scope, and the discipline to\n"
-        f"  abstain{RESET} — not on a rigged similarity function. {DIM}(See\n"
+        f"  abstain{RESET}, not on a rigged similarity function. {DIM}(See\n"
         f"  demos/governed-knowledge/README.md and docs/adr/ADR-0005-rag-is-not-the-substrate.md\n"
         f"  for why this mechanism, and what it does not claim.){RESET}"
     )

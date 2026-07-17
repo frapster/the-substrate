@@ -1,12 +1,12 @@
 """
-gate_demo.py — watch a deny-by-default policy gate refuse an over-scoped action
+gate_demo.py: watch a deny-by-default policy gate refuse an over-scoped action
 before it executes.
 
 Run it:
 
     python demos/bounded-authority/gate_demo.py
 
-No installation, no dependencies — Python 3 standard library only.
+No installation, no dependencies: Python 3 standard library only.
 
 The story in four acts:
   1. A governance directory registers a closed roster of actions, each with a risk
@@ -14,11 +14,11 @@ The story in four acts:
   2. A model proposes a within-budget action: it proceeds.
   3. A model proposes `delete_rows` for 10,000 rows against a policy capped at 100:
      it is BLOCKED before a single row is touched.
-  4. A model proposes an action that was never registered: it is blocked too — not
-     because of its size, but because it doesn't exist on the roster at all.
+  4. A model proposes an action that was never registered: it doesn't exist on the
+     roster, so it's blocked too.
 
 This is the runnable proof behind the claim in README.md and BOSS-STANDARD.md that an
-agent's authority is bounded to a registered, closed surface — and the rule in
+agent's authority is bounded to a registered, closed surface, and the rule in
 docs/adr/ADR-0002-deny-by-default-roster.md: "omission is prohibition."
 """
 
@@ -46,8 +46,8 @@ def rule(char: str = "─", width: int = 64) -> str:
 
 def print_roster(gate: Gate) -> None:
     for action, policy in gate.roster.items():
-        soft = ", ".join(f"{k}≤{v:,}" for k, v in policy.soft_cap.items()) or "—"
-        hard = ", ".join(f"{k}≤{v:,}" for k, v in policy.hard_ceiling.items()) or "—"
+        soft = ", ".join(f"{k}≤{v:,}" for k, v in policy.soft_cap.items()) or ","
+        hard = ", ".join(f"{k}≤{v:,}" for k, v in policy.hard_ceiling.items()) or ","
         print(f"  {action:<16} tier={policy.tier:<7} soft_cap=[{soft}]  hard_ceiling=[{hard}]")
 
 
@@ -64,7 +64,7 @@ def main() -> int:
     print(
         "An agent's authority is bounded to a closed roster of registered actions,\n"
         "each capped by blast radius. Every proposal is checked against that roster\n"
-        "BEFORE anything executes — fail-closed, deny-by-default. Let's watch it refuse.\n"
+        "BEFORE anything executes, fail-closed, deny-by-default. Let's watch it refuse.\n"
     )
 
     # --- Act 1: the governance directory registers a closed roster ---------------
@@ -97,7 +97,7 @@ def main() -> int:
     decision = gate.propose(proposal["action"], proposal["scope"])
     print_decision(decision)
     if decision.outcome != "proceed":
-        print(f"  {RED}{CROSS} expected proceed — the mechanism is broken.{RESET}")
+        print(f"  {RED}{CROSS} expected proceed, the mechanism is broken.{RESET}")
         return 1
     print()
 
@@ -109,8 +109,8 @@ def main() -> int:
     decision = gate.propose(proposal["action"], proposal["scope"])
     print_decision(decision)
     if decision.outcome != "blocked":
-        # This branch must never execute — if it does, the mechanism is broken.
-        print(f"  {RED}{CROSS} over-scoped action was NOT blocked — the gate failed open!{RESET}")
+        # This branch must never execute. If it does, the mechanism is broken.
+        print(f"  {RED}{CROSS} over-scoped action was NOT blocked, the gate failed open!{RESET}")
         return 1
     print(f"  {DIM}Zero rows were touched. The refusal happened before execution, not after.{RESET}")
     print()
@@ -122,14 +122,14 @@ def main() -> int:
     decision = gate.propose(proposal["action"], proposal["scope"])
     print_decision(decision)
     if decision.outcome != "blocked":
-        print(f"  {RED}{CROSS} unregistered action was NOT blocked — omission was not prohibition!{RESET}")
+        print(f"  {RED}{CROSS} unregistered action was NOT blocked, omission was not prohibition!{RESET}")
         return 1
     print()
 
     print(rule())
     print(
         f"{GREEN}{CHECK} The gate is deny-by-default.{RESET} Over-scoped and unregistered\n"
-        "  proposals are refused before a single side effect runs — the roster is\n"
+        "  proposals are refused before a single side effect runs, the roster is\n"
         f"  closed, and the caps fail closed. {DIM}(See demos/bounded-authority/README.md and\n"
         f"  docs/adr/ADR-0002-deny-by-default-roster.md for why this mechanism, and\n  what it does not claim.){RESET}"
     )

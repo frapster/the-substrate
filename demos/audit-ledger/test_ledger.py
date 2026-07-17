@@ -1,17 +1,17 @@
 """
-test_ledger.py — proof that the ledger is tamper-evident.
+test_ledger.py: proof that the ledger is tamper-evident.
 
 Run it:
 
     python demos/audit-ledger/test_ledger.py
     # or:  python -m unittest discover -s demos/audit-ledger
 
-Standard-library `unittest` only — no pytest, no install.
+Standard-library `unittest` only, no pytest, no install.
 
 The important tests here are the NEGATIVE ones: they assert that verify() *fails*,
 and fails for the RIGHT reason, when history is altered three different ways
 (body edit, deletion, reordering). A tamper-evidence claim you can't see fail
-under tampering is worthless — so these tests exist to see it fail.
+under tampering is worthless, so these tests exist to see it fail.
 """
 
 from __future__ import annotations

@@ -1,18 +1,18 @@
 """
-bench.py — a small, reproducible benchmark for the hash-chained ledger.
+bench.py: a small, reproducible benchmark for the hash-chained ledger.
 
 Run it:
 
     python demos/audit-ledger/bench.py            # default N = 50,000 rows
     python demos/audit-ledger/bench.py 200000     # custom row count
 
-Standard-library only. Prints a Markdown table of measured numbers — not adjectives —
-and the exact command to reproduce them.
+Standard-library only. Prints a Markdown table of measured numbers, and the exact
+command to reproduce them.
 
 What it measures (and what it does NOT):
-  - append throughput      — rows/sec committed to the chain
-  - verify throughput      — rows/sec recomputed by a full-chain verify()
-  - tamper detection       — of K randomly corrupted rows, how many verify() catches
+  - append throughput      : rows/sec committed to the chain
+  - verify throughput      : rows/sec recomputed by a full-chain verify()
+  - tamper detection       : of K randomly corrupted rows, how many verify() catches
 This benchmarks the ledger PRIMITIVE's integrity and overhead. It is not an
 end-to-end governance benchmark, and makes no claim about model quality.
 """
@@ -71,7 +71,7 @@ def main(argv: list[str]) -> int:
 
     ledger, append_dt = bench_append(n)
     ok, verify_dt = bench_verify(ledger)
-    assert ok, "seeded chain failed to verify — benchmark environment is broken"
+    assert ok, "seeded chain failed to verify, benchmark environment is broken"
     caught, trials = bench_tamper_detection(min(n, 2_000), k)
 
     append_rps = n / append_dt if append_dt else float("inf")

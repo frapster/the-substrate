@@ -1,19 +1,20 @@
 """
-test_knowledge.py — proof that governed retrieval wins on currency, not on a rigged
-similarity function.
+test_knowledge.py: proof that governed retrieval wins on currency, using a fair,
+unmodified similarity function.
 
 Run it:
 
     python demos/governed-knowledge/test_knowledge.py
     # or:  python -m unittest discover -s demos/governed-knowledge
 
-Standard-library `unittest` only — no pytest, no install.
+Standard-library `unittest` only, no pytest, no install.
 
 The FAIRNESS test is the load-bearing one: it asserts that the superseded atom
 genuinely scores higher on cosine similarity than the current atom, for a real,
 unmodified cosine computation. If that assertion ever failed, this whole demo would
-be a strawman — naive_retrieve would only be losing because someone nerfed its
-scoring function, not because similarity and currency are different things.
+be a strawman: naive_retrieve would be losing only because someone nerfed its
+scoring function, a bug that would have nothing to do with similarity and currency
+being different things.
 """
 
 from __future__ import annotations
@@ -39,8 +40,8 @@ from knowledge import (  # noqa: E402
 class Fairness(unittest.TestCase):
     """The retriever fight has to be fair, or it proves nothing. For every
     supersession pair, the stale atom must genuinely outscore the current atom on
-    cosine similarity — not because the retriever cheats, but because deprecated
-    phrasing is often textually closer to how a stale query was worded."""
+    cosine similarity, because deprecated phrasing is often textually closer to
+    how a stale query was worded."""
 
     def test_stale_atom_scores_higher_than_current_for_every_pair(self):
         kb = seed_knowledge_base()
@@ -80,7 +81,7 @@ class NaiveRetrievalLosesOnCurrency(unittest.TestCase):
         self.assertAlmostEqual(result.score, expected)
 
     def test_naive_ignores_scope_entirely(self):
-        # naive_retrieve has no scope parameter — it searches the whole KB,
+        # naive_retrieve has no scope parameter, so it searches the whole KB,
         # tenant-scoped atoms included. That's exactly the leakage governed
         # retrieval exists to prevent.
         kb = seed_knowledge_base()

@@ -1,18 +1,19 @@
 """
-test_ratio.py — proof that the AI:code ratio claim holds up under test.
+test_ratio.py, proof that the AI:code ratio claim holds up under test.
 
 Run it:
 
     python demos/ai-code-ratio/test_ratio.py
     # or:  python -m unittest discover -s demos/ai-code-ratio
 
-Standard-library `unittest` only — no pytest, no install.
+Standard-library `unittest` only, no pytest, no install.
 
 The interesting assertions here are the ones that would be false if the demo were
-rigged: the branch-delta count comes from `ast`, not a hardcoded number; the
-evaluator-LOC-delta-is-zero claim is checked by construction (governed_version.py's
-evaluate() is literally the same function object whether the fact table has 9 rows
-or 12); and the revert-the-fact litmus is checked both directions.
+rigged: the branch-delta count comes from parsing with `ast`, an actual count rather
+than a hardcoded number; the evaluator-LOC-delta-is-zero claim is checked by
+construction (governed_version.py's evaluate() is literally the same function object
+whether the fact table has 9 rows or 12); and the revert-the-fact litmus is checked
+both directions.
 """
 
 from __future__ import annotations
@@ -44,7 +45,7 @@ NEW_TICKETS = [
 
 
 class BaseEquivalence(unittest.TestCase):
-    """Both implementations were built for the same base requirement — they must
+    """Both implementations were built for the same base requirement; they must
     agree on every case of it before any growth claim means anything."""
 
     def test_all_base_tickets_agree(self):
@@ -71,7 +72,7 @@ class GovernedAbstains(unittest.TestCase):
 
     def test_code_path_does_not_abstain_it_silently_guesses(self):
         # The contrast case: code_version.py (unmodified) has no branch for
-        # critical severity, so it falls through to the generic else — silently,
+        # critical severity, so it falls through to the generic else, silently,
         # with no signal that it was guessing.
         for ticket in NEW_TICKETS:
             with self.subTest(ticket=ticket):
@@ -82,7 +83,7 @@ class GovernedAbstains(unittest.TestCase):
 
 class GrowthCost(unittest.TestCase):
     """The countable claim: growing the requirement costs the code path branches
-    and the governed path facts — never the reverse."""
+    and the governed path facts, never the reverse."""
 
     def test_code_path_needs_new_branches(self):
         delta = code_version_v2.count_branches() - code_version.count_branches()
@@ -95,7 +96,7 @@ class GrowthCost(unittest.TestCase):
 
     def test_governed_evaluator_is_unchanged_by_growth(self):
         # governed_version.evaluate is the SAME function object regardless of how
-        # many rows the fact table it's called with holds — there is no version of
+        # many rows the fact table it's called with holds. There is no version of
         # this function that "has" 9 facts or 12 facts baked in. Zero LOC delta by
         # construction, not by omission.
         grown_facts = facts.BASE_FACTS + facts.NEW_FACTS
@@ -108,7 +109,7 @@ class GrowthCost(unittest.TestCase):
 
     def test_growth_facts_match_growth_branches(self):
         # The grown governed table reproduces exactly what the grown code version
-        # computes for the new cases — same behavior, reached by a data row instead
+        # computes for the new cases: same behavior, reached by a data row instead
         # of a shipped branch.
         grown_facts = facts.BASE_FACTS + facts.NEW_FACTS
         for ticket in NEW_TICKETS:
@@ -120,7 +121,7 @@ class GrowthCost(unittest.TestCase):
 
 
 class RevertTheFactLitmus(unittest.TestCase):
-    """Revert one fact row and behavior reverts with it — the evaluator's source
+    """Revert one fact row and behavior reverts with it; the evaluator's source
     never changes between the two calls."""
 
     def test_reverting_a_fact_reverts_the_decision(self):
@@ -135,7 +136,7 @@ class RevertTheFactLitmus(unittest.TestCase):
 
     def test_adding_a_fact_row_changes_behavior(self):
         # The converse of the litmus: a fact row present changes the outcome from
-        # abstain to a concrete routing decision — data alone drives the change.
+        # abstain to a concrete routing decision. Data alone drives the change.
         probe = {"plan_tier": "enterprise", "severity": "critical"}
         before = governed_version.evaluate(probe, facts=facts.BASE_FACTS)
         after = governed_version.evaluate(probe, facts=facts.BASE_FACTS + facts.NEW_FACTS)

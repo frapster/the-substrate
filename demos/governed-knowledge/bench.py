@@ -1,23 +1,24 @@
 """
-bench.py — a small, reproducible benchmark for governed vs. naive knowledge retrieval.
+bench.py: a small, reproducible benchmark for governed vs. naive knowledge retrieval.
 
 Run it:
 
     python demos/governed-knowledge/bench.py            # default K = 3,000 trials
     python demos/governed-knowledge/bench.py 10000       # custom trial count
 
-Standard-library only. Prints a Markdown table of measured numbers — not adjectives —
+Standard-library only. Prints a Markdown table of measured numbers, not adjectives,
 and the exact command to reproduce them.
 
 What it measures (and what it does NOT):
   - across K supersession-query trials, how often naive_retrieve returns the STALE
-    atom (expected: (near) all of them — that's the failure mode being demonstrated)
+    atom (expected: (near) all of them, the failure mode being demonstrated)
   - across the SAME K trials, how often governed_retrieve is correct-or-safe: it
-    either returns the CURRENT atom, or ABSTAINS — it must never return a stale
+    either returns the CURRENT atom, or ABSTAINS. It must never return a stale
     atom or an atom outside the requested scope
 This benchmarks the retrieval-ranking PRIMITIVE's behavior under supersession. It is
-not an end-to-end governance benchmark, and makes no claim about embedding quality —
-these are hand-authored toy vectors (see README.md), not a real embedding model.
+a primitive-level benchmark, not an end-to-end governance benchmark, and makes no
+claim about embedding quality: these are hand-authored toy vectors (see README.md),
+not a real embedding model.
 """
 
 from __future__ import annotations
@@ -43,10 +44,10 @@ def _jitter(query: tuple[float, ...], rng: random.Random, magnitude: float = 0.0
 def bench(k: int) -> tuple[int, int, int, int, float]:
     """Run K trials, cycling through the seeded supersession pairs with small
     deterministic jitter. Returns:
-        naive_stale_count    — trials where naive_retrieve returned the stale atom
-        governed_correct     — trials where governed_retrieve returned the current atom
-        governed_safe_abstain — trials where governed_retrieve abstained instead of erring
-        governed_wrong       — trials where governed_retrieve returned anything else (bug)
+        naive_stale_count:    trials where naive_retrieve returned the stale atom
+        governed_correct:     trials where governed_retrieve returned the current atom
+        governed_safe_abstain: trials where governed_retrieve abstained instead of erring
+        governed_wrong:       trials where governed_retrieve returned anything else (bug)
         elapsed_seconds
     """
     rng = random.Random(1729)  # fixed seed: reproducible across machines
@@ -73,7 +74,7 @@ def bench(k: int) -> tuple[int, int, int, int, float]:
         elif governed.atom is not None and governed.atom.atom_id == current_id:
             governed_correct += 1
         else:
-            governed_wrong += 1  # returned the stale atom, or the wrong atom — a real failure
+            governed_wrong += 1  # returned the stale atom, or the wrong atom: a real failure
     dt = time.perf_counter() - t0
 
     return naive_stale_count, governed_correct, governed_safe_abstain, governed_wrong, dt
@@ -105,7 +106,7 @@ def main(argv: list[str]) -> int:
     print()
 
     # A benchmark of governed retrieval that is ever WRONG (not just abstaining) has
-    # failed. It's fine — expected — for naive_retrieve to keep losing to staleness;
+    # failed. It's fine, and expected, for naive_retrieve to keep losing to staleness;
     # that's the point being measured, not a pass/fail condition on its own.
     return 0 if governed_wrong == 0 else 1
 

@@ -2,11 +2,11 @@
 
 An **Architecture Decision Record (ADR)** captures one significant decision: its context, the
 choice made, the alternatives weighed, and the consequences accepted. ADRs are dated and
-immutable — when a decision changes, a new ADR supersedes the old one rather than editing it.
+immutable. When a decision changes, a new ADR supersedes the old one rather than editing it.
 
 For a governance project this log is on-thesis: an ADR is *evidence-backed, audited reasoning*
-applied to the project's own choices. These records describe **architectural judgment** — the
-shape and rationale of the approach — not the reserved BOSNet.io / BOSS kernel, schema, or
+applied to the project's own choices. These records describe **architectural judgment**, the
+shape and rationale of the approach, not the reserved BOSNet.io / BOSS kernel, schema, or
 conformance rule set, which remain proprietary (see [`../../LICENSE.md`](../../LICENSE.md)).
 
 | ADR | Decision | Status |
@@ -19,4 +19,4 @@ conformance rule set, which remain proprietary (see [`../../LICENSE.md`](../../L
 | [0006](./ADR-0006-keep-reference-engine-private.md) | Keep the reference engine private; publish spec + proofs | Accepted |
 
 Format: a light [Michael Nygard](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
-template — Context, Decision, Alternatives considered, Consequences.
+template with four sections: Context, Decision, Alternatives considered, Consequences.

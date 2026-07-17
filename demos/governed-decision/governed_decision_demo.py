@@ -1,23 +1,23 @@
 """
-governed_decision_demo.py — watch one intent flow through all four guarantees, and
+governed_decision_demo.py, watch one intent flow through all four guarantees, and
 watch each stage refuse its own bad input in isolation.
 
 Run it:
 
     python demos/governed-decision/governed_decision_demo.py
 
-No installation, no dependencies — Python 3 standard library only.
+No installation, no dependencies. Python 3 standard library only.
 
 The story:
-  1. A well-formed intent passes the whole loop — bounded → evidence → validated →
-     audited → reversible — commits, and is then rolled back to its exact prior state,
+  1. A well-formed intent passes the whole loop (bounded → evidence → validated →
+     audited → reversible), commits, and is then rolled back to its exact prior state,
      with the audit chain still intact.
   2. Four more intents, each broken in exactly one way, are each refused at the
      matching stage: over-scope (bounded), unsourced claim (evidence), an invalid
      proposal (validated). The refusal names the stage that said no.
 
-This is the flagship: it shows the substrate as a *pipeline of deterministic
-checkpoints around one probabilistic step* — not a prompt.
+This is the flagship: it shows the substrate as a pipeline of deterministic
+checkpoints around one probabilistic step.
 """
 
 from __future__ import annotations
@@ -67,7 +67,7 @@ def main() -> int:
     print(BOLD + "the-substrate · one governed decision, end to end" + RESET)
     print(rule("═"))
     print(
-        "One intent flows through all four guarantees — bounded, evidence-backed,\n"
+        "One intent flows through all four guarantees, bounded, evidence-backed,\n"
         "audited, reversible. The model proposes; deterministic checkpoints wrap it\n"
         "on both sides. Watch the loop commit a good intent, then refuse bad ones.\n"
     )
@@ -110,7 +110,7 @@ def main() -> int:
     print()
 
     # --- Act 2: each stage refuses its own bad input -----------------------------------
-    print(BOLD + "2. Each stage refuses its own failure — in isolation" + RESET)
+    print(BOLD + "2. Each stage refuses its own failure, in isolation" + RESET)
     broken = [
         (
             "over-scope",
@@ -158,12 +158,12 @@ def main() -> int:
     for label, intent in broken:
         d = substrate.decide(intent)
         if d.committed:
-            print(f"  {RED}{CROSS} {label}: committed anyway — a stage that should have refused did not!{RESET}")
+            print(f"  {RED}{CROSS} {label}: committed anyway, a stage that should have refused did not!{RESET}")
             all_refused = False
             continue
         print(f"  {RED}{CROSS} {label:<20}{RESET} refused at {BOLD}{d.refusal_stage}{RESET}  {DIM}{d.refusal_reason}{RESET}")
 
-    # No refused intent may leave a trace in the ledger — nothing partial commits.
+    # No refused intent may leave a trace in the ledger: nothing partial commits.
     nothing_leaked = len(substrate.ledger.rows) == ledger_before
     print()
     if not (all_refused and nothing_leaked):
@@ -173,7 +173,7 @@ def main() -> int:
     print(
         f"{GREEN}{CHECK} One intent, five governed stages.{RESET} A good decision commits, "
         f"is auditable,\n  and is reversible; a bad one is refused at the exact stage that owns "
-        f"that check —\n  and nothing partial leaks into the record. "
+        f"that check, \n  and nothing partial leaks into the record. "
         f"{DIM}The substrate is a pipeline, not a prompt.\n  (See each sibling demo under demos/ for "
         f"the fuller proof of each stage.){RESET}"
     )

@@ -1,16 +1,16 @@
 """
-test_evidence.py — proof that claims are evidence-backed, not merely asserted.
+test_evidence.py: proof that claims are evidence-backed, tracing to a hashed source.
 
 Run it:
 
     python demos/evidence-provenance/test_evidence.py
     # or:  python -m unittest discover -s demos/evidence-provenance
 
-Standard-library `unittest` only — no pytest, no install.
+Standard-library `unittest` only, no pytest, no install.
 
 The important tests here are the NEGATIVE ones: an unsourced claim must be refused,
 and an edited source must detach every claim pinned to it. An evidence-backed claim
-you can't see fail to verify under a source edit is worthless — so these tests exist
+you can't see fail to verify under a source edit is worthless, so these tests exist
 to see it fail.
 """
 

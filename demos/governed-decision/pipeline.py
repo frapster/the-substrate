@@ -1,17 +1,17 @@
 """
-pipeline.py — the whole governed loop in one runnable file.
+pipeline.py, the whole governed loop in one runnable file.
 
 This is the flagship demo: one intent flows through all four BOSS guarantees end to
-end — **bounded** gate → **evidence** check → deterministic validator (a mocked model's
+end: **bounded** gate → **evidence** check → deterministic validator (a mocked model's
 reasoning is checked, never trusted) → **audited** hash-chained ledger → **reversible**
-commit — and each stage can refuse its own failure input in isolation.
+commit, and each stage can refuse its own failure input in isolation.
 
-The point it makes that the four separate primitives do not: the substrate is a
-*pipeline, not a prompt*. Governance is the sequence of deterministic checkpoints that
-wrap the one probabilistic step in the middle.
+The point it makes that the four separate primitives do not: the substrate is
+a pipeline of deterministic checkpoints wrapping the one probabilistic step in
+the middle.
 
 Each stage here is a deliberately MINIMAL, self-contained reimplementation of the
-mechanism proved more fully in its sibling demo — so this folder runs on its own with
+mechanism proved more fully in its sibling demo, so this folder runs on its own with
 no cross-folder imports:
 
   - Bounded        → demos/bounded-authority/
@@ -21,7 +21,7 @@ no cross-folder imports:
   - Reversible     → demos/reversible-actions/
 
 Standard library only (hashlib, json). Runs on any Python 3. This is a generic
-illustration of the *shape* of a governed decision — not the BOSNet.io engine.
+illustration of the *shape* of a governed decision, not the BOSNet.io engine.
 """
 
 from __future__ import annotations
@@ -64,7 +64,7 @@ class Intent:
 
 
 # --------------------------------------------------------------------------------------
-# Stage 1 — BOUNDED. A closed roster with blast-radius caps. Deny-by-default: an action
+# Stage 1: BOUNDED. A closed roster with blast-radius caps. Deny-by-default: an action
 # not on the roster may not act ("omission is prohibition"). Fail-closed everywhere.
 # --------------------------------------------------------------------------------------
 
@@ -97,7 +97,7 @@ class BoundedGate:
             raise GovernanceRefusal(
                 "bounded",
                 f"{policy.dimension}={magnitude} exceeds hard cap {policy.hard_cap} "
-                f"(tier {policy.tier}) — blocked before execution",
+                f"(tier {policy.tier}), blocked before execution",
             )
         if magnitude > policy.soft_cap:
             # Not a hard refusal, but not an autonomous proceed either.
@@ -106,7 +106,7 @@ class BoundedGate:
 
 
 # --------------------------------------------------------------------------------------
-# Stage 2 — EVIDENCE-BACKED. A claim must resolve to a hashed source. No provenance,
+# Stage 2: EVIDENCE-BACKED. A claim must resolve to a hashed source. No provenance,
 # no proceed. (The full auto-detach-on-source-edit story is in evidence-provenance/.)
 # --------------------------------------------------------------------------------------
 
@@ -123,14 +123,14 @@ class EvidenceStore:
         if not intent.source_id or intent.source_id not in self._sources:
             raise GovernanceRefusal(
                 "evidence",
-                f"claim {intent.claim!r} carries no resolvable source — "
+                f"claim {intent.claim!r} carries no resolvable source, "
                 f"nothing is asserted without provenance",
             )
         return self._sources[intent.source_id]
 
 
 # --------------------------------------------------------------------------------------
-# Stage 3 — VALIDATED. The model proposes; a deterministic validator commits only what
+# Stage 3: VALIDATED. The model proposes; a deterministic validator commits only what
 # passes; a rejected proposal is discarded, not patched. (More in deterministic-validator/.)
 # --------------------------------------------------------------------------------------
 
@@ -144,14 +144,14 @@ class DeterministicValidator:
         missing = [f for f in self._required if f not in proposal]
         if missing:
             raise GovernanceRefusal(
-                "validated", f"proposal missing required field(s) {missing} — discarded, not patched"
+                "validated", f"proposal missing required field(s) {missing}, discarded, not patched"
             )
         amount = proposal.get("amount_usd", 0)
         if amount > self._max_usd:
             raise GovernanceRefusal(
                 "validated",
                 f"proposed amount_usd={amount} exceeds validator bound {self._max_usd} "
-                f"— discarded, not patched",
+                f", discarded, not patched",
             )
         # Return the proposal VERBATIM. The validator never rewrites a proposal into a
         # passing one; it either passes the model's record through, or discards it.
@@ -159,7 +159,7 @@ class DeterministicValidator:
 
 
 # --------------------------------------------------------------------------------------
-# Stage 4 — AUDITED. A miniature hash-chained ledger. Every committed decision folds in
+# Stage 4: AUDITED. A miniature hash-chained ledger. Every committed decision folds in
 # the previous entry's hash. (The full tamper-evidence proof + benchmark is in audit-ledger/.)
 # --------------------------------------------------------------------------------------
 
@@ -195,7 +195,7 @@ class AuditLedger:
 
 
 # --------------------------------------------------------------------------------------
-# Stage 5 — REVERSIBLE. Append-only, supersede-forward versioned state; restore()
+# Stage 5: REVERSIBLE. Append-only, supersede-forward versioned state; restore()
 # reconstructs a prior version exactly. (The append-only guard proof is in reversible-actions/.)
 # --------------------------------------------------------------------------------------
 

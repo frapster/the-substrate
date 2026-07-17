@@ -1,10 +1,10 @@
 """
-ledger.py — a minimal, append-only, hash-chained audit ledger.
+ledger.py: a minimal, append-only, hash-chained audit ledger.
 
 This is a clean-room, dependency-free implementation of the *mechanism* the-substrate
 claims in its prose (README.md: "every decision writes a hash-chained, tamper-evident
 ledger entry"; BOSS-STANDARD.md: "tamper-evident decision ledger"). It is a generic
-cryptographic primitive — SHA-256 hash chaining is textbook technique — and contains
+cryptographic primitive (SHA-256 hash chaining is textbook technique) and contains
 none of the BOSNet.io engine, schema, or kernel. It exists to make a published claim
 *runnable and checkable* by a stranger.
 
@@ -14,7 +14,7 @@ The idea in one line:
 
 Because each row's hash folds in the previous row's hash, editing any past row changes
 its hash, which breaks every hash after it. `verify()` recomputes the whole chain and
-reports the first row where the stored hash and the recomputed hash disagree — so
+reports the first row where the stored hash and the recomputed hash disagree, so
 tampering is *evident*, not silent.
 
 Standard library only (hashlib, json). Runs on any Python 3.
@@ -84,7 +84,7 @@ class TamperError(Exception):
 class Ledger:
     """An append-only, hash-chained ledger.
 
-    There is deliberately no public update() or delete() — the only sanctioned way
+    There is deliberately no public update() or delete(): the only sanctioned way
     to change the ledger is to `append` a new row. The `_tamper_*` helpers below are
     NOT part of that API; they exist purely so the demo and tests can simulate an
     attacker who reaches past the API to edit stored bytes, and prove verify() catches it.
@@ -144,13 +144,13 @@ class Ledger:
     # with database access would. They let the demo/tests show verify() catching it.
 
     def _tamper_body(self, index: int, new_body: dict[str, Any]) -> None:
-        """Edit a stored row's body WITHOUT recomputing its hash — a silent tamper."""
+        """Edit a stored row's body WITHOUT recomputing its hash: a silent tamper."""
         self.rows[index].body = new_body
 
     def _tamper_delete(self, index: int) -> None:
-        """Remove a stored row, splicing the chain — a truncation/excision tamper."""
+        """Remove a stored row, splicing the chain: a truncation/excision tamper."""
         del self.rows[index]
 
     def _tamper_swap(self, i: int, j: int) -> None:
-        """Swap two stored rows — a reordering tamper."""
+        """Swap two stored rows: a reordering tamper."""
         self.rows[i], self.rows[j] = self.rows[j], self.rows[i]

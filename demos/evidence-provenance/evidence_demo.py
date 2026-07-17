@@ -1,24 +1,24 @@
 """
-evidence_demo.py — watch a claim's evidence get pulled out from under it.
+evidence_demo.py: watch a claim's evidence get pulled out from under it.
 
 Run it:
 
     python demos/evidence-provenance/evidence_demo.py
 
-No installation, no dependencies — Python 3 standard library only.
+No installation, no dependencies. Python 3 standard library only.
 
 The story in three acts:
-  1. Sources are registered and claims are asserted against them — each claim pins
+  1. Sources are registered and claims are asserted against them. Each claim pins
      its source's content_hash at assert-time.
-  2. A claim tries to name a source that was never registered. It is REFUSED —
+  2. A claim tries to name a source that was never registered. It is REFUSED,
      fail-closed: no evidence without a resolvable source.
   3. An attacker edits a registered source's bytes. Re-verifying the claims that
-     depended on it shows them go STALE automatically — no one has to notice and
+     depended on it shows them go STALE automatically. No one has to notice and
      revoke them by hand; the pinned hash simply stops matching.
 
 This is the runnable proof behind the claim in README.md and BOSS-STANDARD.md that
-the substrate is "evidence-backed" — facts trace to hashed sources and are superseded,
-not silently trusted, when the ground truth moves (ADR-0005).
+the substrate is "evidence-backed": facts trace to hashed sources and are superseded
+when the ground truth moves (ADR-0005), rather than staying silently trusted.
 """
 
 from __future__ import annotations
@@ -73,7 +73,7 @@ def main() -> int:
     print(BOLD + "2. A claim names a source that was never registered" + RESET)
     try:
         store.assert_claim("Refunds over $10,000 are auto-approved.", "policy_refund_v9_ghost")
-        print(f"  {RED}{CROSS} claim was accepted — this must never happen!{RESET}")
+        print(f"  {RED}{CROSS} claim was accepted, this must never happen!{RESET}")
         return 1
     except UnsourcedClaimError as exc:
         print(f"  {RED}[refused]{RESET} {exc}")
@@ -83,7 +83,7 @@ def main() -> int:
     print(BOLD + "3. An attacker edits a source after claims were asserted" + RESET)
     print(
         "  policy_refund_v1 backs TWO claims (A and C). An attacker rewrites its\n"
-        "  text — reaching past the API to edit stored bytes directly."
+        "  text, reaching past the API to edit stored bytes directly."
     )
     store._tamper_source("policy_refund_v1", "Refunds under $50 require manager review.")
     print(f"  {RED}[tamper]{RESET} policy_refund_v1 text edited  {DIM}(claims' pinned hashes left unchanged){RESET}")
@@ -100,11 +100,11 @@ def main() -> int:
         if result.ok:
             print(f"  {GREEN}{CHECK} {label}: still grounded{RESET}")
         else:
-            print(f"  {RED}{CROSS} {label}: STALE — {result.reason}{RESET}")
+            print(f"  {RED}{CROSS} {label}: STALE, {result.reason}{RESET}")
 
     if results["A (refund $40)"].ok or results["C (refund $45)"].ok:
         # These two claims share the tampered source. If either still verifies,
-        # the detachment mechanism is broken — this branch must never execute.
+        # the detachment mechanism is broken. This branch must never execute.
         print(f"  {RED}{CROSS} a claim on the tampered source went UNDETECTED as stale!{RESET}")
         return 1
     if not results["B (delete review)"].ok:

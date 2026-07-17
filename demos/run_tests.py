@@ -1,5 +1,5 @@
 """
-run_tests.py — run every demo's test suite, each in its own process.
+run_tests.py: run every demo's test suite, each in its own process.
 
 Run it:
 
@@ -7,7 +7,7 @@ Run it:
 
 Standard library only. Each demo folder is self-contained and its tests import a local
 module by bare name, so the suites are run in separate subprocesses (exactly as if you
-ran each `python demos/<name>/test_*.py` by hand) — no shared import state, no package
+ran each `python demos/<name>/test_*.py` by hand), with no shared import state, no package
 plumbing, and the hyphenated folder names stay fine.
 
 Exit code is 0 only if every suite passes.

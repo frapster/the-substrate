@@ -1,4 +1,4 @@
-# ADR-0004 — Publish a governance directory (discoverability over trust)
+# ADR-0004: Publish a governance directory (discoverability over trust)
 
 - **Status:** Accepted
 - **Date:** 2026-07-15
@@ -6,7 +6,7 @@
 
 ## Context
 
-"We govern our AI" is a claim. An outside party — an auditor, a regulator, a partner, a customer —
+"We govern our AI" is a claim. An outside party (an auditor, a regulator, a partner, a customer)
 cannot verify a claim that lives only in prose, prompts, or good intentions. Governance that cannot
 be inspected is indistinguishable from governance that does not exist. The gap to close is between
 *asserting* governance and offering something an outsider can *read and check* without source access.
@@ -14,12 +14,12 @@ be inspected is indistinguishable from governance that does not exist. The gap t
 ## Decision
 
 A governed system **publishes a governance directory**: a machine-readable record enumerating what
-it is governed by — policies and constraints, controls and gates, evidence sources, the agent/tool
+it is governed by: policies and constraints, controls and gates, evidence sources, the agent/tool
 roster, the audit surface, reversibility guarantees, and its conformance claim. The design principle
 is **discoverability over trust**. Two rules give the directory teeth: **omission is prohibition**
-(see [ADR-0002](./ADR-0002-deny-by-default-roster.md)), and **declared, then enforced** — every
-directory entry corresponds to an enforcement point in the running system, so the directory is the
-*registration of* governance, not documentation *about* it.
+(see [ADR-0002](./ADR-0002-deny-by-default-roster.md)), and **declared, then enforced**, meaning every
+directory entry corresponds to an enforcement point in the running system. The directory registers
+governance rather than merely documenting it.
 
 ## Alternatives considered
 
@@ -35,7 +35,7 @@ directory entry corresponds to an enforcement point in the running system, so th
 
 - **Positive:** turns "we govern our AI" into an inspectable artifact; models the proven shape of
   Kubernetes / OAuth / OpenTelemetry (open, describable *surface*; proprietary *implementation*).
-- **Cost:** the directory must stay synchronized with enforcement — a maintenance obligation, and the
+- **Cost:** the directory must stay synchronized with enforcement. That maintenance obligation is the
   reason "declared, then enforced" is a rule rather than a convention.
 - **Boundary:** this ADR commits to *publishing* the directory's structure and intent; the normative
   conformance rule set and test vectors are reserved (see [`../../BOSS-STANDARD.md`](../../BOSS-STANDARD.md) §6).

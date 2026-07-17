@@ -1,18 +1,18 @@
 """
-gate.py — a minimal, deny-by-default policy gate that refuses over-scoped actions
+gate.py: a minimal, deny-by-default policy gate that refuses over-scoped actions
 BEFORE they execute.
 
 This is a clean-room, dependency-free implementation of the *mechanism* the-substrate
 claims in its prose (README.md, BOSS-STANDARD.md: agents may only act within a
 registered, bounded surface) and the rule set out in
 docs/adr/ADR-0002-deny-by-default-roster.md ("omission is prohibition"). It is a
-generic authorization primitive — a closed roster checked against blast-radius caps —
+generic authorization primitive (a closed roster checked against blast-radius caps)
 and contains none of the BOSNet.io engine, schema, or kernel. It exists to make a
 published claim *runnable and checkable* by a stranger.
 
 The idea in one line:
 
-    propose(action, scope) → proceed | escalated | blocked   — decided BEFORE execution
+    propose(action, scope) → proceed | escalated | blocked: decided BEFORE execution
 
 An action not on the roster cannot be proposed into existence by an agent; a registered
 action whose scope exceeds its hard ceiling is blocked; a scope between the soft cap and
@@ -27,7 +27,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-# Risk tiers, lowest to highest blast radius. Purely descriptive — the tier does not
+# Risk tiers, lowest to highest blast radius. Purely descriptive: the tier does not
 # itself gate anything; the caps below do. It exists so a human reviewing the roster
 # can triage at a glance.
 TIERS = ("yellow", "orange", "red", "purple")
@@ -68,7 +68,7 @@ class Decision:
 @dataclass
 class Gate:
     """A closed roster of registered actions, each with a risk tier and blast-radius
-    caps. `propose()` is the only entry point — there is deliberately no way to act
+    caps. `propose()` is the only entry point: there is deliberately no way to act
     without going through it first, and no way to register an action mid-flight from
     inside propose(); registration is a separate, auditable step (`register`)."""
 
@@ -76,7 +76,7 @@ class Gate:
 
     def register(self, action: str, tier: str, soft_cap: dict[str, float], hard_ceiling: dict[str, float]) -> None:
         """Add an action to the closed roster. This is the ONLY way an action becomes
-        proposable — anything not registered here is prohibited by omission."""
+        proposable: anything not registered here is prohibited by omission."""
         self.roster[action] = Policy(tier=tier, soft_cap=soft_cap, hard_ceiling=hard_ceiling)
 
     def propose(self, action: str, scope: dict[str, float]) -> Decision:
@@ -93,7 +93,7 @@ class Gate:
         if policy is None:
             return Decision(
                 outcome="blocked",
-                reason=f"'{action}' is not on the roster — omission is prohibition",
+                reason=f"'{action}' is not on the roster, omission is prohibition",
                 action=action,
                 scope=scope,
             )
@@ -104,7 +104,7 @@ class Gate:
             # a ceiling we cannot confirm.
             return Decision(
                 outcome="blocked",
-                reason=f"'{action}' has no readable hard ceiling — fail-closed",
+                reason=f"'{action}' has no readable hard ceiling, fail-closed",
                 action=action,
                 scope=scope,
             )
@@ -112,11 +112,11 @@ class Gate:
         for dimension, requested in scope.items():
             ceiling = policy.hard_ceiling.get(dimension)
             if ceiling is None:
-                # Scope names a dimension the policy never capped — same fail-closed
+                # Scope names a dimension the policy never capped, same fail-closed
                 # logic: an uncapped dimension is an unreadable ceiling, not a green light.
                 return Decision(
                     outcome="blocked",
-                    reason=f"'{action}' has no hard ceiling for '{dimension}' — fail-closed",
+                    reason=f"'{action}' has no hard ceiling for '{dimension}', fail-closed",
                     action=action,
                     scope=scope,
                 )
@@ -138,7 +138,7 @@ class Gate:
                     outcome="escalated",
                     reason=(
                         f"'{action}' requested {dimension}={requested:,} exceeds soft cap "
-                        f"{soft:,} (tier={policy.tier}) — needs human-in-the-loop"
+                        f"{soft:,} (tier={policy.tier}), needs human-in-the-loop"
                     ),
                     action=action,
                     scope=scope,

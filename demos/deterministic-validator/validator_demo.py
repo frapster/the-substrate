@@ -1,25 +1,25 @@
 """
-validator_demo.py — watch a deterministic validator discard a hallucinated proposal.
+validator_demo.py: watch a deterministic validator discard a hallucinated proposal.
 
 Run it:
 
     python demos/deterministic-validator/validator_demo.py
 
-No installation, no dependencies — Python 3 standard library only.
+No installation, no dependencies, Python 3 standard library only.
 
 The story in three acts:
   1. A model proposes an action grounded in a real source, within policy. It passes
      validate() and commits.
-  2. A model proposes an action that cites a source that does not exist — a hallucinated
-     citation. validate() FAILS. Watch it get DISCARDED, not patched: the source id is
+  2. A model proposes an action that cites a source that does not exist: a hallucinated
+     citation. validate() FAILS. Watch it get DISCARDED: the source id is
      never rewritten to a valid one, the proposal never quietly becomes admissible.
   3. A batch of proposals runs through the gate. The commit log holds only what passed;
      every discard is recorded with its reason; the committed records are byte-for-byte
-     identical to what the model proposed — no laundering.
+     identical to what the model proposed, with no laundering.
 
 This is the runnable proof behind ADR-0003
-(../../docs/adr/ADR-0003-deterministic-validator-commits.md): the model is never trusted —
-it is checked.
+(../../docs/adr/ADR-0003-deterministic-validator-commits.md). The model is checked, not
+trusted on its word alone.
 """
 
 from __future__ import annotations
@@ -50,7 +50,7 @@ def main() -> int:
     print(
         "A model proposes an action; a deterministic validator grades it against\n"
         "real, checkable rules. Only a proposal that PASSES is committed. A failing\n"
-        "proposal is discarded — not patched. Let's watch both paths.\n"
+        "proposal is discarded, not patched. Let's watch both paths.\n"
     )
 
     validator = Validator()
@@ -73,7 +73,7 @@ def main() -> int:
     print(f"  {DIM}[propose]{RESET} {bad.intent} citing {bad.source_id}, ${bad.amount_usd}")
     print(
         f"  {DIM}[llm_judge]{RESET} approved={judgment.approved}  {DIM}{judgment.note}"
-        f"{RESET}  {DIM}(the judge never checks the source — it would wave this through){RESET}"
+        f"{RESET}  {DIM}(the judge never checks the source, it would wave this through){RESET}"
     )
     result = validator.submit(bad, judgment)
     print(f"  {RED}{CROSS} validate: {result.reason}{RESET}")
@@ -81,7 +81,7 @@ def main() -> int:
     still = validator.rejected_log[-1].proposal
     print(
         f"  {DIM}source_id after discard: {still.source_id!r} "
-        f"(unchanged — nothing rewrote it to a real source){RESET}"
+        f"(unchanged, nothing rewrote it to a real source){RESET}"
     )
     print()
 
@@ -114,13 +114,13 @@ def main() -> int:
     # Prove the boundary: no committed record differs from the proposal that was submitted.
     laundered = [p for p in validator.commit_log if not validator.validate(p).ok]
     if laundered:
-        # This branch must never execute — if it does, the gate is broken.
-        print(f"  {RED}{CROSS} commit_log contains a record that fails validate() — laundering!{RESET}")
+        # This branch must never execute. If it does, the gate is broken.
+        print(f"  {RED}{CROSS} commit_log contains a record that fails validate(), laundering!{RESET}")
         return 1
 
     print(
         f"\n{GREEN}{CHECK} The validator is fail-closed.{RESET} A rejected inference is "
-        "discarded, not patched;\n  the model is never trusted — it is checked. "
+        "discarded, not patched;\n  the model is never trusted, it is checked. "
         f"{DIM}(See demos/deterministic-validator/README.md and\n  "
         f"docs/adr/ADR-0003 for why this boundary, and what it does not claim.){RESET}"
     )

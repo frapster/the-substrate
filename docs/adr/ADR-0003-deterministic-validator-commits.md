@@ -1,14 +1,14 @@
-# ADR-0003 — A deterministic validator commits only what passes
+# ADR-0003: A deterministic validator commits only what passes
 
 - **Status:** Accepted
 - **Date:** 2026-07-15
 - **Deciders:** Robert J. Floyd
-- **Runnable proof:** [`demos/deterministic-validator/`](../../demos/deterministic-validator/) — a clean-room validator that commits only what passes and discards, rather than patches, what fails.
+- **Runnable proof:** [`demos/deterministic-validator/`](../../demos/deterministic-validator/): a clean-room validator that commits only what passes and discards what fails.
 
 ## Context
 
 Moving reasoning from write-time to run-time means a probabilistic model now proposes actions that
-used to be fixed in code. A model's proposal cannot be trusted on its own — it can be wrong,
+used to be fixed in code. A model's proposal cannot be trusted on its own: it can be wrong,
 hallucinated, or out of policy. But we also don't want to give up the flexibility that made run-time
 reasoning worth adopting. The question is where trust lives.
 
@@ -16,8 +16,8 @@ reasoning worth adopting. The question is where trust lives.
 
 The recurring shape is: **deterministic code computes what *does* happen and grades the reasoning;
 the model decides what *should* happen; a deterministic validator commits only what passes.** The
-model is never trusted — it is *checked*. A rejected inference is **discarded, not patched**: the
-system does not silently repair a bad proposal into a passing one, because that would launder an
+validator checks the model's proposal before anything commits. A rejected inference is **discarded**:
+the system does not silently repair a bad proposal into a passing one, because that would launder an
 untrustworthy decision into the record.
 
 ## Alternatives considered
@@ -34,7 +34,7 @@ untrustworthy decision into the record.
 
 - **Positive:** the trust boundary is a deterministic, testable checkpoint. What commits is always
   something that passed an explicit check; what fails leaves a recorded, discarded trace.
-- **Cost:** every judgment seam needs a real validator — writing good checks is the hard, honest
+- **Cost:** every judgment seam needs a real validator. Writing good checks is the hard, honest
   work, and it bounds how far toward LLM-First a given system can go (see the Zabble case study).
 - **Boundary:** the validator bounds *admissibility*, not *quality of intent*; garbage-in still
   requires the knowledge layer to be right (see [ADR-0005](./ADR-0005-rag-is-not-the-substrate.md)).

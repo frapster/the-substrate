@@ -1,17 +1,17 @@
 """
-ledger_demo.py — watch a tamper-evident audit ledger catch a corrupted row.
+ledger_demo.py: watch a tamper-evident audit ledger catch a corrupted row.
 
 Run it:
 
     python demos/audit-ledger/ledger_demo.py
 
-No installation, no dependencies — Python 3 standard library only.
+No installation, no dependencies: Python 3 standard library only.
 
 The story in three acts:
   1. A governed system commits a few decision records to an append-only ledger.
   2. verify() recomputes the chain from genesis: every row is intact.
   3. An attacker edits one PAST row's verdict. verify() runs again and pinpoints
-     the exact row where the chain breaks — the tampering is *evident*, not silent.
+     the exact row where the chain breaks: the tampering is *evident*, not silent.
 
 This is the runnable proof behind the claim in README.md and BOSS-STANDARD.md that
 every decision writes a "hash-chained, tamper-evident ledger entry."
@@ -85,27 +85,27 @@ def main() -> int:
     print(BOLD + "3. An attacker rewrites a past decision" + RESET)
     print(
         f"  Row {target} recorded {BOLD}deny{RESET} on 'delete_account'. "
-        f"An attacker flips it to\n  {BOLD}allow{RESET} — editing the stored row "
+        f"An attacker flips it to\n  {BOLD}allow{RESET}, editing the stored row "
         f"directly, reaching past the append-only API."
     )
     tampered = dict(ledger.rows[target].body)
     tampered["verdict"] = "allow"
-    ledger._tamper_body(target, tampered)  # silent edit — hash NOT recomputed
+    ledger._tamper_body(target, tampered)  # silent edit: hash NOT recomputed
     print(f"  {RED}[tamper]{RESET} row {target} verdict: deny → allow  {DIM}(hash left unchanged){RESET}")
     print()
 
     print(BOLD + "   Re-verifying…" + RESET)
     result = ledger.verify()
     if result.ok:
-        # This branch must never execute — if it does, the mechanism is broken.
-        print(f"  {RED}{CROSS} tampering went UNDETECTED — the ledger is not tamper-evident!{RESET}")
+        # This branch must never execute. If it does, the mechanism is broken.
+        print(f"  {RED}{CROSS} tampering went UNDETECTED, the ledger is not tamper-evident!{RESET}")
         return 1
 
     print(f"  {RED}{CROSS} CHAIN BROKEN at row {result.broken_index}{RESET}")
     print(f"    {DIM}{result.reason}{RESET}")
     print(
         f"    {DIM}row {result.broken_index} no longer matches its hash, so every row "
-        f"after it is\n    untrustworthy — the forgery cannot hide.{RESET}"
+        f"after it is\n    untrustworthy, the forgery cannot hide.{RESET}"
     )
     print()
     print(rule())

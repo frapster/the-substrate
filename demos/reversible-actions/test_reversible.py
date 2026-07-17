@@ -1,17 +1,17 @@
 """
-test_reversible.py — proof that the store is gated, append-only, and recoverable.
+test_reversible.py: proof that the store is gated, append-only, and recoverable.
 
 Run it:
 
     python demos/reversible-actions/test_reversible.py
     # or:  python -m unittest discover -s demos/reversible-actions
 
-Standard-library `unittest` only — no pytest, no install.
+Standard-library `unittest` only, no pytest, no install.
 
 The important tests here are the NEGATIVE ones: they assert that in-place mutation
 FAILS CLOSED, that an ungated high-impact action is REFUSED, and that a tampered
-version is caught by verify_chain(). A "reversible" claim you can't see hold under an
-attempted rewrite is worthless — so these tests exist to see it hold.
+version is caught by verify_chain(). A "reversible" claim needs to hold under an
+attempted rewrite. These tests exist to see it hold.
 """
 
 from __future__ import annotations
@@ -81,7 +81,7 @@ class HappyPath(unittest.TestCase):
 
 class GuardsEnforced(unittest.TestCase):
     """Each test attempts a rewrite of committed history or an ungated high-impact
-    action, and asserts it is refused — for the right reason."""
+    action, and asserts it is refused for the right reason."""
 
     def test_in_place_update_fails_closed(self):
         store = _seed()
@@ -134,7 +134,7 @@ class GuardsEnforced(unittest.TestCase):
 
     def test_tampered_version_is_caught_by_verify_chain(self):
         # Reach past the append-only guard the way an attacker with raw storage
-        # access would — edit a stored version's state directly, without going
+        # access would: edit a stored version's state directly, without going
         # through apply()/restore(), so its state_hash goes stale.
         store = _seed()
         tampered = dict(store.versions[2].state)

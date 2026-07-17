@@ -1,17 +1,17 @@
 """
-test_gate.py — proof that the gate is deny-by-default and fails closed.
+test_gate.py: proof that the gate is deny-by-default and fails closed.
 
 Run it:
 
     python demos/bounded-authority/test_gate.py
     # or:  python -m unittest discover -s demos/bounded-authority
 
-Standard-library `unittest` only — no pytest, no install.
+Standard-library `unittest` only, no pytest, no install.
 
 The important tests here are the NEGATIVE ones: they assert that propose() *refuses*,
 and refuses for the RIGHT reason, when an action is unregistered, over its hard
 ceiling, over its soft cap, or missing a readable policy. A deny-by-default claim you
-can't see refuse under those conditions is worthless — so these tests exist to see it
+can't see refuse under those conditions is worthless, so these tests exist to see it
 refuse.
 """
 
@@ -59,7 +59,7 @@ class HappyPath(unittest.TestCase):
         self.assertIn("human-in-the-loop", decision.reason)
 
     def test_exactly_at_soft_cap_proceeds(self):
-        # The boundary belongs to "proceed" — only strictly exceeding a cap triggers
+        # The boundary belongs to "proceed": only strictly exceeding a cap triggers
         # escalation or blocking.
         gate = _seeded_gate()
         decision = gate.propose("grant_refund", {"max_usd": 100})
@@ -96,7 +96,7 @@ class RefusalIsEnforced(unittest.TestCase):
 
     def test_missing_policy_is_blocked_fail_closed(self):
         # A registered action whose hard ceiling is empty (unreadable policy) must
-        # never be allowed to pass — fail-closed, not fail-open.
+        # never be allowed to pass: fail-closed, not fail-open.
         gate = Gate()
         gate.register("wipe_cache", tier="orange", soft_cap={}, hard_ceiling={})
         decision = gate.propose("wipe_cache", {"max_usd": 1})

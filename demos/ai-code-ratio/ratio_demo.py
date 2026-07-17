@@ -1,23 +1,23 @@
 """
-ratio_demo.py — watch the AI:code ratio become a countable number, not a slogan.
+ratio_demo.py, watch the AI:code ratio become a countable number.
 
 Run it:
 
     python demos/ai-code-ratio/ratio_demo.py
 
-No installation, no dependencies — Python 3 standard library only.
+No installation, no dependencies. Python 3 standard library only.
 
 The story in four acts:
-  1. Two implementations of the same ticket-routing feature — one a hand-authored
-     if/elif tree (code_version.py), one a generic evaluator reading a fact table
-     (governed_version.py) — agree on every case of the base requirement.
+  1. Two implementations of the same ticket-routing feature (one a hand-authored
+     if/elif tree in code_version.py, one a generic evaluator reading a fact table
+     in governed_version.py) agree on every case of the base requirement.
   2. Three new business cases arrive. The code path needs new BRANCHES (counted for
      real, via ast, not estimated); the governed path needs new FACT ROWS and zero
      evaluator code change. The delta is printed as an actual number.
-  3. The litmus: revert one fact row and governed behavior reverts with it — the
+  3. The litmus: revert one fact row and governed behavior reverts with it. The
      evaluator file is byte-for-byte the same before and after.
-  4. On a ticket no fact governs, the governed path abstains (hitl_required) —
-     fail-closed. The unmodified code path silently mis-defaults instead — it has
+  4. On a ticket no fact governs, the governed path abstains (hitl_required),
+     fail-closed. The unmodified code path silently mis-defaults instead: it has
      no way to know it's guessing.
 
 This is the runnable proof behind the "90% AI, 10% mechanical" / AI:code ratio claim
@@ -50,7 +50,7 @@ def rule(char: str = "─", width: int = 64) -> str:
 
 
 # The base requirement: 3 plan tiers × 3 severities, 9 tickets. Both implementations
-# were written to satisfy exactly this — the equivalence check in Act 1 proves it.
+# were written to satisfy exactly this; the equivalence check in Act 1 proves it.
 BASE_TICKETS = [
     {"plan_tier": tier, "severity": severity}
     for tier in ("free", "pro", "enterprise")
@@ -77,7 +77,7 @@ def main() -> int:
     )
 
     # --- Act 1: equivalence on the base requirement ------------------------------
-    print(BOLD + "1. Base requirement — do the two versions agree?" + RESET)
+    print(BOLD + "1. Base requirement, do the two versions agree?" + RESET)
     for ticket in BASE_TICKETS:
         code_out = code_version.route_ticket(ticket)
         governed_out = governed_version.evaluate(ticket)
@@ -147,10 +147,10 @@ def main() -> int:
     reverted = governed_version.evaluate(probe, facts=facts.BASE_FACTS)
     print(f"  {DIM}facts = BASE_FACTS  (NEW fact reverted){RESET}  evaluate({probe}) → {reverted}")
     if with_fact.get("status") == "hitl_required" or reverted.get("status") != "hitl_required":
-        print(f"  {RED}{CROSS} litmus failed — behavior did not track the fact table{RESET}")
+        print(f"  {RED}{CROSS} litmus failed, behavior did not track the fact table{RESET}")
         return 1
     print(
-        f"  {GREEN}{CHECK} reverting one fact row reverted the decision{RESET} — "
+        f"  {GREEN}{CHECK} reverting one fact row reverted the decision{RESET}, "
         f"governed_version.py's source is\n    identical in both calls above; only the "
         f"data argument changed."
     )
@@ -160,13 +160,13 @@ def main() -> int:
     print(BOLD + "4. An ungoverned ticket: abstain, or silently guess?" + RESET)
     ungoverned = {"plan_tier": "pro", "severity": "critical"}
     governed_abstain = governed_version.evaluate(ungoverned, facts=facts.BASE_FACTS)
-    code_guess = code_version.route_ticket(ungoverned)  # unmodified v1 — no branch for this case
+    code_guess = code_version.route_ticket(ungoverned)  # unmodified v1, no branch for this case
     print(f"  {DIM}governed (BASE_FACTS only), no governing fact:{RESET}")
     print(f"    {GREEN}{CHECK} abstains → {governed_abstain}{RESET}")
     print(f"  {DIM}code (unmodified code_version.py), same ticket:{RESET}")
     print(f"    {RED}{CROSS} silently returns → {code_guess}{RESET}  {DIM}(no signal this was a guess){RESET}")
     if governed_abstain.get("status") != "hitl_required":
-        print(f"  {RED}{CROSS} governed path failed to abstain — not fail-closed!{RESET}")
+        print(f"  {RED}{CROSS} governed path failed to abstain, not fail-closed!{RESET}")
         return 1
     print()
 

@@ -23,4 +23,4 @@ and do not constitute a grant of rights to any underlying proprietary system the
 
 ## Contact
 
-Robert J. Floyd — rob@robfloyd.me
+Robert J. Floyd · rob@robfloyd.me

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zabble — Before / After · the-substrate</title>
+<title>Zabble: Before / After · the-substrate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -118,7 +118,7 @@ footer a{color:var(--accent);text-decoration:none}
   <h1>Zabble</h1>
   <div class="badges">
     <span class="status plan"><span class="d"></span>Planned · estimate</span>
-    <span class="ratio-badge">AI : code — ~8:92 → ~30–40:60–70 (est.)</span>
+    <span class="ratio-badge">AI : code, ~8:92 → ~30-40:60-70 (est.)</span>
   </div>
   <p class="lead">The case with a hard <strong>ceiling</strong>. A live platform with payments, real-time messaging, and trust-and-safety. Reasoning expands at the judgment seams while the deterministic core stays put. <strong>Where the substrate stops is the story.</strong></p>
   <div class="stack">
@@ -127,47 +127,47 @@ footer a{color:var(--accent);text-decoration:none}
 </div></header>
 
 <section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>the conversion — before → after</span>
+  <span class="section-label"><span class="sq"></span>the conversion: before → after</span>
   <div class="ba">
     <div class="ba-head"><span class="section-label"><span class="sq"></span>whole platform</span><span class="ba-note">AI : code</span></div>
     <div class="ba-grid">
-      <div class="ba-line"><span class="ba-when">BEFORE</span><div class="bar"><span class="seg reason" style="width:8%"></span><span class="seg code" style="width:92%">92% code — deterministic envelope, ~17 fenced seams</span></div></div>
+      <div class="ba-line"><span class="ba-when">BEFORE</span><div class="bar"><span class="seg reason" style="width:8%"></span><span class="seg code" style="width:92%">92% code: deterministic envelope, ~17 fenced seams</span></div></div>
       <div class="ba-arrow">↓ govern the reversible seams · freeze the safety/payments core</div>
-      <div class="ba-line"><span class="ba-when now">AFTER (est.)</span><div class="bar"><span class="seg reason" style="width:35%">~30–40% reasoning</span><span class="seg code" style="width:65%">~60–70% code</span></div></div>
+      <div class="ba-line"><span class="ba-when now">AFTER (est.)</span><div class="bar"><span class="seg reason" style="width:35%">~30-40% reasoning</span><span class="seg code" style="width:65%">~60-70% code</span></div></div>
     </div>
     <div class="legend"><span><i class="r"></i>governed reasoning</span><span><i class="c"></i>deterministic code</span></div>
-    <div class="ba-delta"><b>~25–40%</b> of non-safety-critical logic displaced <span class="tag-est">projected · deliberately short of 90:10</span></div>
+    <div class="ba-delta"><b>~25-40%</b> of non-safety-critical logic displaced <span class="tag-est">projected · deliberately short of 90:10</span></div>
   </div>
-  <div class="invariant">Zabble's product <b>is</b> its deterministic envelope. A few reasoning calls can be trusted <b>because</b> the code around them is rigid — so the conversion stops well short of the 90 : 10 target, on purpose.</div>
+  <div class="invariant">Zabble's product <b>is</b> its deterministic envelope. A few reasoning calls can be trusted <b>because</b> the code around them is rigid, so the conversion stops well short of the 90 : 10 target, on purpose.</div>
 </div></section>
 
 <section><div class="wrap">
   <span class="section-label"><span class="sq"></span>the conversion roadmap</span>
-  <h2 class="sec-title">Govern the judgment seams — freeze the core</h2>
+  <h2 class="sec-title">Govern the judgment seams: freeze the core</h2>
   <p class="sec-intro">Apply the envelope/compiler/auditor pattern only to the reversible, judgment-heavy surfaces. <strong>This is a plan; none of it has shipped.</strong></p>
   <div class="roadmap">
     <div class="step"><div class="n">1</div><div><h3>Blueprint read models &amp; discovery</h3><p>Replace hand-tuned ranking and read-model assembly with blueprint-compiled reasoning over the existing embeddings and graph.</p></div></div>
-    <div class="step"><div class="n">2</div><div><h3>Widen the governed moderation seam</h3><p>Move more borderline moderation and pattern analysis into governed reasoning — fixed action space, human escalation — but keep L1 deterministic.</p></div></div>
-    <div class="step"><div class="n">3</div><div><h3>Compile the extraction fleet</h3><p>Blueprint-driven, auditor-checked ingestion — one blueprint per source <em>shape</em>, not per site.</p></div></div>
-    <div class="step freeze"><div class="n">4</div><div><h3>Freeze the core</h3><p>Payments, the L1 safety gate (cannot be prompt-injected), and the event-sourced spine stay deterministic by policy. This is the ceiling — and it is intentional.</p></div></div>
+    <div class="step"><div class="n">2</div><div><h3>Widen the governed moderation seam</h3><p>Move more borderline moderation and pattern analysis into governed reasoning (fixed action space, human escalation) but keep L1 deterministic.</p></div></div>
+    <div class="step"><div class="n">3</div><div><h3>Compile the extraction fleet</h3><p>Blueprint-driven, auditor-checked ingestion: one blueprint per source <em>shape</em>, not per site.</p></div></div>
+    <div class="step freeze"><div class="n">4</div><div><h3>Freeze the core</h3><p>Payments, the L1 safety gate (cannot be prompt-injected), and the event-sourced spine stay deterministic by policy. This is the ceiling, and it is intentional.</p></div></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
   <span class="section-label"><span class="sq"></span>total cost of ownership</span>
   <h2 class="sec-title">A modest shift, by design</h2>
-  <p class="sec-intro">Maintenance is concentrated in a heavy data layer — 234 RPCs and 65 tables, business logic pushed into Postgres. Blueprint-compiling the CRUD/workflow surface targets that; the safety/payments floor stays.</p>
+  <p class="sec-intro">Maintenance is concentrated in a heavy data layer: 234 RPCs and 65 tables, business logic pushed into Postgres. Blueprint-compiling the CRUD/workflow surface targets that; the safety/payments floor stays.</p>
   <div class="tiles">
-    <div class="tile hero"><div class="big mono">~25–40%↓</div><div class="cap">Non-safety-critical operational logic, projected (est.).</div></div>
-    <div class="tile"><div class="big mono">234</div><div class="cap">RPCs today — the maintenance-cost driver a compiler targets.</div></div>
-    <div class="tile"><div class="big mono">~20–30%</div><div class="cap">Fixed safety/payments floor that stays in code — and <a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">should</a>.</div></div>
+    <div class="tile hero"><div class="big mono">~25-40%↓</div><div class="cap">Non-safety-critical operational logic, projected (est.).</div></div>
+    <div class="tile"><div class="big mono">234</div><div class="cap">RPCs today, the maintenance-cost driver a compiler targets.</div></div>
+    <div class="tile"><div class="big mono">~20-30%</div><div class="cap">Fixed safety/payments floor that stays in code, and <a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">should</a>.</div></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
   <span class="section-label"><span class="sq"></span>code quality &amp; security</span>
   <h2 class="sec-title">The strictest external bar of the four</h2>
-  <p class="sec-intro">Payments, trust-and-safety, and multi-tenant access control — exactly the categories where the published weakness of ungoverned LLM code bites hardest.</p>
+  <p class="sec-intro">Payments, trust-and-safety, and multi-tenant access control: exactly the categories where the published weakness of ungoverned LLM code bites hardest.</p>
   <div class="sec-grid">
     <div class="panel">
       <h3><span class="mk"></span>Category standard</h3>
@@ -177,13 +177,13 @@ footer a{color:var(--accent);text-decoration:none}
         <a href="https://genai.owasp.org/llm-top-10/">OWASP LLM Top 10</a>
         <a href="https://www.pcisecuritystandards.org/document_library/">PCI DSS 4.0</a>
       </div>
-      <p class="note">Ungoverned LLM code picks the insecure option ~45% of the time — <a href="../../ENGINEERING.md">ENGINEERING.md §3</a>.</p>
+      <p class="note">Ungoverned LLM code picks the insecure option ~45% of the time, per <a href="../../ENGINEERING.md">ENGINEERING.md §3</a>.</p>
     </div>
     <div class="panel">
       <h3><span class="mk"></span>Governance in place</h3>
       <ul class="gov-list">
         <li>Security findings <code>F-01…F-12</code> closed across tracked batches + a plan-drift self-heal</li>
-        <li>CI <code>service-role-key guard</code> — fails the build if a privileged secret escapes its module</li>
+        <li>CI <code>service-role-key guard</code>: fails the build if a privileged secret escapes its module</li>
         <li><code>pgTAP</code> + RLS-audit skill on an ephemeral database</li>
         <li>Three-layer safety: deterministic L1 gate, fenced L2 model, batch L3</li>
       </ul>
@@ -195,7 +195,7 @@ footer a{color:var(--accent);text-decoration:none}
   <div class="callout">
     <span class="section-label"><span class="sq"></span>the honest boundary</span>
     <div class="row">
-      <div class="paid"><h4><span class="mk"></span>Where it should expand</h4><p>Reversible judgment — ranking, curation, moderation triage, extraction.</p></div>
+      <div class="paid"><h4><span class="mk"></span>Where it should expand</h4><p>Reversible judgment: ranking, curation, moderation triage, extraction.</p></div>
       <div class="kept"><h4><span class="mk"></span>Where it must not</h4><p>Anything fast, certain, or irreversible. The most credible thing Zabble can say is where it <em>chooses not to</em> apply the substrate.</p></div>
     </div>
   </div>
@@ -203,7 +203,7 @@ footer a{color:var(--accent);text-decoration:none}
 
 <footer><div class="wrap">
   <div class="ip">IP-safety reviewed before publishing. No secrets or project identifiers, no verbatim safety prompts or thresholds, no third-party-sourced datasets. "After" figures are projected estimates, clearly labeled. No BOSNet.io internals.</div>
-  Author: <strong>Robert J. Floyd</strong> — founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+  Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
   <span class="mono" style="font-size:12px">the-substrate · AI as the governed operational substrate</span>
 </div></footer>
 </body>

@@ -1,11 +1,11 @@
 """
-code_version_v2.py — WRITE-TIME: the same routing feature, after three new business
+code_version_v2.py, WRITE-TIME: the same routing feature, after three new business
 cases (critical-severity tickets for each plan tier) were added.
 
 This is a SEPARATE file rather than an in-place edit of code_version.py so
 ratio_demo.py can honestly diff "before" and "after" by parsing two real files with
 `ast`, instead of simulating an edit. The only change from code_version.py is the
-three new `elif` branches marked below — everything else is identical.
+three new `elif` branches marked below; everything else is identical.
 
 Standard library only.
 """
@@ -18,7 +18,7 @@ import inspect
 
 def route_ticket(ticket: dict) -> dict:
     """Same hand-authored if/elif chain as code_version.py, plus three new branches
-    for severity == "critical" — a new business case that arrived after the base
+    for severity == "critical", a new business case that arrived after the base
     feature shipped. Each new case costs a new branch here."""
     plan_tier = ticket.get("plan_tier")
     severity = ticket.get("severity")
@@ -53,7 +53,7 @@ def route_ticket(ticket: dict) -> dict:
 
 
 def count_branches() -> int:
-    """Same counting method as code_version.py — see that file for why `ast.If`
+    """Same counting method as code_version.py; see that file for why `ast.If`
     walking is the honest measure."""
     source = inspect.getsource(route_ticket)
     tree = ast.parse(source)

@@ -1,4 +1,4 @@
-# demo — a runnable, deny-by-default policy gate
+# demo: a runnable, deny-by-default policy gate
 
 A small, **zero-dependency** proof of one claim `the-substrate` makes in prose: that an
 agent's authority is bounded to a registered, closed surface, and that an over-scoped
@@ -7,7 +7,7 @@ action is refused *before* it executes (see [`../../README.md`](../../README.md)
 [`../../docs/adr/ADR-0002-deny-by-default-roster.md`](../../docs/adr/ADR-0002-deny-by-default-roster.md)).
 
 You should be able to clone the repo and see it work in under a minute. No `pip install`,
-no build — Python 3 standard library only.
+no build. Python 3 standard library only.
 
 ## Quickstart (30 seconds)
 
@@ -27,7 +27,7 @@ a policy capped at 100 get refused before a single row is touched:
   Zero rows were touched. The refusal happened before execution, not after.
 ```
 
-That refusal — happening in code, before anything runs — is the whole point.
+That refusal, happening in code before anything runs, is the whole point.
 
 ## Run the tests
 
@@ -42,15 +42,15 @@ python demos/bounded-authority/test_gate.py
 
 ## Run the benchmark
 
-Measured numbers, not adjectives. This benchmarks the gate primitive's throughput and
-refusal completeness — not end-to-end governance, and not model quality.
+Real, measured numbers. This benchmarks the gate primitive's throughput and
+refusal completeness, not end-to-end governance, and not model quality.
 
 ```bash
 python demos/bounded-authority/bench.py            # default K = 500 proposals
 python demos/bounded-authority/bench.py 2000        # custom proposal count
 ```
 
-Sample run (Python 3.13, a 2020-class laptop — **your numbers will vary; regenerate with
+Sample run (Python 3.13, a 2020-class laptop; **your numbers will vary, regenerate with
 the command above**):
 
 | Metric | Result |
@@ -65,7 +65,7 @@ the command above**):
 ## How it works
 
 ```
-propose(action, scope) → proceed | escalated | blocked   — decided BEFORE execution
+propose(action, scope) → proceed | escalated | blocked   # decided BEFORE execution
 ```
 
 Every action must first be registered on a closed roster with a risk tier
@@ -76,21 +76,21 @@ blocked ("omission is prohibition"); registered but no readable ceiling → bloc
 over the hard ceiling → blocked; over the soft cap → escalated for a human; within
 caps → proceed.
 
-- [`gate.py`](./gate.py) — the `Gate` class: `register()`, `propose()`, the `Decision` dataclass.
-- [`gate_demo.py`](./gate_demo.py) — the narrative runner above.
-- [`test_gate.py`](./test_gate.py) — `unittest` suite, including the refusal cases.
-- [`bench.py`](./bench.py) — the reproducible benchmark.
+- [`gate.py`](./gate.py): the `Gate` class: `register()`, `propose()`, the `Decision` dataclass.
+- [`gate_demo.py`](./gate_demo.py): the narrative runner above.
+- [`test_gate.py`](./test_gate.py): `unittest` suite, including the refusal cases.
+- [`bench.py`](./bench.py): the reproducible benchmark.
 
-## What this proves — and what it does NOT
+## What this proves, and what it does not
 
-**Proves:** a closed roster with hard/soft blast-radius caps is *deny-by-default* — an
+**Proves:** a closed roster with hard/soft blast-radius caps is *deny-by-default*: an
 action that was never registered, or a registered action requested past its ceiling, is
 refused before execution, not after. This is a real, checkable property, demonstrated by
 code you can run.
 
-**Does NOT prove / is NOT:** this is a **generic authorization primitive**, not the
-BOSNet.io engine. It is not a full governance runtime; it does not resolve identity,
-retrieve evidence, or record decisions to a ledger — those live in the (proprietary,
+**Does NOT prove / is NOT:** this is a **generic authorization primitive**, distinct from
+the BOSNet.io engine. It is not a full governance runtime; it does not resolve identity,
+retrieve evidence, or record decisions to a ledger: those live in the (proprietary,
 patent-pending) reference implementation described in
 [`../../BOSS-STANDARD.md`](../../BOSS-STANDARD.md) and reserved under
 [`../../LICENSE.md`](../../LICENSE.md). A closed roster bounds *what* may be proposed;

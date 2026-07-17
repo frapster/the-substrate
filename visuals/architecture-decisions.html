@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Architecture Decisions — Robert J. Floyd · the-substrate</title>
+<title>Architecture Decisions · Robert J. Floyd · the-substrate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -124,7 +124,7 @@ footer a{color:var(--accent);text-decoration:none}
 <header>
   <div class="eyebrow"><span class="dot"></span>architectural judgment across four decades</div>
   <h1>Architecture Decisions</h1>
-  <p class="lead">A tour of the <strong>choices</strong> — and the reasons behind them — across the projects: what was used, what was deliberately <em>not</em>, and why. From the WordPress plugin era through to governed run-time reasoning, the through-line is <strong>matching the mechanism to the job</strong>.</p>
+  <p class="lead">A tour of the <strong>choices</strong> (and the reasons behind them) across the projects: what was used, what was deliberately <em>not</em>, and why. From the WordPress plugin era through to governed run-time reasoning, the through-line is <strong>matching the mechanism to the job</strong>.</p>
   <div class="projchips">
     <span class="pchip"><b>Relic Wars</b> · game engine</span>
     <span class="pchip"><b>Today Series</b> · RAG platform</span>
@@ -151,14 +151,14 @@ footer a{color:var(--accent);text-decoration:none}
     <!-- 01 -->
     <section id="gov">
       <span class="slabel"><span class="n">01</span> dimensional governance strategy</span>
-      <h2>Reasoning compiled from a governed model — not hand-wired</h2>
-      <p class="intro">The strategy, stated at the level appropriate for a public document: operational behavior and surfaces are <strong>compiled from a governed dimensional model</strong>, every output <strong>evidence-backed and audited</strong>, with human-in-the-loop approval on high-impact actions. Content and decisions change only through governed events — never ad-hoc edits — so a change to one modeled facet propagates surgically to everything that references it.</p>
+      <h2>Reasoning compiled from a governed dimensional model</h2>
+      <p class="intro">The strategy, stated at the level appropriate for a public document: operational behavior and surfaces are <strong>compiled from a governed dimensional model</strong>, every output <strong>evidence-backed and audited</strong>, with human-in-the-loop approval on high-impact actions. Content and decisions change only through governed events, never ad-hoc edits, so a change to one modeled facet propagates surgically to everything that references it.</p>
       <div class="pp">
         <span class="stamp">Patent pending</span>
-        <p><b>What is public:</b> the <em>shape</em> and its guarantees. Run-time reasoning sits inside a governance envelope that is bounded, evidence-backed, audited, and reversible. The audit backbone is an <b>append-only, hash-chained ledger</b> with recomputable verification and update/delete-blocking — facts are <b>versioned, never silently overwritten</b>. Accessibility and cost are treated as governance constraints, not afterthoughts.</p>
+        <p><b>What is public:</b> the <em>shape</em> and its guarantees. Run-time reasoning sits inside a governance envelope that is bounded, evidence-backed, audited, and reversible. The audit backbone is an <b>append-only, hash-chained ledger</b> with recomputable verification and update/delete-blocking: facts are <b>versioned, never silently overwritten</b>. Accessibility and cost are treated as governance constraints.</p>
         <p><b>What is reserved:</b> the governance kernel and compiler, the dimensional model and its coordinate scheme, and the machine-checkable specification. Those are patent-pending and described only conceptually here. See <a href="../BOSS-STANDARD.md">BOSS-STANDARD.md</a> and <a href="../THESIS.md">THESIS.md</a>.</p>
-        <p><b>The deeper claim:</b> an LLM's operational substrate is <b>governance + knowledge — not
-        code</b>. Governance bounds what the model may <em>do</em>; the dimensional knowledge model
+        <p><b>The deeper claim:</b> an LLM's operational substrate is <b>governance + knowledge,
+        not code</b>. Governance bounds what the model may <em>do</em>; the dimensional knowledge model
         determines what it correctly <em>knows</em>. Code is what you write when you lack the other two.</p>
         <div class="props">
           <span class="prop">bounded</span><span class="prop">evidence-backed</span><span class="prop">audited</span><span class="prop">reversible</span>
@@ -172,9 +172,9 @@ footer a{color:var(--accent);text-decoration:none}
       <h2>The KB structure follows the retrieval job</h2>
       <p class="intro">Every project's knowledge base is shaped by what it will be <em>asked</em>. None is a flat pile of chunks.</p>
       <div class="cards">
-        <div class="card"><div class="cn">Today Series</div><h3>Four-facet KB + relationship graph</h3><p>The same source is stored at four granularities — prose, atomic facts, Q&amp;A pairs, taxonomy — plus a typed cross-reference graph (<code>duplicate · nuance_variant · contradicts · extends</code>) with an LLM-written note. Stores knowledge at multiple resolutions <em>and</em> the relationships between claims.</p></div>
+        <div class="card"><div class="cn">Today Series</div><h3>Four-facet KB + relationship graph</h3><p>The same source is stored at four granularities (prose, atomic facts, Q&amp;A pairs, taxonomy) plus a typed cross-reference graph (<code>duplicate · nuance_variant · contradicts · extends</code>) with an LLM-written note. Stores knowledge at multiple resolutions <em>and</em> the relationships between claims.</p></div>
         <div class="card"><div class="cn">job-hunt engine</div><h3>Layered, provenance-linked</h3><p>Physical document chunks → hashed evidence → promoted atomic facts → a typed knowledge graph of skills/orgs/roles. A "dimensional twin" of a career, every fact evidence-backed and coordinate-addressed. <span class="mono" style="font-size:11px;color:var(--text-faint)">(concept only)</span></p></div>
-        <div class="card"><div class="cn">Eikon Digital</div><h3>Per-query-rendered knowledge</h3><p>KB entries are not standalone pages — they're a knowledge <em>dimension</em> rendered into responses per query, so knowledge and presentation stay separate and governed.</p></div>
+        <div class="card"><div class="cn">Eikon Digital</div><h3>Per-query-rendered knowledge</h3><p>KB entries are a knowledge <em>dimension</em> rendered into responses per query, so knowledge and presentation stay separate and governed.</p></div>
         <div class="card"><div class="cn">Zabble</div><h3>Entities on an event spine</h3><p>No separate KB: entities are the addressing scheme on an append-only event stream, and read models are rebuilt (CQRS-lite) from that stream rather than maintained by hand.</p></div>
       </div>
     </section>
@@ -182,14 +182,14 @@ footer a{color:var(--accent);text-decoration:none}
     <!-- 03 -->
     <section id="vec">
       <span class="slabel"><span class="n">03</span> vector embeddings</span>
-      <h2>Chunks vs. atomic facts vs. Q&amp;A — a deliberate "don't just chunk" stance</h2>
-      <p class="intro">The most-copied RAG recipe is "split into chunks, embed, retrieve." The choice here is to <strong>embed at the granularity that matches the question's shape</strong> — and, where the fact set is closed, to use no vectors at all.</p>
+      <h2>Chunks vs. atomic facts vs. Q&amp;A: a deliberate "don't just chunk" stance</h2>
+      <p class="intro">The most-copied RAG recipe is "split into chunks, embed, retrieve." The choice here is to <strong>embed at the granularity that matches the question's shape</strong>; and, where the fact set is closed, to use no vectors at all.</p>
 
       <div class="facets">
-        <div class="facet"><div class="ft">prose (chunked)</div><p>~800-token paragraphs, 15% overlap, only 2–4 per article. Preserves context for open-ended queries — without over-fragmenting.</p></div>
+        <div class="facet"><div class="ft">prose (chunked)</div><p>~800-token paragraphs, 15% overlap, only 2-4 per article. Preserves context for open-ended queries, without over-fragmenting.</p></div>
         <div class="facet"><div class="ft">atomic facts</div><p>One claim per row. Answers precise point questions cleanly, where a big chunk would bury the answer in noise.</p></div>
-        <div class="facet"><div class="ft">Q&amp;A pairs</div><p>Matches conversational queries directly — the retrieval shape closest to how a chatbot is actually asked.</p></div>
-        <div class="facet"><div class="ft">taxonomy</div><p>Topics/themes/keywords — powers near-duplicate detection and topical routing, not just answer retrieval.</p></div>
+        <div class="facet"><div class="ft">Q&amp;A pairs</div><p>Matches conversational queries directly: the retrieval shape closest to how a chatbot is actually asked.</p></div>
+        <div class="facet"><div class="ft">taxonomy</div><p>Topics/themes/keywords: powers near-duplicate detection, topical routing, and answer retrieval.</p></div>
       </div>
 
       <div class="tablewrap">
@@ -200,7 +200,7 @@ footer a{color:var(--accent);text-decoration:none}
               <td>Today Series</td>
               <td>Four facets: prose, atomic facts, Q&amp;A, taxonomy</td>
               <td><code>ada-002</code>, <code>vector(1536)</code>, HNSW <code>m=16, ef=200</code></td>
-              <td>Hybrid: pgvector + full-text via Reciprocal Rank Fusion (<code>rrf_k=50</code>). No external reranker — RRF <em>is</em> the rerank.</td>
+              <td>Hybrid: pgvector + full-text via Reciprocal Rank Fusion (<code>rrf_k=50</code>). No external reranker. RRF <em>is</em> the rerank.</td>
               <td class="why">Match retrieval shape to query shape; fuse semantic + keyword so exact terms aren't lost.</td>
             </tr>
             <tr>
@@ -208,18 +208,18 @@ footer a{color:var(--accent);text-decoration:none}
               <td>Document chunks + evidence facts (two layers)</td>
               <td><code>text-embedding-3-small</code>, HNSW cosine</td>
               <td>Embed the job description → top-K evidence by cosine → grounded LLM fit over retrieved facts only.</td>
-              <td class="why">Provenance-linked retrieval: every match traces back to a source span. Vectors serve grounding, not free generation.</td>
+              <td class="why">Provenance-linked retrieval: every match traces back to a source span, and grounds the LLM fit output.</td>
             </tr>
             <tr>
               <td>Zabble</td>
               <td>Interest / group vectors (discovery only)</td>
               <td>pgvector, private groups excluded from the set</td>
-              <td>"For you" semantic matching — a recommendation feature, not a RAG spine.</td>
+              <td>"For you" semantic matching: a discovery-only recommendation feature.</td>
               <td class="why">Embeddings earn their place only for discovery; the rest of the app is deterministic.</td>
             </tr>
             <tr>
               <td>Relic Wars</td>
-              <td><span class="badge-none">none — by design</span></td>
+              <td><span class="badge-none">none, by design</span></td>
               <td>Closed, hash-addressed fact set (compiled envelope)</td>
               <td>The model may cite only in-envelope facts; a validator re-derives ground truth.</td>
               <td class="why">The legal fact set is finite and seeded. Adding vectors would inject <b>nondeterminism</b> into a system whose value is reproducibility and PvP fairness.</td>
@@ -227,49 +227,49 @@ footer a{color:var(--accent);text-decoration:none}
           </tbody>
         </table>
       </div>
-      <div class="insight"><div class="it">the decision, in one line</div><p><b>Granularity is a retrieval decision, not a default.</b> Atomic facts for point questions, Q&amp;A for conversation, prose for context, taxonomy for routing — and <b>no embeddings at all</b> when the fact set is closed and determinism is the product.</p></div>
-      <div class="insight"><div class="it">and for <em>governed</em> knowledge</div><p>Naive vector similarity returns what is <em>near</em>, not what is <em>governed and true</em> — retrieval doesn't remove hallucination (<a href="https://arxiv.org/abs/2401.00396">RAGTruth</a>), degrades mid-context even on a correct hit (<a href="https://arxiv.org/abs/2307.03172">Lost in the Middle</a>), and turns every retrieved document into an injection surface (<a href="https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/">OWASP LLM08:2025</a>). So the rule is <b>right index per query class</b>: hybrid RAG is fine for open factoid lookup, but anything a decision must be <b>accountable</b> for wants <b>governed, structured knowledge</b> — the direction <a href="https://arxiv.org/abs/2404.16130">GraphRAG</a> validates. Full, sourced treatment in <a href="../ENGINEERING.md">ENGINEERING.md §5</a>.</p></div>
+      <div class="insight"><div class="it">the decision, in one line</div><p><b>Granularity is a retrieval decision.</b> Atomic facts for point questions, Q&amp;A for conversation, prose for context, taxonomy for routing, and <b>no embeddings at all</b> when the fact set is closed and determinism is the product.</p></div>
+      <div class="insight"><div class="it">and for <em>governed</em> knowledge</div><p>Naive vector similarity returns what is <em>near</em>, without confirming it is <em>governed and true</em>: retrieval doesn't remove hallucination (<a href="https://arxiv.org/abs/2401.00396">RAGTruth</a>), degrades mid-context even on a correct hit (<a href="https://arxiv.org/abs/2307.03172">Lost in the Middle</a>), and turns every retrieved document into an injection surface (<a href="https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/">OWASP LLM08:2025</a>). So the rule is <b>right index per query class</b>: hybrid RAG is fine for open factoid lookup, but anything a decision must be <b>accountable</b> for wants <b>governed, structured knowledge</b>, a direction <a href="https://arxiv.org/abs/2404.16130">GraphRAG</a> validates. Full, sourced treatment in <a href="../ENGINEERING.md">ENGINEERING.md §5</a>.</p></div>
     </section>
 
     <!-- 04 -->
     <section id="model">
       <span class="slabel"><span class="n">04</span> model optimization</span>
-      <h2>Cheapest viable tier by default — escalate on deterministic signals</h2>
+      <h2>Cheapest viable tier by default: escalate on deterministic signals</h2>
       <p class="intro">One swappable task→model catalog per system; the cheapest model that can do the job runs first; escalation is triggered by <strong>facts the code can verify</strong>, never by the model's own confidence.</p>
       <div class="cards">
-        <div class="card"><div class="cn">Relic Wars</div><h3>nano → mini cascade, empirically derived</h3><p>A 200-contest bakeoff across four models with real cost measurement. <code>gpt-5-nano</code> primary (~$0.20/1k contests), auto-escalate to <code>gpt-5-mini</code> on referee rejection. Blended governed cost ≈ <b>$0.25/1k</b> — about half of running mini for everything.</p></div>
+        <div class="card"><div class="cn">Relic Wars</div><h3>nano → mini cascade, empirically derived</h3><p>A 200-contest bakeoff across four models with real cost measurement. <code>gpt-5-nano</code> primary (~$0.20/1k contests), auto-escalate to <code>gpt-5-mini</code> on referee rejection. Blended governed cost ≈ <b>$0.25/1k</b>: about half of running mini for everything.</p></div>
         <div class="card"><div class="cn">Today Series</div><h3>small-for-extraction, large-for-authoring</h3><p><code>gpt-4o-mini</code> at temp 0.2 for fact/Q&amp;A/taxonomy extraction and the nuance judge; Claude for authoring and the chatbot; OpenAI for embeddings and moderation. Concurrency tuned per stage.</p></div>
-        <div class="card"><div class="cn">Zabble</div><h3>gateway router + spend governance</h3><p>A <code>TASK_MODEL</code> catalog of <code>provider/model</code> strings behind an AI gateway — one-line re-tuning, no call-site edits. Per-group budgets, a spend ledger, and hard caps gate every AI action.</p></div>
+        <div class="card"><div class="cn">Zabble</div><h3>gateway router + spend governance</h3><p>A <code>TASK_MODEL</code> catalog of <code>provider/model</code> strings behind an AI gateway: one-line re-tuning, no call-site edits. Per-group budgets, a spend ledger, and hard caps gate every AI action.</p></div>
       </div>
-      <div class="insight"><div class="it">the sharp insight</div><p>In the bakeoff, the cheap model invented an entity ID <b>~10% of the time — confidently, and unflagged</b>. So the escalation gate is <b>deterministic</b> (schema validity, entity-ID membership, citation legality), never the model's <code>needs_review</code> self-report. And the metric is <b>cost per <em>successful</em> op</b>, not sticker price: nano burns 4–5× more reasoning tokens than mini and only wins because its per-token price is ~8× lower — "a smaller price gap could flip the ordering."</p></div>
+      <div class="insight"><div class="it">the sharp insight</div><p>In the bakeoff, the cheap model invented an entity ID <b>~10% of the time, confidently, and unflagged</b>. So the escalation gate is <b>deterministic</b> (schema validity, entity-ID membership, citation legality), never the model's <code>needs_review</code> self-report. And the metric weighed is <b>cost per <em>successful</em> op</b>: nano burns 4-5× more reasoning tokens than mini and only wins because its per-token price is ~8× lower. "A smaller price gap could flip the ordering."</p></div>
     </section>
 
     <!-- 05 -->
     <section id="wp">
       <span class="slabel"><span class="n">05</span> wordpress lineage</span>
-      <h2>Data-driven since the plugin era — and the deliberate exit from it</h2>
-      <p class="intro">The schema-driven, query-driven instinct visible in the Supabase work started in WordPress. The move to Next.js/Supabase was a <strong>reasoned architectural rejection</strong>, not a trend-chase.</p>
+      <h2>Data-driven since the plugin era, and a deliberate exit from it</h2>
+      <p class="intro">The schema-driven, query-driven instinct visible in the Supabase work started in WordPress. The move to Next.js/Supabase was a <strong>reasoned architectural rejection</strong>.</p>
       <div class="tl">
         <div class="tl-row">
           <div class="tl-era">The stack</div>
           <div>
-            <h4>Data-driven WordPress, not page-builder soup</h4>
-            <p>A JetEngine/Crocoblock architecture — custom post types, relationships, query builders, and faceted filtering (JetSmartFilters) — on a lightweight Elementor base with a <em>custom Tailwind child theme</em>. Pairing WordPress with Tailwind well before the React era.</p>
+            <h4>A data-driven WordPress build</h4>
+            <p>A JetEngine/Crocoblock architecture: custom post types, relationships, query builders, and faceted filtering (JetSmartFilters), built on a lightweight Elementor base with a <em>custom Tailwind child theme</em>. Pairing WordPress with Tailwind well before the React era.</p>
             <div class="stack"><span class="s">Elementor Pro</span><span class="s">JetEngine · Crocoblock</span><span class="s">JetSmartFilters</span><span class="s">WooCommerce</span><span class="s">Tailwind child theme</span><span class="s">BunnyCDN</span></div>
           </div>
         </div>
         <div class="tl-row">
           <div class="tl-era">Beyond pages</div>
           <div>
-            <h4>Custom plugins — DAM, CRM capture, API manager</h4>
-            <p>Not just building pages: custom WordPress plugins for digital asset management, CRM contact capture, a global API manager, access control, and scanning — infrastructure work inside the CMS.</p>
+            <h4>Custom plugins: DAM, CRM capture, API manager</h4>
+            <p>Custom WordPress plugins for digital asset management, CRM contact capture, a global API manager, access control, and scanning. Infrastructure work inside the CMS, beyond page building.</p>
             <div class="stack"><span class="s">custom DAM</span><span class="s">CRM capture</span><span class="s">API manager</span><span class="s">access control</span></div>
           </div>
         </div>
         <div class="tl-row">
           <div class="tl-era">The exit</div>
           <div>
-            <h4>The "anti-WordPress" move — compile once, serve at the edge</h4>
+            <h4>The "anti-WordPress" move: compile once, serve at the edge</h4>
             <p>The migration to Next.js/Supabase is framed explicitly as rejecting the CMS "query the DB and render a template on <em>every</em> request" model in favor of <b>compile-once → static/ISR at the edge, dynamic only where structurally necessary</b> (chat, auth, forms). A clean four-tier compilation model, with WCAG accessibility treated as a governance constraint.</p>
             <div class="stack"><span class="s">Next.js · RSC</span><span class="s">Supabase</span><span class="s">static / ISR</span><span class="s">edge</span></div>
           </div>
@@ -278,7 +278,7 @@ footer a{color:var(--accent);text-decoration:none}
           <div class="tl-era">The bridge</div>
           <div>
             <h4>Integrate, don't rip-and-replace</h4>
-            <p>Rather than abandon WordPress outright, a bridge re-casts the WP admin as a thin render-tree client talking to a Next.js/Supabase backend through a same-origin REST proxy — with per-user auth provisioning and an HMAC token handoff (no third-party cookies).</p>
+            <p>Rather than abandon WordPress outright, a bridge re-casts the WP admin as a thin render-tree client talking to a Next.js/Supabase backend through a same-origin REST proxy, with per-user auth provisioning and an HMAC token handoff (no third-party cookies).</p>
           </div>
         </div>
       </div>
@@ -290,20 +290,20 @@ footer a{color:var(--accent);text-decoration:none}
       <h2>Patterns that show up when the stakes are real</h2>
       <p class="intro">The choices that separate a demo from a system you can operate.</p>
       <div class="mat">
-        <div class="mrow"><h4><span class="mk"></span>Event sourcing in Postgres</h4><p>An append-only <code>domain_events</code> spine with a single write path, trigger fan-out to queues, and CQRS-lite read models — "the Kafka replacement, inside Postgres." Enforced against UPDATE/DELETE <em>and</em> TRUNCATE.</p><div class="proj">Zabble</div></div>
+        <div class="mrow"><h4><span class="mk"></span>Event sourcing in Postgres</h4><p>An append-only <code>domain_events</code> spine with a single write path, trigger fan-out to queues, and CQRS-lite read models: "the Kafka replacement, inside Postgres." Enforced against UPDATE/DELETE <em>and</em> TRUNCATE.</p><div class="proj">Zabble</div></div>
         <div class="mrow"><h4><span class="mk"></span>Server-authoritative, seeded resolve</h4><p>A seeded PRNG (<em>never</em> <code>Math.random()</code> in engine code), a pure resolve function server-side, outcomes emitted as a draw-only script. Reproducible and fair.</p><div class="proj">Relic Wars</div></div>
-        <div class="mrow"><h4><span class="mk"></span>RLS everywhere, deny-by-default</h4><p>Row-level security on every table, engine access via service-role only, app reads through wrapper views. Security is the default state, not a step.</p><div class="proj">Today Series · job-hunt · Zabble</div></div>
-        <div class="mrow"><h4><span class="mk"></span>Security-definer RPCs as the authz surface</h4><p>Gated <code>SECURITY DEFINER</code> functions with pinned <code>search_path</code> instead of relaxing RLS — refunds, hybrid search, privileged reads all go through a controlled door.</p><div class="proj">Zabble · Today Series</div></div>
+        <div class="mrow"><h4><span class="mk"></span>RLS everywhere, deny-by-default</h4><p>Row-level security on every table, engine access via service-role only, app reads through wrapper views. Security is the default state.</p><div class="proj">Today Series · job-hunt · Zabble</div></div>
+        <div class="mrow"><h4><span class="mk"></span>Security-definer RPCs as the authz surface</h4><p>Gated <code>SECURITY DEFINER</code> functions with pinned <code>search_path</code> instead of relaxing RLS: refunds, hybrid search, privileged reads all go through a controlled door.</p><div class="proj">Zabble · Today Series</div></div>
         <div class="mrow"><h4><span class="mk"></span>Governance that can't be forgotten</h4><p>A DDL trigger auto-enables RLS on every new table; new users auto-provision profile rows. The safe thing happens by default.</p><div class="proj">Relic Wars</div></div>
         <div class="mrow"><h4><span class="mk"></span>Edge-only credential isolation</h4><p>Tenant/processor secrets resolved only inside edge functions (Supabase Vault), never in a route handler; presence-only status functions that never return the value.</p><div class="proj">Zabble · job-hunt</div></div>
-        <div class="mrow"><h4><span class="mk"></span>Graceful degradation as posture</h4><p>Every integration returns a clean 503/no-op when its key is absent — "nothing crashes; everything lights up when keys are added."</p><div class="proj">Today Series</div></div>
+        <div class="mrow"><h4><span class="mk"></span>Graceful degradation as posture</h4><p>Every integration returns a clean 503/no-op when its key is absent: "nothing crashes; everything lights up when keys are added."</p><div class="proj">Today Series</div></div>
         <div class="mrow"><h4><span class="mk"></span>Append-only, hash-chained audit</h4><p>A SHA-256 hash-chained ledger with recomputable verification and update/delete-blocking; facts versioned via supersede, never overwritten.</p><div class="proj">job-hunt engine</div></div>
       </div>
     </section>
 
     <footer>
-      <div class="ip">IP-safety reviewed before publishing. Describes public-safe architectural patterns and rationale only — no proprietary BOSNet.io or BOSS kernel or compiler internals, no schema DDL, no secrets, project identifiers, or client names. Dimensional governance is described at concept level; the kernel and specification are patent-pending and reserved.</div>
-      Author: <strong>Robert J. Floyd</strong> — founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+      <div class="ip">IP-safety reviewed before publishing. Describes public-safe architectural patterns and rationale only: no proprietary BOSNet.io or BOSS kernel or compiler internals, no schema DDL, no secrets, project identifiers, or client names. Dimensional governance is described at concept level; the kernel and specification are patent-pending and reserved.</div>
+      Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
       <span class="mono" style="font-size:12px">the-substrate · AI as the governed operational substrate</span>
     </footer>
   </div>

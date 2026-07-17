@@ -1,4 +1,4 @@
-# ADR-0006 — Keep the reference engine private; publish spec + proofs
+# ADR-0006: Keep the reference engine private; publish spec + proofs
 
 - **Status:** Accepted
 - **Date:** 2026-07-15
@@ -6,8 +6,8 @@
 
 ## Context
 
-The work spans two things of very different kinds: a *standard* (BOSS — the governance surface, its
-guarantees, and its directory structure) and a *reference implementation* (BOSNet.io — the engine,
+The work spans two things of very different kinds: a *standard* (BOSS: the governance surface, its
+guarantees, and its directory structure) and a *reference implementation* (BOSNet.io: the engine,
 kernel, schema, coordinate scheme, and conformance rule set). Publishing everything would forfeit the
 value captured in the implementation; publishing nothing would make the thesis unevaluable and read
 as vaporware. The IP boundary is itself an architectural decision, and worth recording as one.
@@ -15,12 +15,12 @@ as vaporware. The IP boundary is itself an architectural decision, and worth rec
 ## Decision
 
 Model the split on **Kubernetes, OAuth, and OpenTelemetry**: the *specification* is commoditized and
-open to describe; the *implementation* is where value is captured. Concretely — **publish the spec's
+open to describe; the *implementation* is where value is captured. Concretely, **publish the spec's
 shape and runnable proofs; keep the engine private.** This repo carries the thesis, the BOSS
 principles/guarantees/directory structure, de-identified case studies, and *clean-room runnable
 proofs of published claims* (e.g. the hash-chained ledger in [`demos/audit-ledger/`](../../demos/audit-ledger/)). It never carries
 BOSNet.io source, client IP, the kernel/compiler, the dimensional schema/coordinate scheme, or the
-normative conformance rule set — those are patent-pending and reserved
+normative conformance rule set; those are patent-pending and reserved
 ([`../../LICENSE.md`](../../LICENSE.md), [`../../BOSS-STANDARD.md`](../../BOSS-STANDARD.md) §6).
 
 ## Alternatives considered
@@ -39,5 +39,5 @@ normative conformance rule set — those are patent-pending and reserved
   protected. The public/private line is explicit and defensible.
 - **Cost:** every public artifact must pass an IP-safety review before it ships ("when in doubt, leave
   it out"); some compelling internal detail stays unpublished.
-- **Boundary:** "runnable proof" means a clean-room primitive backing a stated claim — never a port of
+- **Boundary:** "runnable proof" means a clean-room primitive backing a stated claim, never a port of
   the engine. The demo proves *tamper-evidence*; it is not BOSNet.io.

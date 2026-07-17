@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Thesis — AI as the Governed Operational Substrate · the-substrate</title>
+<title>The Thesis: AI as the Governed Operational Substrate · the-substrate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -62,16 +62,16 @@ footer{padding:38px 0 66px;color:var(--text-faint);font-size:13.5px}footer a{col
 <header>
   <div class="eyebrow"><span class="dot"></span>the-substrate · the thesis</div>
   <h1>AI as the governed operational substrate</h1>
-  <p class="lead">Some of the reasoning we froze into code at write-time can move to <strong>run-time</strong> — a model reasoning in the logic layer where code used to sit — <strong>if, and only if</strong>, it runs inside a governance engine that makes it bounded, evidence-backed, audited, and reversible.</p>
-  <div class="epi">"My approach unleashes <b>reasoning</b> as part of the logic layer, using a governance engine that makes it safe to let AI do things we've traditionally only trusted code to do — until today. This is AI as the operational substrate."<span class="by">— Robert J. Floyd</span></div>
+  <p class="lead">Some of the reasoning we froze into code at write-time can move to <strong>run-time</strong> (a model reasoning in the logic layer where code used to sit), <strong>if, and only if</strong>, it runs inside a governance engine that makes it bounded, evidence-backed, audited, and reversible.</p>
+  <div class="epi">"My approach unleashes <b>reasoning</b> as part of the logic layer, using a governance engine that makes it safe to let AI do things we've traditionally only trusted code to do, until today. This is AI as the operational substrate."<span class="by">Robert J. Floyd</span></div>
 </header>
 
 <section><div class="wrap">
   <span class="slabel"><span class="sq"></span>the claim</span>
   <h2>Reasoning, moved from write-time to run-time</h2>
-  <p class="intro">Code has always been a reasoning layer — just reasoning <em>frozen at write-time</em>. Every <code>if</code> is a human's judgment, pre-committed. A great deal of software exists only because we had no other way to encode judgment. This work moves some of it to run-time — safely.</p>
+  <p class="intro">Code has always been a reasoning layer: just reasoning <em>frozen at write-time</em>. Every <code>if</code> is a human's judgment, pre-committed. A great deal of software exists only because we had no other way to encode judgment. This work moves some of it to run-time, safely.</p>
   <div class="seam">
-    <div class="pane old"><span class="t">write-time</span><h3>Reasoning frozen in code</h3><p>Enumerated branches, scraper fleets, brittle rules engines — human judgment pre-committed into deterministic control flow. Stable and fast, but only as smart as what you could enumerate in advance.</p></div>
+    <div class="pane old"><span class="t">write-time</span><h3>Reasoning frozen in code</h3><p>Enumerated branches, scraper fleets, brittle rules engines: human judgment pre-committed into deterministic control flow. Stable and fast, but only as smart as what you could enumerate in advance.</p></div>
     <div class="ar mono">→</div>
     <div class="pane new"><span class="t">run-time · governed</span><h3>Reasoning inside an envelope</h3><p>The model decides <em>what should happen</em>; deterministic code computes <em>what does</em> and grades it; a validator commits only what passes. Load-bearing because it's checked, not trusted.</p></div>
   </div>
@@ -83,38 +83,38 @@ footer{padding:38px 0 66px;color:var(--text-faint);font-size:13.5px}footer a{col
   <div class="cards">
     <div class="card"><div class="cn">Bounded</div><h3>Inside the lines</h3><p>Reasoning runs inside explicit policy, permissions, and blast-radius limits. Prevents unauthorized action.</p></div>
     <div class="card"><div class="cn">Evidence-backed</div><h3>Nothing without provenance</h3><p>Every fact traces to hashed source evidence. Prevents hallucinated facts entering the record.</p></div>
-    <div class="card"><div class="cn">Audited</div><h3>Answerable after</h3><p>Every decision writes a tamper-evident ledger entry — inputs, model, verdict. No "the AI did it and we can't say why."</p></div>
+    <div class="card"><div class="cn">Audited</div><h3>Answerable after</h3><p>Every decision writes a tamper-evident ledger entry: inputs, model, verdict. No "the AI did it and we can't say why."</p></div>
     <div class="card"><div class="cn">Reversible</div><h3>Safe to let go</h3><p>High-impact actions are gated, versioned, recoverable. Prevents irreversible damage from one bad inference.</p></div>
   </div>
-  <div class="stmt">The recurring shape: <b>deterministic code computes what does happen and grades the reasoning; the model decides what should happen; a validator commits only what passes.</b> The model is never trusted — it is checked.</div>
+  <div class="stmt">The recurring shape: <b>deterministic code computes what does happen and grades the reasoning; the model decides what should happen; a validator commits only what passes.</b> The model's output only counts once that check passes.</div>
 </div></section>
 
 <section><div class="wrap">
   <span class="slabel"><span class="sq"></span>where it begins</span>
   <h2>Governing AI begins with governing people</h2>
-  <p class="intro">The deepest layer isn't technical. You get good work from an AI the way you get it from a person — clear intent, defined context, governance over blind trust. And good governance <strong>frees</strong> the operator rather than caging them: the rails are what make it safe to delegate. <em>The builder becomes the architect of the builder's constraints.</em></p>
+  <p class="intro">The deepest layer isn't technical. You get good work from an AI the way you get it from a person: clear intent, defined context, governance over blind trust. And good governance <strong>frees</strong> the operator rather than caging them: the rails are what make it safe to delegate. <em>The builder becomes the architect of the builder's constraints.</em></p>
   <div class="nav"><a href="governing-people.html">→ The Builder &amp; the Guardrails (visual)</a><a href="../GOVERNING-PEOPLE.md">→ companion document</a></div>
 </div></section>
 
 <section><div class="wrap">
   <span class="slabel"><span class="sq"></span>the substrate, defined</span>
-  <h2>Governance <em>plus</em> knowledge — not code</h2>
-  <p class="intro">Governance is only half of it. A model perfectly governed but fed the wrong or missing context still fails — not on what it may <em>do</em>, but on what it <em>knows</em>.</p>
-  <div class="stmt">The operational substrate of an LLM is <b>governance + knowledge, not code.</b> Governance bounds what the model may do; a governance-carrying knowledge model determines what it correctly knows. <b>Code is what you write when you lack the other two.</b></div>
+  <h2>Governance <em>plus</em> knowledge define the substrate</h2>
+  <p class="intro">Governance is only half of it. A model perfectly governed but fed the wrong or missing context still fails on what it <em>knows</em>, even when its actions are exactly right.</p>
+  <div class="stmt">The operational substrate of an LLM is <b>governance + knowledge.</b> Governance bounds what the model may do; a governance-carrying knowledge model determines what it correctly knows. <b>Code is what you write when you lack the other two.</b></div>
 </div></section>
 
 <section><div class="wrap">
   <span class="slabel"><span class="sq"></span>the measurable spine</span>
-  <h2>The AI : code ratio — LLM-First targets 90 : 10</h2>
-  <p class="intro">The ratio isn't a score to maximize; it's a design decision that varies with the problem. Each case study is a <strong>before → after</strong> transformation, not a ranking.</p>
+  <h2>The AI : code ratio (LLM-First targets 90 : 10)</h2>
+  <p class="intro">The ratio is a design decision that varies with the problem, chosen deliberately for each case. Each case study documents its own <strong>before → after</strong> transformation.</p>
   <div class="spine">
     <div class="track"><span class="node" style="left:8%"></span><span class="node" style="left:38%"></span><span class="node" style="left:66%"></span><span class="node anchor" style="left:93%"></span></div>
     <table>
-      <tr><td><a href="../case-studies/relic-wars.md">Relic Wars</a></td><td>converted · factual — a rules engine retired for a fact matrix + prompt + auditor</td><td class="r">~85 : 15</td></tr>
-      <tr><td><a href="../case-studies/today-series.md">Today Series</a></td><td>planned — language-and-judgment work can go furthest toward LLM-First</td><td class="r">~85–90 : 10–15</td></tr>
-      <tr><td><a href="../case-studies/zabble.md">Zabble</a></td><td>planned — the ceiling case; payments &amp; real-time safety stay deterministic</td><td class="r">~30–40 : 60–70</td></tr>
-      <tr><td><a href="../case-studies/eikon-digital.md">Eikon Digital</a></td><td>planned — a whole app rebuilt as a governed tenant; the largest delta</td><td class="r">~80–85 : 15–20</td></tr>
-      <tr><td>app.bosnet.io</td><td>the standard the conversions target — reasoning as the operational core (proprietary)</td><td class="r">~90 : 10</td></tr>
+      <tr><td><a href="../case-studies/relic-wars.md">Relic Wars</a></td><td>converted · factual: a rules engine retired for a fact matrix + prompt + auditor</td><td class="r">~85 : 15</td></tr>
+      <tr><td><a href="../case-studies/today-series.md">Today Series</a></td><td>planned: language-and-judgment work can go furthest toward LLM-First</td><td class="r">~85-90 : 10-15</td></tr>
+      <tr><td><a href="../case-studies/zabble.md">Zabble</a></td><td>planned: the ceiling case; payments &amp; real-time safety stay deterministic</td><td class="r">~30-40 : 60-70</td></tr>
+      <tr><td><a href="../case-studies/eikon-digital.md">Eikon Digital</a></td><td>planned: a whole app rebuilt as a governed tenant; the largest delta</td><td class="r">~80-85 : 15-20</td></tr>
+      <tr><td>app.bosnet.io</td><td>the standard the conversions target: reasoning as the operational core (proprietary)</td><td class="r">~90 : 10</td></tr>
     </table>
   </div>
 </div></section>
@@ -122,12 +122,12 @@ footer{padding:38px 0 66px;color:var(--text-faint);font-size:13.5px}footer a{col
 <section><div class="wrap">
   <span class="slabel"><span class="sq"></span>the standard</span>
   <h2>BOSNet.io &amp; the Bounded Open Safety Standard</h2>
-  <p class="intro">The governance infrastructure that makes run-time reasoning load-bearing is <strong>BOSNet.io</strong> — the harness built for exactly this. Its public-facing standard, <strong>BOSS</strong>, defines the guarantees and the <em>governance directory</em> a governed system publishes; the machine-checkable spec and kernel are patent-pending and reserved.</p>
+  <p class="intro">The governance infrastructure that makes run-time reasoning load-bearing is <strong>BOSNet.io</strong>: the harness built for exactly this. Its public-facing standard, <strong>BOSS</strong>, defines the guarantees and the <em>governance directory</em> a governed system publishes; the machine-checkable spec and kernel are patent-pending and reserved.</p>
   <div class="nav"><a href="boss-standard.html">→ BOSS Standard (visual)</a><a href="../BOSS-STANDARD.md">→ BOSS-STANDARD.md</a><a href="engineering.html">→ the engineering thesis</a></div>
 </div></section>
 
 <footer><div class="wrap">
-  Author: <strong>Robert J. Floyd</strong> — founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+  Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
   <span class="mono" style="font-size:12px">the-substrate · <a href="../README.md">README</a> · <a href="../THESIS.md">THESIS.md</a></span>
 </div></footer>
 </div>

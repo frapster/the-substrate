@@ -1,5 +1,5 @@
 """
-test_pipeline.py — proof that the governed loop commits only fully-governed intents,
+test_pipeline.py, proof that the governed loop commits only fully-governed intents,
 and refuses a broken one at the stage that owns the broken check.
 
 Run it:
@@ -129,7 +129,7 @@ class EachStageRefusesItsOwnFailure(unittest.TestCase):
         d = s.decide(intent)
         self.assertFalse(d.committed)
         self.assertEqual(len(s.ledger.rows), 0)     # nothing audited
-        self.assertEqual(len(s.store.versions), 1)  # no new version — only genesis {}
+        self.assertEqual(len(s.store.versions), 1)  # no new version, only genesis {}
 
 
 if __name__ == "__main__":

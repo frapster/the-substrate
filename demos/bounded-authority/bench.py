@@ -1,18 +1,18 @@
 """
-bench.py — a small, reproducible benchmark for the deny-by-default policy gate.
+bench.py: a small, reproducible benchmark for the deny-by-default policy gate.
 
 Run it:
 
     python demos/bounded-authority/bench.py            # default K = 500 proposals
     python demos/bounded-authority/bench.py 2000        # custom proposal count
 
-Standard-library only. Prints a Markdown table of measured numbers — not adjectives —
-and the exact command to reproduce them.
+Standard-library only. Prints a Markdown table of measured numbers, and the exact
+command to reproduce them.
 
 What it measures (and what it does NOT):
-  - proposal throughput   — decisions/sec the gate can render
-  - outcome mix           — how many of K mixed proposals proceed / escalate / block
-  - refusal completeness  — of the proposals that were over-scoped or unregistered,
+  - proposal throughput   : decisions/sec the gate can render
+  - outcome mix           : how many of K mixed proposals proceed / escalate / block
+  - refusal completeness  : of the proposals that were over-scoped or unregistered,
                              how many were blocked before execution (must be ALL of them)
 This benchmarks the gate PRIMITIVE's throughput and refusal completeness. It is not an
 end-to-end governance benchmark, and makes no claim about model quality.
@@ -52,7 +52,7 @@ def _seeded_gate() -> Gate:
 
 def _build_proposals(k: int) -> list[tuple[str, dict[str, float], bool]]:
     """Deterministically build K mixed proposals. The bool marks whether the proposal
-    is *deliberately* over-scoped or unregistered — i.e. must never be allowed to
+    is *deliberately* over-scoped or unregistered, i.e. must never be allowed to
     reach 'proceed'."""
     registered_scopes = [
         ("send_email", {"max_recipients": 10}, False),      # in-policy

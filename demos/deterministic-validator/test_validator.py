@@ -1,19 +1,19 @@
 """
-test_validator.py — proof that a rejected proposal is discarded, not patched.
+test_validator.py: proof that a rejected proposal is discarded, not patched.
 
 Run it:
 
     python demos/deterministic-validator/test_validator.py
     # or:  python -m unittest discover -s demos/deterministic-validator
 
-Standard-library `unittest` only — no pytest, no install.
+Standard-library `unittest` only, no pytest, no install.
 
 The important tests here are the NEGATIVE ones: they assert that validate() *fails*, and
 fails for the RIGHT reason, for a hallucinated citation, an out-of-bound amount, and a
-missing field — and that a failing proposal never reaches commit_log, is never mutated
-into a passing one, and cannot be forced into commit_log by an approving llm_judge alone.
-A "the model is never trusted — it is checked" claim you can't see fail is worthless — so
-these tests exist to see it fail.
+missing field. They also confirm a failing proposal never reaches commit_log, is never
+mutated into a passing one, and cannot be forced into commit_log by an approving llm_judge
+alone. A "the model is never trusted. It is checked" claim needs to be seen failing to
+mean anything, so these tests exist to see it fail.
 """
 
 from __future__ import annotations
@@ -50,7 +50,7 @@ class HappyPath(unittest.TestCase):
         validator.submit(good)
         committed = validator.commit_log[0]
         self.assertEqual(committed, good)
-        self.assertIs(committed, good)  # same object — nothing copied-and-edited it
+        self.assertIs(committed, good)  # same object, nothing copied-and-edited it
 
     def test_boundary_amount_is_allowed(self):
         validator = Validator()
@@ -67,7 +67,7 @@ class HappyPath(unittest.TestCase):
 
 
 class RejectionIsClean(unittest.TestCase):
-    """Each test submits a bad proposal and asserts it is discarded — absent from
+    """Each test submits a bad proposal and asserts it is discarded: absent from
     commit_log, present in rejected_log with the right reason, and never mutated."""
 
     def test_hallucinated_source_is_discarded(self):
@@ -104,7 +104,7 @@ class RejectionIsClean(unittest.TestCase):
 
     def test_discarded_proposal_is_not_mutated_into_a_passing_one(self):
         # The whole point of "discarded, not patched": the stored (rejected) record
-        # still carries the bad source id — nothing quietly repaired it.
+        # still carries the bad source id, nothing quietly repaired it.
         validator = Validator()
         bad = propose(intent="grant_refund", source_id="src_999", amount_usd=40)
         validator.submit(bad)
@@ -126,7 +126,7 @@ class RejectionIsClean(unittest.TestCase):
         self.assertIn(bad, [e.proposal for e in validator.rejected_log])
 
     def test_no_commit_method_reads_judgment_approval(self):
-        # There is no code path from a Judgment straight into commit_log — submit()
+        # There is no code path from a Judgment straight into commit_log: submit()
         # only ever consults validate(). Simulate the tempting shortcut and confirm
         # it changes nothing: passing an approving Judgment for a bad proposal is
         # indistinguishable in outcome from passing no judgment at all.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relic Wars — Before / After · the-substrate</title>
+<title>Relic Wars: Before / After · the-substrate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -123,20 +123,20 @@ footer a{color:var(--accent);text-decoration:none}
   <h1>Relic Wars</h1>
   <div class="badges">
     <span class="status done"><span class="d"></span>Converted · factual</span>
-    <span class="ratio-badge">AI : code (adjudication) — ~0:100 → ~85:15</span>
+    <span class="ratio-badge">AI : code (adjudication), ~0:100 → ~85:15</span>
   </div>
-  <p class="lead">The one conversion here that has actually <strong>shipped</strong>. A ~2,350-line rules engine was retired for a fact matrix + prompt + deterministic auditor. It is the <strong>proof</strong> — and, because its core is algorithmic, the honest <strong>contrast case</strong>.</p>
+  <p class="lead">The one conversion here that has actually <strong>shipped</strong>. A ~2,350-line rules engine was retired for a fact matrix + prompt + deterministic auditor. It is the <strong>proof</strong> (and, because its core is algorithmic, the honest <strong>contrast case</strong>).</p>
   <div class="stack">
     <span class="chip">TypeScript</span><span class="chip">React · Three.js</span><span class="chip">Supabase</span><span class="chip">30 test files · tournament harness</span><span class="chip">auto-RLS trigger</span>
   </div>
 </div></header>
 
 <section><div class="wrap">
-  <span class="section-label"><span class="sq"></span>the conversion — before → after</span>
+  <span class="section-label"><span class="sq"></span>the conversion: before → after</span>
   <div class="ba">
     <div class="ba-head"><span class="section-label"><span class="sq"></span>adjudication subsystem</span><span class="ba-note">AI : code</span></div>
     <div class="ba-grid">
-      <div class="ba-line"><span class="ba-when">BEFORE</span><div class="bar"><span class="seg code" style="width:100%">100% code — a ~2,350-line rules engine</span></div></div>
+      <div class="ba-line"><span class="ba-when">BEFORE</span><div class="bar"><span class="seg code" style="width:100%">100% code: a ~2,350-line rules engine</span></div></div>
       <div class="ba-arrow">↓ retired the engine · governed the adjudication</div>
       <div class="ba-line"><span class="ba-when now">AFTER</span><div class="bar"><span class="seg reason" style="width:85%">85% governed reasoning</span><span class="seg code" style="width:15%">15%</span></div></div>
     </div>
@@ -176,24 +176,24 @@ footer a{color:var(--accent);text-decoration:none}
       <text x="672" y="74" fill="var(--good)" font-family="var(--font-mono)" font-size="11">clean</text>
       <text x="672" y="168" fill="var(--bad)" font-family="var(--font-mono)" font-size="11">rejected</text>
     </svg>
-    <p class="svg-cap"><b>Fail-closed.</b> The auditor never "corrects" the model — a bad answer is thrown away. Twice-failed contests commit <b>nothing</b>.</p>
+    <p class="svg-cap"><b>Fail-closed.</b> The auditor never "corrects" the model. A bad answer is thrown away. Twice-failed contests commit <b>nothing</b>.</p>
   </div>
 </div></section>
 
 <section><div class="wrap">
   <span class="section-label"><span class="sq"></span>total cost of ownership</span>
   <h2 class="sec-title">The part that changes most is now the cheapest to change</h2>
-  <p class="sec-intro">A rules engine's lifetime cost is dominated by <em>enhancement</em> — endless balancing and new content — the expensive 60% of the <a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">60/60 maintenance rule</a>. The conversion attacks exactly that bucket.</p>
+  <p class="sec-intro">A rules engine's lifetime cost is dominated by <em>enhancement</em> (endless balancing and new content), the expensive 60% of the <a href="https://www.oreilly.com/library/view/97-things-every/9780596805425/ch34.html">60/60 maintenance rule</a>. The conversion attacks exactly that bucket.</p>
   <div class="tiles">
-    <div class="tile hero"><div class="big mono">~88%↓</div><div class="cap">Adjudication build cost — ~2,350 → ~280 lines.</div></div>
-    <div class="tile"><div class="big mono">1 row</div><div class="cap">Adding a new rule — a table row, not a new code branch.</div></div>
-    <div class="tile"><div class="big mono">60/60</div><div class="cap">Maintenance ≈ 60% of lifetime cost; enhancement ≈ 60% of that — the slice this targets.</div></div>
+    <div class="tile hero"><div class="big mono">~88%↓</div><div class="cap">Adjudication build cost: ~2,350 → ~280 lines.</div></div>
+    <div class="tile"><div class="big mono">1 row</div><div class="cap">Adding a new rule: one table row instead of a new code branch.</div></div>
+    <div class="tile"><div class="big mono">60/60</div><div class="cap">Maintenance ≈ 60% of lifetime cost; enhancement ≈ 60% of that: the slice this targets.</div></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
   <span class="section-label"><span class="sq"></span>code quality &amp; security</span>
-  <h2 class="sec-title">Never trust the client — or the model</h2>
+  <h2 class="sec-title">Never trust the client or the model</h2>
   <p class="sec-intro">The category norm and the AI-governance model are the same shape: authoritative state stays server-side, and every answer is re-derived and checked.</p>
   <div class="sec-grid">
     <div class="panel">
@@ -203,14 +203,14 @@ footer a{color:var(--accent);text-decoration:none}
         <span>never trust the client</span>
         <span>never trust the model</span>
       </div>
-      <p class="note">LLM-authored code is a draft until graded — see <a href="../../ENGINEERING.md">ENGINEERING.md §3</a>.</p>
+      <p class="note">LLM-authored code is a draft until graded: see <a href="../../ENGINEERING.md">ENGINEERING.md §3</a>.</p>
     </div>
     <div class="panel">
       <h3><span class="mk"></span>Governance in place</h3>
       <ul class="gov-list">
-        <li>Deterministic <code>auditor</code> — fail-closed, two-tier escalation, denial receipts</li>
-        <li>Server-authoritative resolve — runs code-only with no model key</li>
-        <li>Auto-RLS DDL trigger — RLS enabled on every new table</li>
+        <li>Deterministic <code>auditor</code>: fail-closed, two-tier escalation, denial receipts</li>
+        <li>Server-authoritative resolve: runs code-only with no model key</li>
+        <li>Auto-RLS DDL trigger: RLS enabled on every new table</li>
         <li>30 test files + a 900-match balance tournament harness</li>
       </ul>
     </div>
@@ -221,15 +221,15 @@ footer a{color:var(--accent);text-decoration:none}
   <div class="callout">
     <span class="section-label"><span class="sq"></span>the honest boundary</span>
     <div class="row">
-      <div class="paid"><h4><span class="mk"></span>Where it paid off</h4><p>Rule extensibility (rows, not branches) and explainability — every outcome ships with checkable citations.</p></div>
-      <div class="kept"><h4><span class="mk"></span>Where code stayed</h4><p>All arithmetic, seeded randomness, and geometry — the numeric core. Its bulk is algorithmic, so it is the <em>least</em> blueprint-compilable of the four: the honest anchor for the estimates elsewhere.</p></div>
+      <div class="paid"><h4><span class="mk"></span>Where it paid off</h4><p>Rule extensibility (rows instead of branches) and explainability: every outcome ships with checkable citations.</p></div>
+      <div class="kept"><h4><span class="mk"></span>Where code stayed</h4><p>All arithmetic, seeded randomness, and geometry: the numeric core. Its bulk is algorithmic, so it is the <em>least</em> blueprint-compilable of the four, the honest anchor for the estimates elsewhere.</p></div>
     </div>
   </div>
 </div></section>
 
 <footer><div class="wrap">
-  <div class="ip">IP-safety reviewed before publishing. Describes Relic Wars' own governance pattern only — no proprietary BOSNet.io source, no secrets, no client IP.</div>
-  Author: <strong>Robert J. Floyd</strong> — founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
+  <div class="ip">IP-safety reviewed before publishing. Describes Relic Wars' own governance pattern only: no proprietary BOSNet.io source, no secrets, no client IP.</div>
+  Author: <strong>Robert J. Floyd</strong>, founder/CEO, Eikon Digital Solutions · <a href="https://robfloyd.me">robfloyd.me</a><br>
   <span class="mono" style="font-size:12px">the-substrate · AI as the governed operational substrate</span>
 </div></footer>
 </body>

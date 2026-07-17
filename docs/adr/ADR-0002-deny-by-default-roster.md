@@ -1,14 +1,14 @@
-# ADR-0002 — Deny-by-default: omission is prohibition
+# ADR-0002: Deny-by-default: omission is prohibition
 
 - **Status:** Accepted
 - **Date:** 2026-07-15
 - **Deciders:** Robert J. Floyd
-- **Runnable proof:** [`demos/bounded-authority/`](../../demos/bounded-authority/) — a clean-room deny-by-default gate that refuses over-scoped and unregistered actions.
+- **Runnable proof:** [`demos/bounded-authority/`](../../demos/bounded-authority/): a clean-room deny-by-default gate that refuses over-scoped and unregistered actions.
 
 ## Context
 
 An agentic system's blast radius is the set of actions, tools, and data it *can* reach. If that set
-is defined implicitly — "whatever the code happens to wire up" — then capability grows silently as
+is defined implicitly, as "whatever the code happens to wire up," then capability grows silently as
 the system evolves, and no one can state with confidence what an agent is permitted to do. For a
 governance surface that has to be *auditable*, the permitted set must be explicit and closed.
 
@@ -16,8 +16,8 @@ governance surface that has to be *auditable*, the permitted set must be explici
 
 Governance is **deny-by-default**. Agents, tools, evidence sources, and high-impact actions must be
 registered in the system's governance directory to be permitted. **Omission is prohibition:** if
-something is not on the roster, it may not act — full stop. The roster is a closed set enforced at
-run time, not a descriptive list.
+something is not on the roster, it may not act, full stop. The roster is a closed set enforced at
+run time.
 
 ## Alternatives considered
 
@@ -33,6 +33,6 @@ run time, not a descriptive list.
 
 - **Positive:** the permitted surface is always explicitly known and reviewable; new capability
   requires a deliberate registration, which is itself an auditable event.
-- **Cost:** more friction to add a tool or action — intentional. The friction is the control.
+- **Cost:** more friction to add a tool or action. That friction is intentional; it is the control.
 - **Boundary:** this governs *authorization* (may it act?), not *correctness* of a permitted action;
   correctness is handled by the validator ([ADR-0003](./ADR-0003-deterministic-validator-commits.md)).

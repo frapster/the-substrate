@@ -1,4 +1,4 @@
-# the-substrate — Project Authority
+# the-substrate: Project Authority
 
 This repo is the **public thesis showcase**: "AI as the governed operational substrate." It is
 recruiter/employer-facing and read by technical evaluators. Do not port architecture assumptions
@@ -10,7 +10,7 @@ from sibling `Local Sites/` projects.
   and case studies (Relic Wars, Today Series, Zabble, Eikon Digital, …) as per-project **before → after**
   transformations framed on the **AI : code ratio** (LLM-First target 90:10). Cross-cutting engineering
   threads (TCO, LLM-code quality/security, 3rd-party-harness governance, drift) live in `ENGINEERING.md`.
-- Profile **BOSNet.io** as the named governance standard — without exposing its source or any client IP.
+- Profile **BOSNet.io** as the named governance standard, without exposing its source or any client IP.
 
 ## Hard rules
 
