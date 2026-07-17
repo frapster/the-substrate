@@ -3,7 +3,7 @@ ledger_demo.py — watch a tamper-evident audit ledger catch a corrupted row.
 
 Run it:
 
-    python demo/ledger_demo.py
+    python demos/audit-ledger/ledger_demo.py
 
 No installation, no dependencies — Python 3 standard library only.
 
@@ -112,7 +112,7 @@ def main() -> int:
     print(
         f"{GREEN}{CHECK} The ledger is tamper-evident.{RESET} "
         "Silent edits to history are impossible;\n  any alteration is caught by recomputation. "
-        f"{DIM}(See demo/README.md and\n  docs/adr/ADR-0001 for why this mechanism, and what it does not claim.){RESET}"
+        f"{DIM}(See demos/audit-ledger/README.md and\n  docs/adr/ADR-0001 for why this mechanism, and what it does not claim.){RESET}"
     )
     print()
     return 0

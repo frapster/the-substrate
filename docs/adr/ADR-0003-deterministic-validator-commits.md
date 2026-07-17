@@ -3,6 +3,7 @@
 - **Status:** Accepted
 - **Date:** 2026-07-15
 - **Deciders:** Robert J. Floyd
+- **Runnable proof:** [`demos/deterministic-validator/`](../../demos/deterministic-validator/) — a clean-room validator that commits only what passes and discards, rather than patches, what fails.
 
 ## Context
 

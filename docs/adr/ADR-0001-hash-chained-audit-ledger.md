@@ -3,7 +3,7 @@
 - **Status:** Accepted
 - **Date:** 2026-07-15
 - **Deciders:** Robert J. Floyd
-- **Runnable proof:** [`demo/`](../../demo/) — a clean-room implementation of this decision.
+- **Runnable proof:** [`demos/audit-ledger/`](../../demos/audit-ledger/) — a clean-room implementation of this decision.
 
 ## Context
 
@@ -39,7 +39,7 @@ deleted in place; there is no sanctioned mutate API.
 ## Consequences
 
 - **Positive:** tamper-evidence becomes a checkable property, not a promise — demonstrated by the
-  runnable [`demo/`](../../demo/) (verify catches body edits, deletions, reordering, and partial
+  runnable [`demos/audit-ledger/`](../../demos/audit-ledger/) (verify catches body edits, deletions, reordering, and partial
   forgeries). Maps directly to the BOSS "Audited" guarantee and governance-directory entry #5.
 - **Cost:** verification is O(n) over the chain; very long chains need periodic checkpoints/anchors
   rather than full re-verification on every read (a known, bounded follow-on).

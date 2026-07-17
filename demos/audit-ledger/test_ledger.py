@@ -3,8 +3,8 @@ test_ledger.py — proof that the ledger is tamper-evident.
 
 Run it:
 
-    python demo/test_ledger.py
-    # or:  python -m unittest discover -s demo
+    python demos/audit-ledger/test_ledger.py
+    # or:  python -m unittest discover -s demos/audit-ledger
 
 Standard-library `unittest` only — no pytest, no install.
 

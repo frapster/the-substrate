@@ -18,7 +18,7 @@ Model the split on **Kubernetes, OAuth, and OpenTelemetry**: the *specification*
 open to describe; the *implementation* is where value is captured. Concretely — **publish the spec's
 shape and runnable proofs; keep the engine private.** This repo carries the thesis, the BOSS
 principles/guarantees/directory structure, de-identified case studies, and *clean-room runnable
-proofs of published claims* (e.g. the hash-chained ledger in [`demo/`](../../demo/)). It never carries
+proofs of published claims* (e.g. the hash-chained ledger in [`demos/audit-ledger/`](../../demos/audit-ledger/)). It never carries
 BOSNet.io source, client IP, the kernel/compiler, the dimensional schema/coordinate scheme, or the
 normative conformance rule set — those are patent-pending and reserved
 ([`../../LICENSE.md`](../../LICENSE.md), [`../../BOSS-STANDARD.md`](../../BOSS-STANDARD.md) §6).

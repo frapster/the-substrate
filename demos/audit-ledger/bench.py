@@ -3,8 +3,8 @@ bench.py — a small, reproducible benchmark for the hash-chained ledger.
 
 Run it:
 
-    python demo/bench.py            # default N = 50,000 rows
-    python demo/bench.py 200000     # custom row count
+    python demos/audit-ledger/bench.py            # default N = 50,000 rows
+    python demos/audit-ledger/bench.py 200000     # custom row count
 
 Standard-library only. Prints a Markdown table of measured numbers — not adjectives —
 and the exact command to reproduce them.
@@ -86,7 +86,7 @@ def main(argv: list[str]) -> int:
     print(f"| Verify latency (full chain) | {verify_dt * 1000:,.1f} ms |")
     print(f"| Tamper detection | {caught}/{trials} corrupted rows caught ({detect_pct:.1f}%) |")
     print()
-    reproduce = "python demo/bench.py" + (f" {n}" if n != 50_000 else "")
+    reproduce = "python demos/audit-ledger/bench.py" + (f" {n}" if n != 50_000 else "")
     print(f"Reproduce: `{reproduce}`  ·  Python {sys.version.split()[0]}  ·  numbers vary by machine.")
     print()
 

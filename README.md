@@ -22,7 +22,7 @@ entry*. Here it is as running code — Python 3 standard library only, nothing t
 
 ```bash
 git clone https://github.com/frapster/the-substrate && cd the-substrate
-python demo/ledger_demo.py
+python demos/audit-ledger/ledger_demo.py
 ```
 
 You'll watch decisions get committed to an append-only chain, verify as intact, and then —
@@ -34,11 +34,43 @@ broken row:
     row 2 recomputed hash 86d17a4f… != stored 813c6b22… (body was altered)
 ```
 
-That's the whole point: silent edits to history are impossible. See [`demo/`](./demo/) for
-the code, the tests (including the tamper cases), and a reproducible benchmark
+That's the whole point: silent edits to history are impossible. See [`demos/audit-ledger/`](./demos/audit-ledger/)
+for the code, the tests (including the tamper cases), and a reproducible benchmark
 (~74,000 rows/sec verify, 200/200 tampers caught). What it proves — and deliberately does
-**not** — is spelled out in [`demo/README.md`](./demo/README.md) and the
+**not** — is spelled out in [`demos/audit-ledger/README.md`](./demos/audit-ledger/README.md) and the
 [Limitations](#limitations--what-this-does-and-does-not-do) section below.
+
+The ledger is one of a **suite** of runnable proofs — one per guarantee, each dramatizing a
+governed *refusal* you can watch happen in code. See [Runnable proofs](#runnable-proofs) below.
+
+---
+
+## Runnable proofs
+
+Each demo in [`demos/`](./demos/) proves **one** published claim, in under a minute, with no
+dependencies (Python 3 standard library only). Every one is grounded in a real mechanism from the
+proprietary engine but ships only a clean-room toy — and every one dramatizes a *refusal*: watch
+it say **no** correctly, which is exactly what separates governance from capability.
+
+| Demo | Guarantee / claim | The refusal you watch |
+|---|---|---|
+| [`demos/audit-ledger/`](./demos/audit-ledger/) | **Audited** (ADR-0001) | a silent edit to committed history is caught by recomputation |
+| [`demos/bounded-authority/`](./demos/bounded-authority/) | **Bounded** (ADR-0002) | an over-scoped or unregistered action is blocked *before* it runs |
+| [`demos/evidence-provenance/`](./demos/evidence-provenance/) | **Evidence-backed** (ADR-0005) | an unsourced claim is refused; editing a source auto-detaches its claim |
+| [`demos/governed-knowledge/`](./demos/governed-knowledge/) | **Knowledge** (ADR-0005) | naive cosine returns a stale atom; governed retrieval returns the current one — or abstains |
+| [`demos/reversible-actions/`](./demos/reversible-actions/) | **Reversible** | an in-place mutation fails closed; `restore()` reproduces the exact prior state |
+| [`demos/deterministic-validator/`](./demos/deterministic-validator/) | **Validated** (ADR-0003) | an invalid proposal is discarded, not patched into a passing one |
+| [`demos/ai-code-ratio/`](./demos/ai-code-ratio/) | **90:10 AI\:code** | new requirements cost *facts*, not code branches — counted, not asserted |
+| [`demos/governed-decision/`](./demos/governed-decision/) | **the whole loop** | one intent through all four guarantees; each stage refuses its own failure |
+
+Run the whole suite's tests at once:
+
+```bash
+python demos/run_tests.py
+```
+
+What each proves — and deliberately does **not** — is stated in its own README and summarized in
+[Limitations](#limitations--what-this-does-and-does-not-do) below.
 
 ---
 
@@ -129,7 +161,7 @@ The engineering record — runnable proof, decisions, and changes:
 
 | Artifact | What it is |
 |---|---|
-| [`demo/`](./demo/) | Runnable, zero-dependency tamper-evident ledger + tests + benchmark |
+| [`demos/`](./demos/) | A suite of runnable, zero-dependency proofs — one per guarantee (see [Runnable proofs](#runnable-proofs)) |
 | [`docs/adr/`](./docs/adr/) | Architecture Decision Records — why hash-chaining, deny-by-default, private engine, and what was rejected |
 | [`CHANGELOG.md`](./CHANGELOG.md) | What has shipped, and the near-term roadmap |
 
@@ -138,12 +170,13 @@ The engineering record — runnable proof, decisions, and changes:
 Stating limits plainly is part of the point; a governance thesis that hid its own boundaries
 would be self-refuting.
 
-- **The runnable demo is a primitive, not the engine.** [`demo/`](./demo/) proves one
-  property — that an append-only, SHA-256 hash-chained ledger is *tamper-evident* — with code
-  a stranger can run. It is a generic cryptographic building block. It is **not** BOSNet.io,
-  not a full governance runtime; it does not enforce policy, retrieve evidence, or bound a
-  model's authority. Those live in the proprietary reference implementation
-  ([`BOSS-STANDARD.md`](./BOSS-STANDARD.md)).
+- **The runnable demos are primitives, not the engine.** [`demos/`](./demos/) proves individual
+  properties — tamper-evidence, deny-by-default bounding, evidence provenance, governed vs
+  similarity retrieval, reversibility, deterministic validation — with code a stranger can run.
+  Each is a generic building block or an honest toy. Together they are **not** BOSNet.io, not a
+  full governance runtime; the real gate, evidence model, validator, ledger, and knowledge
+  substrate live in the proprietary reference implementation ([`BOSS-STANDARD.md`](./BOSS-STANDARD.md)).
+  Each demo's README states precisely what it does and does not prove.
 - **Tamper-*evidence* is not tamper-*prevention*.** The chain *detects* alteration by
   recomputation; it does not stop someone with storage access from altering bytes. Append-only
   storage and off-site anchoring are the operational complements — out of scope for the demo.

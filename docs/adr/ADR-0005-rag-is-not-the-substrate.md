@@ -3,6 +3,7 @@
 - **Status:** Accepted
 - **Date:** 2026-07-15
 - **Deciders:** Robert J. Floyd
+- **Runnable proof:** [`demos/governed-knowledge/`](../../demos/governed-knowledge/) — a fair-fight contrast where naive cosine similarity returns a stale atom and governed retrieval returns the current one, or abstains. See also [`demos/evidence-provenance/`](../../demos/evidence-provenance/).
 
 ## Context
 

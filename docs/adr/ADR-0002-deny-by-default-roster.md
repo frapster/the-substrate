@@ -3,6 +3,7 @@
 - **Status:** Accepted
 - **Date:** 2026-07-15
 - **Deciders:** Robert J. Floyd
+- **Runnable proof:** [`demos/bounded-authority/`](../../demos/bounded-authority/) — a clean-room deny-by-default gate that refuses over-scoped and unregistered actions.
 
 ## Context
 

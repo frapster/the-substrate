@@ -2,8 +2,8 @@
 
 A small, **zero-dependency** proof of one claim `the-substrate` makes in prose: that a
 governance engine records every decision to a *hash-chained, tamper-evident ledger*
-(see [`../README.md`](../README.md), [`../BOSS-STANDARD.md`](../BOSS-STANDARD.md), and
-[`../docs/adr/ADR-0001-hash-chained-audit-ledger.md`](../docs/adr/ADR-0001-hash-chained-audit-ledger.md)).
+(see [`../../README.md`](../../README.md), [`../../BOSS-STANDARD.md`](../../BOSS-STANDARD.md), and
+[`../../docs/adr/ADR-0001-hash-chained-audit-ledger.md`](../../docs/adr/ADR-0001-hash-chained-audit-ledger.md)).
 
 You should be able to clone the repo and see it work in under a minute. No `pip install`,
 no build — Python 3 standard library only.
@@ -11,7 +11,7 @@ no build — Python 3 standard library only.
 ## Quickstart (30 seconds)
 
 ```bash
-python demo/ledger_demo.py
+python demos/audit-ledger/ledger_demo.py
 ```
 
 You'll watch four governed decisions get committed to the chain, verify as intact, and
@@ -35,8 +35,8 @@ The negative tests are the interesting ones: they assert `verify()` *fails*, for
 right reason, under a body edit, a deletion, a reordering, and a partial forgery.
 
 ```bash
-python demo/test_ledger.py
-# or:  python -m unittest discover -s demo
+python demos/audit-ledger/test_ledger.py
+# or:  python -m unittest discover -s demos/audit-ledger
 ```
 
 ## Run the benchmark
@@ -45,8 +45,8 @@ Measured numbers, not adjectives. This benchmarks the ledger primitive's integri
 overhead — not end-to-end governance, and not model quality.
 
 ```bash
-python demo/bench.py            # default N = 50,000 rows
-python demo/bench.py 200000     # custom row count
+python demos/audit-ledger/bench.py            # default N = 50,000 rows
+python demos/audit-ledger/bench.py 200000     # custom row count
 ```
 
 Sample run (Python 3.13, a 2020-class laptop — **your numbers will vary; regenerate with
@@ -85,7 +85,7 @@ recomputation. This is a real, checkable property, demonstrated by code you can 
 **Does NOT prove / is NOT:** this is a **generic cryptographic primitive**, not the
 BOSNet.io engine. It is not a full governance runtime; it does not police what a model
 may do, retrieve evidence, or enforce policy — those live in the (proprietary) reference
-implementation described in [`../BOSS-STANDARD.md`](../BOSS-STANDARD.md). Tamper-*evidence*
+implementation described in [`../../BOSS-STANDARD.md`](../../BOSS-STANDARD.md). Tamper-*evidence*
 is not tamper-*prevention*: a chain detects alteration, it does not stop someone with
 write access from altering storage (append-only storage + off-site anchoring are the
 operational complements). The case-study "after" figures elsewhere in this repo remain
