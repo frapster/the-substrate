@@ -38,7 +38,6 @@
   --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
 
-  --measure: 68ch;           /* readable line length */
   --page: 1060px;            /* content max width */
 }
 
@@ -126,11 +125,11 @@ h4 { font-family: var(--font-head); font-weight: 700; font-size: 15px; color: va
 .lede {
   font-family: var(--font-serif); font-style: italic;
   font-size: clamp(18px, 2.4vw, 23px); line-height: 1.45;
-  color: var(--text-dim); max-width: var(--measure); margin-top: 20px;
+  color: var(--text-dim); margin-top: 20px;
 }
 .lead {
   font-size: clamp(16px, 2vw, 19px); color: var(--text-dim);
-  max-width: var(--measure); margin-top: 18px; line-height: 1.55;
+  margin-top: 18px; line-height: 1.55;
 }
 .lead strong, .lede strong { color: var(--ink); font-weight: 700; }
 
@@ -157,7 +156,7 @@ section:last-of-type { border-bottom: none; }
   display: inline-flex; align-items: center; gap: 9px; margin-bottom: 4px;
 }
 .slabel .sq { width: 8px; height: 8px; background: var(--accent); display: inline-block; }
-.intro { color: var(--text-dim); max-width: var(--measure); }
+.intro { color: var(--text-dim); }
 .intro strong { color: var(--ink); font-weight: 700; }
 p + p { margin-top: 14px; }
 
